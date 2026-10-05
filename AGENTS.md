@@ -18,7 +18,7 @@ Sitio web de **AS Tupropiedad**, boutique inmobiliaria de Lima (Perú): compra, 
 | UI | React 19.2, **Tailwind CSS 4** (`@theme inline` en `globals.css`, sin `tailwind.config`), `framer-motion`, `lucide-react` |
 | Lenguaje | TypeScript estricto (`strict: true`), alias `@/*` → `src/*` |
 | Fuentes | `next/font`: Geist (sans), Playfair Display (serif), Geist Mono (sin uso) |
-| Hosting | Vercel (proyecto `web-as-tupropiedad`, framework `nextjs`) |
+| Hosting | Vercel (proyecto `web-as-tupropiedad`, framework `nextjs`). Conexión con GitHub pendiente (prompt 14): cuando exista, un `push` a `main` despliega a producción; trabaja en ramas. |
 | Calidad | ESLint 9 flat config (`eslint-config-next`), `tsc --noEmit`. **No hay pruebas todavía.** |
 | Entorno | Node ≥ 20.9 (probado con 24), npm. Windows + PowerShell/Git Bash. **Repositorio git** (rama `main`, iniciado el 2026-10-05; remoto `origin` = https://github.com/jacafor/astupropiedad, ver D-12). |
 
@@ -130,7 +130,7 @@ npx tsc --noEmit && npm run lint && npm run build
 
 ## Pregunta primero (no lo hagas por tu cuenta)
 
-- Desplegar a producción o cambiar la configuración de Vercel / dominio.
+- Desplegar a producción o cambiar la configuración de Vercel / dominio. Si el repo ya está conectado a Vercel, hacer `push` a `main` **es** desplegar: usa una rama y pide confirmación.
 - Instalar o actualizar dependencias (salvo lo pedido explícitamente).
 - Borrar o renombrar imágenes de `public/imagenes/`.
 - Cambiar teléfono, correo, dominio, cifras o textos legales.

@@ -92,6 +92,8 @@ Usar un webhook/pipeline de **prueba** y datos ficticios. No enviar datos reales
 ## 5. Vercel
 
 - Proyecto: `web-as-tupropiedad` (`.vercel/project.json`, local; no se versiona). `vercel.json`: framework `nextjs`.
+- Repositorio de GitHub: `jacafor/astupropiedad` (rama `main`). **Conexión Git ↔ Vercel: pendiente** (sesión [14](prompts/14-conectar-vercel.md), decisión P-12). Una vez conectada, cada `push` a `main` es un despliegue a producción: se trabaja en ramas y se fusiona por pull request; las demás ramas generan *previews*.
+- La CLI de Vercel está instalada en el equipo de jforero (`vercel login` lo hace él, nunca se guardan tokens). Variables de entorno: se crean en el panel de Vercel; en el chat solo se mencionan sus nombres.
 - **Desplegar solo con confirmación del dueño.** Antes: `/revisar-deploy`.
 - Pendiente: dominio de producción, redirecciones de dominios alternativos, cabeceras de seguridad (`next.config.ts` → `headers()`), `poweredByHeader: false`.
 - Subir `next` a `16.3.8` (aviso crítico en 16.2.0) antes del próximo despliegue.

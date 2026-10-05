@@ -36,6 +36,7 @@ Creados el 2026-10-04 a partir de [ROADMAP.md](../ROADMAP.md) y [DECISIONES.md](
 | # | Sesión |
 |---|---|
 | 12 | [Pruebas, CI y documentación de operación](12-pruebas-ci-docs.md) |
+| 14 | [Conectar GitHub con Vercel (previews por rama)](14-conectar-vercel.md) — puede hacerse antes; ojo: con la conexión, `push` a `main` = producción |
 
 ## Reglas comunes a todas las sesiones
 

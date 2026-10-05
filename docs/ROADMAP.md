@@ -61,6 +61,7 @@ Detalle en [NEGOCIO-Y-CONTENIDO.md](NEGOCIO-Y-CONTENIDO.md) §7 y [DECISIONES.md
 - [ ] Pruebas: Vitest para `finance.ts`, Playwright para flujos críticos; CI con `tsc` + `eslint` + `build` *(Bloque H)*
 - [ ] Cabeceras de seguridad y `poweredByHeader: false`; `not-found.tsx`/`error.tsx` en español
 - [x] `git init` (rama `main`) y limpieza de duplicados — 2026-10-05, 3 commits *(D-12)*
+- [ ] Conectar el repo con Vercel (previews por rama; producción solo desde `main`, sin asignar dominio todavía) — sesión [14](prompts/14-conectar-vercel.md), decisión P-12
 - [x] Remoto en GitHub (`jacafor/astupropiedad`) y primer `git push` — 2026-10-05 *(D-12)*. Pendiente: confirmar en GitHub que el repositorio es **privado**
 
 ## P3 — continuo
