@@ -39,7 +39,7 @@ const MortgageSimulator = () => {
             initial={{ opacity: 0 }} animate={{ opacity: 1 }}
             className="text-secondary font-black tracking-widest uppercase text-xs mb-6 block"
           >
-            Credit Advisory
+            Asesoría de crédito
           </motion.span>
           <h1 className="text-5xl md:text-7xl font-serif font-black mb-10 leading-tight">
             Simulador Hipotecario <br/><span className="text-secondary italic font-normal text-6xl">Calcula tu cuota.</span>
@@ -67,7 +67,7 @@ const MortgageSimulator = () => {
                 </div>
 
                 <div className="space-y-4">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-gray-400">TEA Estimada (%)</label>
+                  <label className="text-[10px] font-black uppercase tracking-widest text-gray-400">Tasa anual (TEA) estimada (%)</label>
                   <div className="relative">
                     <input 
                       type="number" step="0.1" value={rate} onChange={(e) => setRate(Number(e.target.value))}

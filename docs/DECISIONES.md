@@ -61,7 +61,7 @@ Cada entrada lleva `estado`, `fecha` y `responsable` (quien debe validarla). Par
 ### D-10 · Tratamiento "tú" (cierra P-2)
 - **Estado:** **Aceptada** · **Fecha:** 2026-10-04 · **Responsable:** jforero
 - **Decisión:** todo el sitio trata al visitante de **"tú"**, sin mezclar con "usted". Aplica a CTAs, simuladores, formularios y mensajes de error.
-- **Consecuencias:** hay que reescribir los textos que hoy usan "usted" (ejemplo: "Agende una videollamada…" en el footer). Pendiente de hacer: ver `docs/prompts/`.
+- **Consecuencias:** hay que reescribir los textos que hoy usan "usted" (ejemplo: "Agende una videollamada…" en el footer). Aplicado en la sesión 03 (2026-10-05, ver D-16).
 
 ### D-11 · El inventario lo actualiza jforero, en código (cierra P-3)
 - **Estado:** **Aceptada** · **Fecha:** 2026-10-04 · **Responsable:** jforero
@@ -88,15 +88,20 @@ Cada entrada lleva `estado`, `fecha` y `responsable` (quien debe validarla). Par
 - **Decisión propuesta:** aplicando el valor por defecto de P-10, se quitaron cifras, nombres de bancos, "garantizado"/"100 %" y el equipo ficticio (en `/nosotros` queda una sección "Pronto conocerás al equipo" con WhatsApp, sin personas inventadas). La propiedad de Unsplash de la home pasó a una tarjeta "Próximamente". Los CTA sin embudo enlazan a WhatsApp con mensaje contextual (los simuladores incluyen los valores que escribió la persona). Redes sociales y Privacidad/Términos se ocultan hasta tener URL y páginas.
 - **Consecuencias:** al reponer una cifra o un nombre, debe traer fuente y fecha. Al llegar el embudo (sesión 05), los CTA de WhatsApp se cambian por el formulario.
 
+### D-16 · Español natural salvo marca o servicio (cierra P-6)
+- **Estado:** **Aceptada** · **Fecha:** 2026-10-05 · **Responsable:** jforero (aprobó la tabla de cambios en la sesión 03; el cliente aún no ha revisado la lista)
+- **Decisión:** se aplicó el valor por defecto de P-6. Se conservan **Personal Shopper** (servicio de la marca; jforero lo confirmó), *Premium*, *marketing*, *Boutique Inmobiliaria*; *cap rate*, TEA y *home staging* se conservan **explicados** la primera vez; el resto de anglicismos se tradujo. Se eliminaron todas las formas de "usted" (cumple D-10). Detalle y lista en [NEGOCIO-Y-CONTENIDO.md](NEGOCIO-Y-CONTENIDO.md) §3.
+- **Consecuencias:** si el cliente pide recuperar un término en inglés como marca, se revierte ese texto (entrada nueva). Impacto SEO: los titulares ya no usan "Real Estate"/"Flat"; las búsquedas peruanas dicen "departamento" e "inmobiliaria".
+
 ## Pendientes (necesitan respuesta del cliente o del equipo)
 
-P-1, P-2 y P-3 se cerraron el 2026-10-04 (ver D-9, D-10, D-11); P-7 y P-8 el 2026-10-05 (ver D-12). Cada pendiente indica **quién decide**, **qué hay que entregar para cerrarlo** y **qué se hará por defecto** si no hay respuesta (el valor por defecto es provisional y nunca toca datos del cliente).
+P-1, P-2 y P-3 se cerraron el 2026-10-04 (ver D-9, D-10, D-11); P-7 y P-8 el 2026-10-05 (ver D-12); P-6 el 2026-10-05 (ver D-16). Cada pendiente indica **quién decide**, **qué hay que entregar para cerrarlo** y **qué se hará por defecto** si no hay respuesta (el valor por defecto es provisional y nunca toca datos del cliente).
 
 | ID | Pregunta | Quién decide | Qué se necesita para cerrarlo | Por defecto (provisional) | Bloquea |
 |---|---|---|---|---|---|
 | **P-4** | ¿Moneda principal: USD, PEN o ambas? | jforero / cliente | Moneda en que se publican precios y fuente del tipo de cambio | Ambas con tipo de cambio editable (los precios hoy están en USD) | Simuladores, fichas |
 | **P-5** | GHL: ¿webhook o API? ¿pipeline/etiquetas/campos? | Cliente / quien administra GHL | Acceso a la cuenta (o URL de un **webhook de prueba**), nombre del pipeline, campos y etiquetas, calendario a embeber | Webhook para empezar | Embudo de leads |
-| **P-6** | ¿Se mantienen los anglicismos (Elite Portfolio, Off-Market, Flat, Cap Rate…)? | Cliente | Lista de términos que son marca/servicio y deben conservarse | Español natural, salvo marca/servicio | Textos y SEO |
+| ~~P-6~~ | *(cerrada el 2026-10-05, ver D-16)* ¿Se mantienen los anglicismos (Elite Portfolio, Off-Market, Flat, Cap Rate…)? | Cliente | Lista de términos que son marca/servicio y deben conservarse | Español natural, salvo marca/servicio | Textos y SEO |
 | **P-9** | ¿Qué se promete con la valoración ("en 10 minutos")? ¿Quién atiende y en qué horario? | Cliente | SLA real: plazo de respuesta, canal, horario, responsable | Texto sin plazo concreto | `/vender` |
 | **P-10** | ¿Qué cifras de "Nosotros" son verificables y qué convenios bancarios se pueden nombrar? | Cliente | Cada cifra con su respaldo (fecha y fuente) y autorización escrita para nombrar bancos | Quitar lo no respaldado | Credibilidad y riesgo legal |
 | **P-11** | Residuos del teléfono/dominio viejos: flyers de `public/imagenes/` que muestran **940 215 027** y `GHLForm.tsx` con `link.as-tupropiedad.pe` | jforero | Decidir si se rehacen los flyers con el número nuevo o se dejan de usar; confirmar el dominio de GHL | Los flyers siguen en el repo | Coherencia de contacto |

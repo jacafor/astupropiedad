@@ -28,7 +28,7 @@ Sitio web de **AS Tupropiedad**, boutique inmobiliaria de Lima (Perú): compra, 
 npm run dev            # servidor de desarrollo, http://localhost:3000
 npm run build          # build de producción (debe terminar sin errores)
 npm run start          # sirve el build (usa otro puerto con: npx next start -p 3055)
-npm run lint           # eslint (línea base actual: 6 errores, 17 advertencias — no añadas más)
+npm run lint           # eslint (línea base actual: 4 errores, 17 advertencias — no añadas más)
 npx tsc --noEmit       # chequeo de tipos (línea base: limpio)
 ```
 
@@ -124,7 +124,7 @@ Mapa completo de rutas, componentes y deuda técnica: [docs/ARQUITECTURA.md](doc
 ```bash
 npx tsc --noEmit && npm run lint && npm run build
 ```
-- Reporta el resultado **real**, aunque falle. Si el lint empeora respecto a la línea base (6 errores / 17 advertencias), arréglalo.
+- Reporta el resultado **real**, aunque falle. Si el lint empeora respecto a la línea base (4 errores / 17 advertencias), arréglalo.
 - Para cambios de UI: abre la página en el navegador a 390 px y pruébala (menú, CTAs, formularios). No declares "funciona" sin haberlo probado.
 - Si tocaste un formulario o CTA: pruébalo de punta a punta y confirma que el dato llega (o que el enlace abre el destino correcto).
 

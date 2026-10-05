@@ -26,12 +26,12 @@ const VenderPage = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <span className="text-secondary font-black tracking-widest uppercase text-xs mb-6 block">Venda su Propiedad</span>
+              <span className="text-secondary font-black tracking-widest uppercase text-xs mb-6 block">Vende tu propiedad</span>
               <h1 className="text-5xl md:text-7xl font-serif font-black mb-8 leading-tight">
                 Vendemos más rápido. <br/><span className="text-secondary italic font-normal">A mejor precio.</span>
               </h1>
               <p className="text-gray-400 text-lg font-light leading-relaxed mb-10 max-w-lg">
-                Utilizamos inteligencia artificial, marketing de ultra-lujo y nuestra base de datos privada de inversores para posicionar su propiedad frente a compradores calificados.
+                Utilizamos inteligencia artificial, marketing de ultra-lujo y nuestra base de datos privada de inversores para posicionar tu propiedad frente a compradores calificados.
               </p>
                           </motion.div>
 
@@ -50,12 +50,12 @@ const VenderPage = () => {
               </div>
 
               <h3 className="text-2xl font-serif font-black mb-2">Valoración Gratuita</h3>
-              <p className="text-gray-500 text-sm mb-8 font-light">Descubra el valor real de su inmueble hoy.</p>
+              <p className="text-gray-500 text-sm mb-8 font-light">Descubre el valor de tu inmueble hoy.</p>
 
               <AnimatePresence mode="wait">
                 {step === 1 && (
                   <motion.div key="step1" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-6">
-                    <label className="text-[10px] font-black uppercase tracking-widest text-gray-400">¿Qué desea vender?</label>
+                    <label className="text-[10px] font-black uppercase tracking-widest text-gray-400">¿Qué quieres vender?</label>
                     <div className="grid grid-cols-2 gap-4">
                       {['Departamento', 'Casa', 'Oficina', 'Terreno'].map(type => (
                         <button 
@@ -141,13 +141,13 @@ const VenderPage = () => {
             {[
               { 
                 icon: Camera, 
-                title: 'Producción Home Staging', 
-                desc: 'Tour virtual 360°, fotografías arquitectónicas y staging para destacar lo mejor de su inmueble.' 
+                title: 'Producción y home staging', 
+                desc: 'Recorrido virtual 360°, fotografías arquitectónicas y home staging para destacar lo mejor de tu inmueble.' 
               },
               { 
                 icon: Users, 
                 title: 'Red Personal Shopper', 
-                desc: 'Nuestros agentes tienen clientes esperando. Enlazamos su propiedad directamente con inversores pre-aprobados.' 
+                desc: 'Nuestros agentes tienen clientes esperando. Enlazamos tu propiedad directamente con inversores pre-aprobados.' 
               },
               { 
                 icon: Bot, 

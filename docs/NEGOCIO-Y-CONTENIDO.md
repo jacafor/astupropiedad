@@ -26,8 +26,13 @@ Los datos de contacto confirmados van **solo** en `src/lib/contact.ts` y se impo
 
 ## 3. Voz y tono
 
-- **Hoy:** formal, aspiracional, con muchas palabras en inglés (*Elite Portfolio, Credit Advisory, Wealth Management Tools, Off-Market, Home Staging, Flat, Cap Rate, hub*) y mezcla de "usted" ("Su patrimonio…") con "tú" ("Sincera tu cuota…", "Ingresa tus datos…"). Ver pendiente P-2 en [DECISIONES.md](DECISIONES.md).
-- **Recomendado (a confirmar con el cliente):** español de Perú, claro y cercano; **un solo tratamiento** en todo el sitio; términos técnicos con explicación breve la primera vez (TEA, TCEA, cap rate, alcabala, arbitrios); reservar el inglés para el nombre de la marca/servicio si aporta.
+- **Guía de voz (sesión 03, D-10 y D-16):**
+  - **Tratamiento "tú"** en todo el sitio, sin "usted", "su" dirigido al visitante, "agende", "ingrese", "descubra", "venda"… Imperativo en "tú": *vende, descubre, calcula, escríbenos*.
+  - **Tono:** español natural de Perú, cercano y claro; aspiracional sin adjetivos huecos ni afirmaciones absolutas (ver §4).
+  - **Se conservan (marca o servicio):** AS Tupropiedad, *Boutique Inmobiliaria*, **Personal Shopper** (se explica la primera vez: "un asesor que busca por ti"), *Premium*, *marketing*, WhatsApp, IA.
+  - **Términos técnicos se conservan y se explican la primera vez:** *cap rate* ("lo que rinde la propiedad al año respecto de su precio"), TEA ("tasa anual (TEA)"), *home staging* ("puesta en escena de interiores").
+  - **Se tradujeron:** Elite Portfolio → Selección destacada; Flat → Departamento; Real Estate → sector inmobiliario; Credit Advisory → Asesoría de crédito; Wealth Management Tools → Herramientas de gestión patrimonial; Investment Intelligence → Inteligencia de inversión; Cash Flow → Flujo de caja; Core Financiero → Centro financiero; "Nosotros (Firm)" → Nosotros; Scroll → Desliza; "&" → "y"; tour → recorrido virtual.
+  - Para textos nuevos: si hay equivalente natural en español, úsalo; el inglés solo si es marca o término que el cliente ya usa así.
 - Titulares: promesa concreta antes que adjetivos ("Vende tu departamento en Lima con una valoración gratuita").
 - CTA: verbo + resultado ("Pide tu valoración gratuita", "Calcula tu cuota", "Escríbenos por WhatsApp").
 

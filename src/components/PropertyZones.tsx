@@ -12,7 +12,7 @@ const zones = [
   },
   {
     title: "San Isidro",
-    tag: "Core Financiero / Premium",
+    tag: "Centro financiero / Premium",
     desc: "Zona corporativa y financiera de Lima, con propiedades de alto valor."
   },
   {
