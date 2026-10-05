@@ -40,15 +40,15 @@ const PersonalShopper = () => {
           >
             <span className="text-secondary font-black tracking-widest uppercase text-xs mb-4 block">Servicio Boutique</span>
             <h2 className="text-5xl md:text-6xl font-serif font-black mb-8 leading-tight">
-              Su Personal Shopper <br/><span className="italic font-normal text-secondary">Inmobiliario.</span>
+              Tu Personal Shopper <br/><span className="italic font-normal text-secondary">Inmobiliario.</span>
             </h2>
 
             <div className="space-y-8 text-gray-300 font-light text-lg leading-relaxed">
               <p>
-                Entendemos que su tiempo es el activo más valioso. Por eso, no enviamos listas interminables de propiedades genéricas.
+                Entendemos que tu tiempo es el activo más valioso. Por eso, no enviamos listas interminables de propiedades genéricas.
               </p>
               <p>
-                Asignamos un <span className="text-white font-bold italic">asesor exclusivo</span> que entrevista sus necesidades, mapea la oferta disponible en Lima y le presenta solo aquello que hace "match" con su estilo de vida o tesis de inversión.
+                Asignamos un <span className="text-white font-bold italic">asesor exclusivo</span> que entrevista tus necesidades, mapea la oferta disponible en Lima y te presenta solo lo que encaja con tu estilo de vida o tu objetivo de inversión. Es decir, un asesor que busca por ti.
               </p>
               
               <div className="flex items-center space-x-4 pt-4">

@@ -46,7 +46,7 @@ const PhilosophyAndTeam = () => {
             <div className="absolute top-0 right-0 w-64 h-64 bg-secondary opacity-10 rounded-full blur-[100px] transform translate-x-1/2 -translate-y-1/2"></div>
             <div className="relative z-10">
               <span className="text-secondary font-black tracking-widest uppercase text-[10px] mb-4 block">Crece con Nosotros</span>
-              <h3 className="text-4xl font-serif font-black mb-8 leading-tight">Únete a la nueva era <br/><span className="italic font-normal text-secondary">del Real Estate.</span></h3>
+              <h3 className="text-4xl font-serif font-black mb-8 leading-tight">Únete a la nueva era <br/><span className="italic font-normal text-secondary">del sector inmobiliario.</span></h3>
               <p className="text-gray-300 mb-10 leading-relaxed font-light text-lg">
                 ¿Buscas una plataforma que potencie tu talento? Cuéntanos tu perfil y conversemos sobre cómo sumarte al equipo.
               </p>

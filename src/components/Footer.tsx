@@ -28,7 +28,7 @@ const Footer = () => {
               <li>
                 <Link href="/nosotros" className="text-gray-400 hover:text-white transition-colors flex items-center group">
                   <ArrowUpRight className="w-3 h-3 mr-3 opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
-                  Nosotros (Firm)
+                  Nosotros
                 </Link>
               </li>
               <li>

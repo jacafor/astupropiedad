@@ -9,7 +9,7 @@ import { waLink } from '@/lib/contact';
 const properties = [
   {
     id: 1,
-    title: "Flat Moderno con Vista Panorámica",
+    title: "Departamento moderno con vista panorámica",
     location: "Jesús María",
     price: "$155,000",
     sqm: "85 m²",
@@ -46,7 +46,7 @@ const FeaturedProperties = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <span className="text-secondary font-black tracking-widest uppercase text-xs mb-4 block">Elite Portfolio</span>
+            <span className="text-secondary font-black tracking-widest uppercase text-xs mb-4 block">Selección destacada</span>
             <h2 className="text-5xl md:text-6xl font-serif font-black text-dark">Colección Exclusiva</h2>
           </motion.div>
           <MotionLink

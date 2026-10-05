@@ -24,10 +24,10 @@ const InvestmentSmarter = () => {
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                 <div>
-                    <span className="text-primary font-black tracking-widest uppercase text-xs mb-4 block">Investment Intelligence</span>
-                    <h2 className="text-5xl md:text-6xl font-serif font-black text-dark mb-8 leading-tight">Su dinero merece <br/><span className="italic text-secondary font-normal">volver a casa.</span></h2>
+                    <span className="text-primary font-black tracking-widest uppercase text-xs mb-4 block">Inteligencia de inversión</span>
+                    <h2 className="text-5xl md:text-6xl font-serif font-black text-dark mb-8 leading-tight">Tu dinero merece <br/><span className="italic text-secondary font-normal">volver a casa.</span></h2>
                     <p className="text-gray-600 text-lg mb-8 font-light leading-relaxed">
-                        Evaluamos propiedades en Lima con indicadores de rentabilidad como el cap rate. No compres solo metros cuadrados: mira también el flujo de caja y el potencial de plusvalía.
+                        Evaluamos propiedades en Lima con indicadores de rentabilidad como el cap rate (lo que rinde la propiedad al año respecto de su precio). No compres solo metros cuadrados: mira también el flujo de caja y el potencial de plusvalía.
                     </p>
                     
                 </div>
@@ -72,7 +72,7 @@ const InvestmentSmarter = () => {
                         
                         <div className="bg-dark p-8 rounded-xl flex justify-between items-center mt-10 shadow-xl">
                             <div>
-                                <p className="text-white font-black text-[10px] uppercase tracking-widest">Cap Rate Estimado</p>
+                                <p className="text-white font-black text-[10px] uppercase tracking-widest">Rentabilidad anual (cap rate)</p>
                                 <p className="text-gray-400 text-[10px] mt-1 italic">Basado en ingreso anual de ${(monthlyRent * 12).toLocaleString()}</p>
                             </div>
                             <p className="text-4xl font-black text-secondary">{capRate}%</p>

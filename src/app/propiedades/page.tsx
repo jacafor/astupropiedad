@@ -7,8 +7,8 @@ import { waLink } from '@/lib/contact';
 
 // Mock Data
 const PROPERTIES = [
-  { id: 1, title: 'Flat Moderno en Jesús María', type: 'Venta', price: 165000, district: 'Jesús María', beds: 3, baths: 2, m2: 95, image: '/imagenes/PORTADA%20DPTO%20JESUS%20MARIA%20V2.jpeg' },
-  { id: 2, title: 'Hermoso Depa en La Molina', type: 'Venta', price: 250000, district: 'La Molina', beds: 4, baths: 4, m2: 320, image: '/imagenes/depa%20santa%20patricia%20portada.png' },
+  { id: 1, title: 'Departamento moderno en Jesús María', type: 'Venta', price: 165000, district: 'Jesús María', beds: 3, baths: 2, m2: 95, image: '/imagenes/PORTADA%20DPTO%20JESUS%20MARIA%20V2.jpeg' },
+  { id: 2, title: 'Hermoso departamento en La Molina', type: 'Venta', price: 250000, district: 'La Molina', beds: 4, baths: 4, m2: 320, image: '/imagenes/depa%20santa%20patricia%20portada.png' },
   { id: 3, title: 'Casa en Urb. Alpamayo', type: 'Venta', price: 420000, district: 'Ate', beds: 3, baths: 3, m2: 180, image: '/imagenes/Calle%20El%20Banco%20-%20Urb.%20Alpamayo.png' },
   { id: 4, title: 'Departamento Amplio Callao', type: 'Venta', price: 85000, district: 'Callao', beds: 0, baths: 2, m2: 85, image: '/imagenes/Ciudad%20del%20Pescador,%20Bellavista%20-%20%20Callao%20.png' },
   { id: 5, title: 'Proyecto Inversión', type: 'Inversión', price: 110000, district: 'Lima', beds: 1, baths: 1, m2: 45, image: '/imagenes/6137335_93239265200915943082895002234931542254594532977163730722883182338725221671018.jpg' },

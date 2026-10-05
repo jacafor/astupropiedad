@@ -51,7 +51,7 @@ const InvestmentSimulator = () => {
             animate={{ opacity: 1, y: 0 }}
             className="text-secondary font-black tracking-widest uppercase text-xs mb-6 block"
           >
-            Wealth Management Tools
+            Herramientas de gestión patrimonial
           </motion.span>
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
@@ -135,14 +135,14 @@ const InvestmentSimulator = () => {
                   <div className="w-12 h-12 bg-secondary/10 rounded-full flex items-center justify-center mx-auto mb-6">
                     <TrendingUp className="text-secondary w-6 h-6" />
                   </div>
-                  <p className="text-[10px] font-black uppercase text-gray-400 tracking-widest mb-2">Cap Rate Neto</p>
+                  <p className="text-[10px] font-black uppercase text-gray-400 tracking-widest mb-2">Rentabilidad neta (cap rate)</p>
                   <h4 className="text-3xl font-black text-dark">{capRate.toFixed(2)}%</h4>
                 </div>
                 <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 text-center">
                   <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
                     <PieChart className="text-primary w-6 h-6" />
                   </div>
-                  <p className="text-[10px] font-black uppercase text-gray-400 tracking-widest mb-2">Cash Flow (Mensual)</p>
+                  <p className="text-[10px] font-black uppercase text-gray-400 tracking-widest mb-2">Flujo de caja mensual</p>
                   <h4 className="text-3xl font-black text-dark">{formatter.format(netIncome)}</h4>
                 </div>
                 <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 text-center">
@@ -160,7 +160,7 @@ const InvestmentSimulator = () => {
                   <h3 className="text-2xl font-serif font-black text-dark">Proyección Patrimonial a 5 Años</h3>
                   <div className="flex items-center space-x-2 bg-gray-50 px-4 py-2 rounded-full border border-gray-100">
                     <Info className="w-4 h-4 text-primary" />
-                    <span className="text-[9px] font-black uppercase tracking-widest text-gray-500">Estimado Plusvalia: {appreciation}%</span>
+                    <span className="text-[9px] font-black uppercase tracking-widest text-gray-500">Plusvalía estimada: {appreciation}%</span>
                   </div>
                 </div>
 
@@ -191,7 +191,7 @@ const InvestmentSimulator = () => {
                       <h4 className="text-3xl font-black text-secondary">{formatter.format(projection5Y - price)}</h4>
                     </div>
                     <div>
-                      <p className="text-[10px] font-black uppercase text-gray-400 mb-4">Ingreso por Renta (Acumulado 5Y)</p>
+                      <p className="text-[10px] font-black uppercase text-gray-400 mb-4">Ingreso por Renta (acumulado a 5 años)</p>
                       <h4 className="text-3xl font-black text-dark">{formatter.format(netIncome * 12 * 5)}</h4>
                     </div>
                   </div>

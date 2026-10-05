@@ -26,7 +26,7 @@ const Hero = () => {
             transition={{ delay: 0.5 }}
             className="text-secondary font-black tracking-[0.3em] uppercase text-xs mb-6 block"
           >
-            Lujo & Rentabilidad en Lima
+            Lujo y rentabilidad en Lima
           </motion.span>
 
           <motion.h1
@@ -35,7 +35,7 @@ const Hero = () => {
             transition={{ delay: 0.7, duration: 1 }}
             className="text-6xl md:text-8xl font-serif font-black text-white leading-tight mb-8"
           >
-            Su patrimonio <br />
+            Tu patrimonio <br />
             <span className="italic text-secondary font-normal">en buenas manos.</span>
           </motion.h1>
 
@@ -45,7 +45,7 @@ const Hero = () => {
             transition={{ delay: 1.2 }}
             className="text-white/70 text-lg md:text-xl font-light leading-relaxed max-w-xl mb-12"
           >
-            No somos solo una inmobiliaria. Somos su equipo estratégico para la
+            No somos solo una inmobiliaria. Somos tu equipo estratégico para la
             compra, venta e inversión de activos de élite en el mercado peruano.
           </motion.p>
 
@@ -80,7 +80,7 @@ const Hero = () => {
         className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center space-y-4 cursor-pointer"
         onClick={() => window.scrollTo({ top: window.innerHeight, behavior: "smooth" })}
       >
-        <span className="text-[9px] font-black text-white/40 uppercase tracking-[0.5em] vertical-text">Scroll</span>
+        <span className="text-[9px] font-black text-white/40 uppercase tracking-[0.5em] vertical-text">Desliza</span>
         <ArrowDown className="text-secondary w-5 h-5" />
       </motion.button>
     </section>

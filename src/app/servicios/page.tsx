@@ -13,7 +13,7 @@ const ServiciosPage = () => {
     {
       icon: Camera,
       title: "Marketing Acertado para Vendedores",
-      desc: "Su propiedad merece destacar. Incluimos Home Staging, fotografía arquitectónica, tours 360° y campañas dirigidas."
+      desc: "Tu propiedad merece destacar. Incluimos puesta en escena de interiores (home staging), fotografía arquitectónica, recorridos virtuales 360° y campañas dirigidas."
     },
     {
       icon: CreditCard,
@@ -37,7 +37,7 @@ const ServiciosPage = () => {
             Servicios <span className="text-secondary italic font-normal">Exclusivos.</span>
           </h1>
           <p className="text-white/80 text-lg font-light leading-relaxed mx-auto max-w-2xl">
-            Desde la búsqueda meticulosa hasta la entrega de llaves y el estructuramiento de su hipoteca. Todo en un solo *hub* experto.
+            Desde la búsqueda meticulosa hasta la entrega de llaves y la estructuración de tu hipoteca. Todo en un solo lugar, con asesoría experta.
           </p>
         </div>
       </section>

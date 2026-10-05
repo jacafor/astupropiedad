@@ -24,8 +24,8 @@ const NosotrosPage = () => {
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
             className="text-5xl md:text-7xl font-serif font-black mb-8 leading-tight"
           >
-            Una Nueva Era del <br />
-            <span className="text-secondary italic font-normal">Real Estate.</span>
+            Una nueva era del <br />
+            <span className="text-secondary italic font-normal">sector inmobiliario.</span>
           </motion.h1>
           <motion.p 
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}
