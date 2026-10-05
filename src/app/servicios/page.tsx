@@ -1,8 +1,6 @@
 "use client";
 
 import React from 'react';
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import { Briefcase, CreditCard, Camera, FileText } from 'lucide-react';
 
 const ServiciosPage = () => {
@@ -31,8 +29,6 @@ const ServiciosPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Navbar />
-
       {/* Hero */}
       <section className="pt-40 pb-20 bg-primary text-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 text-center">
@@ -64,7 +60,6 @@ const ServiciosPage = () => {
         </div>
       </section>
 
-      <Footer />
     </div>
   );
 };

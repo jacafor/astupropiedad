@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import { Instagram, Facebook, Linkedin, Mail, Phone, MapPin, CalendarDays, ArrowUpRight } from 'lucide-react';
 import { EMAIL, PHONE_DISPLAY, mailLink, telLink } from '@/lib/contact';
 
@@ -36,40 +37,40 @@ const Footer = () => {
             <h4 className="text-[10px] font-black uppercase tracking-[0.3em] mb-10 text-secondary">Explorar</h4>
             <ul className="space-y-5">
               <li>
-                <a href="/nosotros" className="text-gray-400 hover:text-white transition-colors flex items-center group">
+                <Link href="/nosotros" className="text-gray-400 hover:text-white transition-colors flex items-center group">
                   <ArrowUpRight className="w-3 h-3 mr-3 opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
                   Nosotros (Firm)
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/servicios" className="text-gray-400 hover:text-white transition-colors flex items-center group">
+                <Link href="/servicios" className="text-gray-400 hover:text-white transition-colors flex items-center group">
                   <ArrowUpRight className="w-3 h-3 mr-3 opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
                   Servicios Exclusivos
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/propiedades" className="text-gray-400 hover:text-white transition-colors flex items-center group">
+                <Link href="/propiedades" className="text-gray-400 hover:text-white transition-colors flex items-center group">
                   <ArrowUpRight className="w-3 h-3 mr-3 opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
                   Catálogo
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/vender" className="text-gray-400 hover:text-white transition-colors flex items-center group">
+                <Link href="/vender" className="text-gray-400 hover:text-white transition-colors flex items-center group">
                   <ArrowUpRight className="w-3 h-3 mr-3 opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
                   Vender Propiedad
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/simulador-inversion" className="text-gray-400 hover:text-white transition-colors flex items-center group">
+                <Link href="/simulador-inversion" className="text-gray-400 hover:text-white transition-colors flex items-center group">
                   <ArrowUpRight className="w-3 h-3 mr-3 opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
                   Simulador de Inversión
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/simulador-hipotecario" className="text-gray-400 hover:text-white transition-colors flex items-center group">
+                <Link href="/simulador-hipotecario" className="text-gray-400 hover:text-white transition-colors flex items-center group">
                   <ArrowUpRight className="w-3 h-3 mr-3 opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
                   Simulador Hipotecario
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

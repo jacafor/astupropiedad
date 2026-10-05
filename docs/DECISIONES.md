@@ -73,6 +73,16 @@ Cada entrada lleva `estado`, `fecha` y `responsable` (quien debe validarla). Par
 - **Decisión:** el proyecto es un repositorio git (rama `main`, identidad local Jaime Forero, sin `--global`). `Imagenes/` se eliminó tras comprobar de nuevo que sus 14 archivos eran idénticos byte a byte a los de `public/imagenes/` y que nada en `src/` ni en la configuración la usaba. `legacy/` (2 HTML) se archivó en `../Web-AS-Tupropiedad-respaldo/legacy.zip`, fuera del proyecto, y se quitó del árbol.
 - **Consecuencias:** ambas carpetas siguen recuperables en el primer commit ("Estado inicial del proyecto"). El remoto es `origin` = https://github.com/jacafor/astupropiedad (primer `git push -u origin main` el 2026-10-05). La visibilidad **privada** no se pudo comprobar desde aquí: confírmala en GitHub → Settings. Con remoto ya se puede habilitar CI (ver `docs/prompts/12-pruebas-ci-docs.md`).
 
+### D-13 · Estilo de la barra de navegación según la ruta
+- **Estado:** **Propuesta** · **Fecha:** 2026-10-05 · **Responsable:** jforero (la decidió Claude en la sesión 01 sin consultar)
+- **Decisión propuesta:** la barra es transparente con texto blanco solo en las rutas listadas en `RUTAS_CON_HERO_OSCURO` (`Navbar.tsx`); en cualquier otra ruta es sólida desde el inicio. Así una página nueva con fondo claro nunca deja la barra invisible.
+- **Consecuencias:** al crear una ruta con hero oscuro, hay que añadirla a esa lista (anotado en `ARQUITECTURA.md`).
+
+### D-14 · Push, pull request y merge al cerrar cada sesión (durante el desarrollo)
+- **Estado:** **Aceptada** · **Fecha:** 2026-10-05 (ampliada el mismo día para incluir el merge) · **Responsable:** jforero
+- **Decisión:** cada sesión termina con `push` de su rama, pull request hacia `main` y **merge automático por Claude**, sin que haya que pedirlo. Condiciones: `tsc`, lint y build locales pasan (lint sin empeorar) y el preview de Vercel está en *Ready*; si algo falla, no se fusiona y se avisa. Cada merge **despliega a producción** (solo en `*.vercel.app`; sin dominio). Vigente hasta que jforero declare terminado el desarrollo; entonces se revisa (y se puede reabrir la protección de `main`, ver P-12).
+- **Consecuencias:** reemplaza la regla anterior "sin `push` salvo que se pida" de `AGENTS.md` y `docs/prompts/README.md`.
+
 ## Pendientes (necesitan respuesta del cliente o del equipo)
 
 P-1, P-2 y P-3 se cerraron el 2026-10-04 (ver D-9, D-10, D-11); P-7 y P-8 el 2026-10-05 (ver D-12). Cada pendiente indica **quién decide**, **qué hay que entregar para cerrarlo** y **qué se hará por defecto** si no hay respuesta (el valor por defecto es provisional y nunca toca datos del cliente).

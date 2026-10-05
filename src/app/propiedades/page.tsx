@@ -1,8 +1,6 @@
 "use client";
 
 import React, { useState } from 'react';
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import { Search, MapPin, Grid, List as ListIcon, SlidersHorizontal, ArrowUpRight, BedDouble, Bath, Square } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -31,8 +29,6 @@ const CatalogPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Navbar />
-
       <section className="pt-32 pb-12 bg-white border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
@@ -164,7 +160,6 @@ const CatalogPage = () => {
         </div>
       </section>
 
-      <Footer />
     </div>
   );
 };

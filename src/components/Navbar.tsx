@@ -2,17 +2,33 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Menu, X, Phone } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { waLink } from "@/lib/contact";
 
+// Rutas cuyo primer bloque es oscuro: ahí la barra puede ser transparente con texto blanco.
+// Cualquier otra ruta (fondo claro) usa la barra sólida desde el inicio.
+const RUTAS_CON_HERO_OSCURO = [
+  "/",
+  "/nosotros",
+  "/servicios",
+  "/vender",
+  "/simulador-inversion",
+  "/simulador-hipotecario",
+];
+
 const Navbar = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const [scrolled, setScrolled] = useState(false);
+  // El menú móvil guarda la ruta en la que se abrió: al cambiar de ruta se cierra solo.
+  const [menuOpenAt, setMenuOpenAt] = useState<string | null>(null);
+  const isMobileMenuOpen = menuOpenAt === pathname;
+  const isScrolled = scrolled || !RUTAS_CON_HERO_OSCURO.includes(pathname);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      setScrolled(window.scrollY > 50);
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
@@ -83,8 +99,12 @@ const Navbar = () => {
 
         {/* MOBILE TOGGLE */}
         <button
-          className="lg:hidden"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          type="button"
+          className="lg:hidden p-2 -mr-2 focus-visible:ring-2 focus-visible:ring-secondary"
+          aria-label={isMobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
+          aria-expanded={isMobileMenuOpen}
+          aria-controls="menu-movil"
+          onClick={() => setMenuOpenAt(isMobileMenuOpen ? null : pathname)}
         >
           {isMobileMenuOpen ? (
             <X className={isScrolled ? "text-dark" : "text-white"} />
@@ -98,6 +118,7 @@ const Navbar = () => {
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
+            id="menu-movil"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
@@ -108,7 +129,7 @@ const Navbar = () => {
                 <Link
                   key={link.name}
                   href={link.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
+                  onClick={() => setMenuOpenAt(null)}
                   className="text-lg font-serif italic hover:text-secondary transition-colors"
                 >
                   {link.name}

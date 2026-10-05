@@ -1,8 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import { TrendingUp, PieChart, Wallet, ShieldCheck, Download, ArrowRight, Info } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -44,7 +42,6 @@ const InvestmentSimulator = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Navbar />
       
       <section className="pt-40 pb-24 bg-dark text-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 text-center">
@@ -200,7 +197,6 @@ const InvestmentSimulator = () => {
         </div>
       </section>
 
-      <Footer />
     </div>
   );
 };

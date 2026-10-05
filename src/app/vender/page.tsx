@@ -1,8 +1,6 @@
 "use client";
 
 import React, { useState } from 'react';
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import { Camera, Bot, Users, ArrowRight, Home, MapPin, Ruler, CheckCircle2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -15,8 +13,6 @@ const VenderPage = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      <Navbar />
-
       {/* Hero Section */}
       <section className="pt-40 pb-20 bg-dark text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('/imagenes/PORTADA%20CORDILLERA%20CONDOR%202DO%20PISO.png')] bg-cover bg-center opacity-20"></div>
@@ -182,7 +178,6 @@ const VenderPage = () => {
         </div>
       </section>
 
-      <Footer />
     </div>
   );
 };

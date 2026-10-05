@@ -1,16 +1,12 @@
 "use client";
 
 import React from 'react';
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import { Award, Target, Shield, Users } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const NosotrosPage = () => {
   return (
     <div className="min-h-screen bg-white">
-      <Navbar />
-
       {/* Hero */}
       <section className="pt-40 pb-20 bg-dark text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('/imagenes/PORTADA%20DPTO%20JESUS%20MARIA%20V2.jpeg')] bg-cover bg-center opacity-10"></div>
@@ -117,7 +113,6 @@ const NosotrosPage = () => {
         </div>
       </section>
 
-      <Footer />
     </div>
   );
 };
