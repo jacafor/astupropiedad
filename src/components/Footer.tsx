@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
-import { Instagram, Facebook, Linkedin, Mail, Phone, MapPin, CalendarDays, ArrowUpRight } from 'lucide-react';
-import { EMAIL, PHONE_DISPLAY, mailLink, telLink } from '@/lib/contact';
+import { Mail, Phone, MapPin, CalendarDays, ArrowUpRight } from 'lucide-react';
+import { EMAIL, PHONE_DISPLAY, mailLink, telLink, waLink } from '@/lib/contact';
 
 const Footer = () => {
   return (
@@ -9,7 +9,7 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 mb-20">
 
-          {/* Branding & Social */}
+          {/* Branding (redes sociales ocultas hasta tener las URL oficiales) */}
           <div className="lg:col-span-4">
             <img 
               src="/imagenes/logo AS Tupropiedad.png" 
@@ -17,19 +17,8 @@ const Footer = () => {
               className="h-14 w-auto mb-10 bg-white p-3 rounded-sm shadow-xl"
             />
             <p className="text-gray-400 mb-10 leading-relaxed font-light text-lg">
-              Boutique inmobiliaria líder en Lima. Especializada en maximizar el valor patrimonial mediante asesoría de alto nivel y análisis de rentabilidad.
+              Boutique inmobiliaria en Lima. Especializada en maximizar el valor patrimonial mediante asesoría de alto nivel y análisis de rentabilidad.
             </p>
-            <div className="flex space-x-5">
-              {[Instagram, Facebook, Linkedin].map((Icon, i) => (
-                <a 
-                  key={i}
-                  href="#" 
-                  className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-secondary hover:text-dark transition-all duration-500 hover:-translate-y-1"
-                >
-                  <Icon className="w-5 h-5" />
-                </a>
-              ))}
-            </div>
           </div>
 
           {/* Links */}
@@ -98,17 +87,22 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* GHL CTA */}
+          {/* CTA de videollamada (por WhatsApp hasta tener calendario) */}
           <div className="lg:col-span-3 bg-white/5 border border-white/10 p-10 rounded-2xl relative overflow-hidden group">
             <div className="relative z-10">
               <h4 className="text-xl font-serif font-bold mb-4">¿Hablamos de negocios?</h4>
-              <p className="text-gray-400 text-sm mb-8 font-light">Agende una videollamada estratégica de 15 min.</p>
+              <p className="text-gray-400 text-sm mb-8 font-light">Escríbenos por WhatsApp y coordinamos una videollamada.</p>
               
               <div className="border border-dashed border-white/20 bg-dark/50 p-6 text-center rounded-lg group-hover:border-secondary/50 transition-colors">
                 <CalendarDays className="w-10 h-10 text-secondary mb-4 mx-auto" />
-                <button className="text-[10px] font-black uppercase tracking-widest text-white hover:text-secondary transition-colors underline decoration-secondary underline-offset-8 decoration-2">
-                  ABRIR CALENDARIO GHL
-                </button>
+                <a
+                  href={waLink("Hola, quisiera coordinar una videollamada con un asesor de AS Tupropiedad")}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[10px] font-black uppercase tracking-widest text-white hover:text-secondary transition-colors underline decoration-secondary underline-offset-8 decoration-2"
+                >
+                  Coordinar por WhatsApp
+                </a>
               </div>
             </div>
           </div>
@@ -117,10 +111,6 @@ const Footer = () => {
 
         <div className="border-t border-white/10 pt-12 flex flex-col md:flex-row justify-between items-center text-[10px] font-black uppercase tracking-widest text-gray-500">
           <p>© 2026 AS Tupropiedad. Todos los derechos reservados.</p>
-          <div className="space-x-8 mt-6 md:mt-0">
-            <a href="#" className="hover:text-white transition-colors">Privacidad</a>
-            <a href="#" className="hover:text-white transition-colors">Términos</a>
-          </div>
         </div>
       </div>
     </footer>

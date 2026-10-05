@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Calculator, Landmark, Calendar, Percent, ShieldCheck, ArrowRight, Table } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { waLink } from '@/lib/contact';
 
 const MortgageSimulator = () => {
   const [loanAmount, setLoanAmount] = useState(200000);
@@ -41,7 +42,7 @@ const MortgageSimulator = () => {
             Credit Advisory
           </motion.span>
           <h1 className="text-5xl md:text-7xl font-serif font-black mb-10 leading-tight">
-            Simulador Hipotecario <br/><span className="text-secondary italic font-normal text-6xl">Liderazgo Bancario.</span>
+            Simulador Hipotecario <br/><span className="text-secondary italic font-normal text-6xl">Calcula tu cuota.</span>
           </h1>
         </div>
       </section>
@@ -112,21 +113,20 @@ const MortgageSimulator = () => {
             {/* Sidebar CTA */}
             <div className="lg:col-span-12 xl:col-span-4 space-y-8">
               <div className="bg-dark text-white p-12 rounded-3xl shadow-2xl relative overflow-hidden">
-                <h3 className="text-2xl font-serif font-black mb-6">Trámite Directo con Bancos</h3>
+                <h3 className="text-2xl font-serif font-black mb-6">Orientación para tu crédito</h3>
                 <p className="text-gray-400 text-sm mb-10 font-light leading-relaxed">
-                  Contamos con ejecutivos asignados en BCP, BBVA, Scotiabank e Interbank para agilizar su aprobación en tiempo récord.
+                  Un asesor puede revisar contigo esta simulación y orientarte sobre los siguientes pasos. La cuota es referencial y depende de la evaluación de cada banco.
                 </p>
-                <div className="space-y-4">
-                  <div className="flex items-center space-x-3 text-xs font-bold uppercase tracking-widest">
-                    <ShieldCheck className="text-secondary w-5 h-5" />
-                    <span>Sin Costo de Asesoría</span>
-                  </div>
-                </div>
-                
-                <button className="w-full mt-12 py-5 bg-secondary text-dark font-black uppercase tracking-widest text-[10px] rounded-sm flex items-center justify-center group">
-                  PRE-CALIFICAR AHORA (GHL)
+
+                <a
+                  href={waLink(`Hola, hice una simulación hipotecaria: préstamo de ${formatter.format(loanAmount)}, plazo ${years} años, TEA ${rate}%. Quisiera orientación de un asesor.`)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full mt-12 py-5 bg-secondary text-dark font-black uppercase tracking-widest text-[10px] rounded-sm flex items-center justify-center group"
+                >
+                  Consultar por WhatsApp
                   <ArrowRight className="w-4 h-4 ml-3 group-hover:translate-x-2 transition-transform" />
-                </button>
+                </a>
               </div>
 
               <div className="bg-white p-10 rounded-3xl shadow-sm border border-gray-100">
@@ -136,10 +136,15 @@ const MortgageSimulator = () => {
                   </div>
                   <h4 className="font-bold">Cronograma de Pagos</h4>
                 </div>
-                <p className="text-gray-500 text-sm font-light mb-6">Visualice su amortización mes a mes y planifique adelantos de capital.</p>
-                <button className="text-[10px] font-black uppercase tracking-widest text-primary underline underline-offset-8">
-                  Ver Tabla Completa
-                </button>
+                <p className="text-gray-600 text-sm font-light mb-6">Pide a un asesor el detalle de pagos mes a mes de tu simulación.</p>
+                <a
+                  href={waLink(`Hola, quisiera el cronograma de pagos de una simulación hipotecaria: préstamo de ${formatter.format(loanAmount)}, plazo ${years} años, TEA ${rate}%.`)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[10px] font-black uppercase tracking-widest text-primary underline underline-offset-8"
+                >
+                  Pedir cronograma por WhatsApp
+                </a>
               </div>
             </div>
 

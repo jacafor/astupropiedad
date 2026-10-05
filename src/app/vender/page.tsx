@@ -33,18 +33,7 @@ const VenderPage = () => {
               <p className="text-gray-400 text-lg font-light leading-relaxed mb-10 max-w-lg">
                 Utilizamos inteligencia artificial, marketing de ultra-lujo y nuestra base de datos privada de inversores para posicionar su propiedad frente a compradores calificados.
               </p>
-              
-              <div className="flex space-x-6">
-                <div className="text-center">
-                  <h4 className="text-4xl font-black text-white">45</h4>
-                  <p className="text-[9px] uppercase tracking-widest text-gray-400 mt-2">Días Promedio de Venta</p>
-                </div>
-                <div className="text-center">
-                  <h4 className="text-4xl font-black text-white">+5k</h4>
-                  <p className="text-[9px] uppercase tracking-widest text-gray-400 mt-2">Base Inversores</p>
-                </div>
-              </div>
-            </motion.div>
+                          </motion.div>
 
             {/* Valuation Funnel UI */}
             <motion.div
@@ -145,7 +134,7 @@ const VenderPage = () => {
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
           <div className="text-center max-w-2xl mx-auto mb-16">
             <h2 className="text-4xl font-serif font-black text-dark mb-4">¿Por qué elegir AS Tupropiedad?</h2>
-            <p className="text-gray-500">Nuestro ecosistema de marketing garantiza máxima exposición frente a compradores reales.</p>
+            <p className="text-gray-500">Nuestro marketing busca dar a tu propiedad la mayor exposición posible frente a compradores interesados.</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

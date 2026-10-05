@@ -3,6 +3,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, ShieldCheck } from 'lucide-react';
+import { waLink } from '@/lib/contact';
 
 const PersonalShopper = () => {
   return (
@@ -28,17 +29,6 @@ const PersonalShopper = () => {
               className="relative z-10 w-full rounded-lg shadow-2xl filter contrast-110 brightness-90 group-hover:brightness-100 transition-all duration-700"
             />
 
-            {/* Float Stats */}
-            <motion.div 
-              initial={{ y: 20, opacity: 0 }}
-              whileInView={{ y: 0, opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.5, duration: 0.8 }}
-              className="absolute -bottom-8 -right-8 bg-secondary text-dark p-8 rounded-lg shadow-2xl z-20 hidden md:block"
-            >
-              <p className="text-5xl font-black mb-1">+15</p>
-              <p className="text-[10px] font-bold uppercase tracking-widest leading-tight">Años de <br/>Experiencia Élite</p>
-            </motion.div>
           </motion.div>
 
           {/* Content Side */}
@@ -58,7 +48,7 @@ const PersonalShopper = () => {
                 Entendemos que su tiempo es el activo más valioso. Por eso, no enviamos listas interminables de propiedades genéricas.
               </p>
               <p>
-                Asignamos un <span className="text-white font-bold italic">asesor exclusivo</span> que entrevista sus necesidades, mapea silenciosamente el 100% de la oferta en Lima y le presenta solo aquello que hace "match" con su estilo de vida o tesis de inversión.
+                Asignamos un <span className="text-white font-bold italic">asesor exclusivo</span> que entrevista sus necesidades, mapea la oferta disponible en Lima y le presenta solo aquello que hace "match" con su estilo de vida o tesis de inversión.
               </p>
               
               <div className="flex items-center space-x-4 pt-4">
@@ -70,7 +60,9 @@ const PersonalShopper = () => {
             </div>
 
             <motion.a 
-              href="#contacto"
+              href={waLink("Hola, quisiera solicitar un asesor privado para buscar una propiedad")}
+              target="_blank"
+              rel="noopener noreferrer"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="inline-block mt-12 px-10 py-5 bg-secondary text-dark font-black uppercase tracking-widest text-xs rounded-sm hover:bg-white transition-all duration-500 shadow-lg"

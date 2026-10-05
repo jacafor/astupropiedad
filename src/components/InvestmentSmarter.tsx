@@ -27,19 +27,9 @@ const InvestmentSmarter = () => {
                     <span className="text-primary font-black tracking-widest uppercase text-xs mb-4 block">Investment Intelligence</span>
                     <h2 className="text-5xl md:text-6xl font-serif font-black text-dark mb-8 leading-tight">Su dinero merece <br/><span className="italic text-secondary font-normal">volver a casa.</span></h2>
                     <p className="text-gray-600 text-lg mb-8 font-light leading-relaxed">
-                        Evaluamos propiedades en Lima basándonos en algoritmos de rentabilidad neta (Cap Rate). No compre metros cuadrados, compre flujos de caja y plusvalía garantizada.
+                        Evaluamos propiedades en Lima con indicadores de rentabilidad como el cap rate. No compres solo metros cuadrados: mira también el flujo de caja y el potencial de plusvalía.
                     </p>
                     
-                    <div className="grid grid-cols-2 gap-8 mb-10">
-                        <div className="group">
-                            <p className="text-3xl font-black text-primary group-hover:text-secondary transition-colors">8.5%</p>
-                            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">ROI Promedio Anual</p>
-                        </div>
-                        <div className="group">
-                            <p className="text-3xl font-black text-primary group-hover:text-secondary transition-colors">12%</p>
-                            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">Plusvalía estimada</p>
-                        </div>
-                    </div>
                 </div>
 
                 <motion.div 

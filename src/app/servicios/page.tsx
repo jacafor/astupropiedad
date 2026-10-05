@@ -8,22 +8,22 @@ const ServiciosPage = () => {
     {
       icon: Briefcase,
       title: "Representación de Comprador (Personal Shopper)",
-      desc: "Buscamos, negociamos y aseguramos la propiedad ideal para usted en el mercado. Evite lidiar con múltiples agentes; nosotros hacemos el filtrado estricto basándonos en sus requerimientos de inversión o estilo de vida."
+      desc: "Buscamos y negociamos contigo la propiedad que mejor se ajusta a lo que necesitas. Evita lidiar con múltiples agentes: nosotros filtramos la oferta según tu objetivo de inversión o tu estilo de vida."
     },
     {
       icon: Camera,
       title: "Marketing Acertado para Vendedores",
-      desc: "Su propiedad merece destacar. Incluimos Home Staging, fotografía arquitectónica, tours 360° y campañas dirigidas con inteligencia artificial a nuestra exclusiva red de inversores y familias pre-calificadas."
+      desc: "Su propiedad merece destacar. Incluimos Home Staging, fotografía arquitectónica, tours 360° y campañas dirigidas."
     },
     {
       icon: CreditCard,
       title: "Estructuración Financiera Integral",
-      desc: "Nuestra división de Liderazgo Bancario asegura las mejores condiciones de financiamiento para su adquisición. Conexión directa y rápida con ejecutivos de las 4 entidades bancarias más importantes del país."
+      desc: "Te orientamos en el proceso de financiamiento hipotecario para tu adquisición, comparando opciones según tu perfil."
     },
     {
       icon: FileText,
       title: "Auditoría Legal Inmobiliaria",
-      desc: "Nos aseguramos de que su inversión sea 100% segura. Análisis meticuloso de títulos, cargas, gravámenes, y la preparación y acompañamiento desde la Promesa de Venta hasta la firma de Escrituras Públicas y Notaría."
+      desc: "Revisamos con detalle títulos, cargas y gravámenes, y te acompañamos desde la Promesa de Venta hasta la firma de Escritura Pública en notaría."
     }
   ];
 

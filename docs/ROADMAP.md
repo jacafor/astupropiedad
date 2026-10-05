@@ -21,9 +21,9 @@ Detalle en [NEGOCIO-Y-CONTENIDO.md](NEGOCIO-Y-CONTENIDO.md) §7 y [DECISIONES.md
   - Hecho cuando: ninguna página repite Navbar/Footer; `/propiedades` muestra el menú sin hacer scroll.
 - [x] **Crear `src/lib/contact.ts`** y usarlo en navbar, footer, botón flotante *(C2)* — hecho 2026-10-04 (falta: metadata/JSON-LD cuando existan, y las imágenes con teléfono viejo)
   - Hecho cuando: un único teléfono/correo/dominio en todo el sitio; cero apariciones de `51900000000`; `mailto:`/`tel:` en el footer.
-- [ ] **Arreglar enlaces muertos:** `#vender` → `/vender`; "Catálogo" → `/propiedades`; quitar `(GHL)` visible; redes sociales; "Postular" *(C1)*
+- [x] **Arreglar enlaces muertos:** `#vender` → `/vender`; "Catálogo" → `/propiedades`; quitar `(GHL)` visible; redes sociales; "Postular" *(C1)* — 2026-10-05, sesión [02](prompts/02-enlaces-y-contenido-falso.md). Los CTA sin embudo van a WhatsApp con mensaje prellenado; redes y Privacidad/Términos ocultos hasta tener URL/páginas (sesión 09). El formulario de `/vender` sigue sin enviar nada (sesión 05)
   - Hecho cuando: ningún `href="#"` ni botón sin destino (comprobar con `grep` y en navegador a 390 px).
-- [ ] **Quitar contenido falso:** propiedad de Unsplash, fotos de "equipo" que son edificios, afirmaciones "garantizado" *(C3)*
+- [x] **Quitar contenido falso:** propiedad de Unsplash, fotos de "equipo" que son edificios, afirmaciones "garantizado" *(C3)* — 2026-10-05, sesión 02. Quedan **pendientes del cliente** las contradicciones entre el catálogo/destacadas y los flyers (ver P-13 en DECISIONES y NEGOCIO-Y-CONTENIDO §4)
   - Hecho cuando: ninguna imagen engañosa; marcadores honestos donde falte dato.
 - [ ] **Actualizar `next` a `16.3.8`** y `eslint-config-next` *(C6)*
   - Hecho cuando: `npm audit --omit=dev` sin críticas; build y lint igual o mejor que la línea base.

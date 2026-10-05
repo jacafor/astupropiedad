@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { TrendingUp, PieChart, Wallet, ShieldCheck, Download, ArrowRight, Info } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { waLink } from '@/lib/contact';
 
 const InvestmentSimulator = () => {
   // Inputs
@@ -66,7 +67,7 @@ const InvestmentSimulator = () => {
             transition={{ delay: 0.2 }}
             className="text-gray-400 text-xl font-light max-w-3xl mx-auto leading-relaxed"
           >
-            Calcule la rentabilidad real de su próximo activo, considerando impuestos, gastos operativos y proyección de plusvalía a largo plazo.
+            Estima la rentabilidad de tu próxima propiedad, considerando impuestos, gastos operativos y una proyección de plusvalía a largo plazo.
           </motion.p>
         </div>
       </section>
@@ -114,11 +115,16 @@ const InvestmentSimulator = () => {
 
               <div className="bg-primary p-10 rounded-3xl text-white shadow-2xl overflow-hidden relative group">
                 <Download className="absolute -bottom-4 -right-4 w-32 h-32 opacity-10 group-hover:scale-110 transition-transform" />
-                <h4 className="text-xl font-serif font-bold mb-4">¿Desea este reporte en PDF?</h4>
-                <p className="text-white/70 text-sm mb-8 font-light leading-relaxed">Incluimos el desglose completo de impuestos y flujo de caja proyectado para su banco.</p>
-                <button className="w-full py-4 bg-secondary text-dark font-black uppercase tracking-widest text-[10px] rounded-sm hover:bg-white transition-all">
-                  SOLICITAR REPORTE COMPLETO (GHL)
-                </button>
+                <h4 className="text-xl font-serif font-bold mb-4">¿Quieres revisar estos números?</h4>
+                <p className="text-white/70 text-sm mb-8 font-light leading-relaxed">Un asesor puede analizar contigo esta simulación. Los resultados son estimados y dependen de los supuestos que ingresaste.</p>
+                <a
+                  href={waLink(`Hola, hice una simulación de inversión: precio ${formatter.format(price)}, alquiler mensual ${formatter.format(monthlyRent)}. Quisiera que un asesor la revise conmigo.`)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block text-center w-full py-4 bg-secondary text-dark font-black uppercase tracking-widest text-[10px] rounded-sm hover:bg-white transition-all"
+                >
+                  Hablar con un asesor
+                </a>
               </div>
             </div>
 
