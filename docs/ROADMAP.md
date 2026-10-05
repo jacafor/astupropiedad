@@ -61,7 +61,9 @@ Detalle en [NEGOCIO-Y-CONTENIDO.md](NEGOCIO-Y-CONTENIDO.md) §7 y [DECISIONES.md
 - [ ] Pruebas: Vitest para `finance.ts`, Playwright para flujos críticos; CI con `tsc` + `eslint` + `build` *(Bloque H)*
 - [ ] Cabeceras de seguridad y `poweredByHeader: false`; `not-found.tsx`/`error.tsx` en español
 - [x] `git init` (rama `main`) y limpieza de duplicados — 2026-10-05, 3 commits *(D-12)*
-- [ ] Conectar el repo con Vercel (previews por rama; producción solo desde `main`, sin asignar dominio todavía) — sesión [14](prompts/14-conectar-vercel.md), decisión P-12
+- [x] Conectar el repo con Vercel (previews por rama; producción solo desde `main`, sin asignar dominio todavía) — 2026-10-05, sesión [14](prompts/14-conectar-vercel.md), ver [DESPLIEGUE.md](DESPLIEGUE.md). Preview de `prueba/vercel-preview` en Ready. Pendiente de decidir: P-12 (protección de `main`, dominio, `www`)
+- [ ] Añadir `<main>` a las 6 páginas internas (solo `/` lo tiene; regla 7 de AGENTS.md) — detectado en el preview, 2026-10-05
+- [ ] Revisar a 390 px el preview de Vercel (menú móvil, botón flotante, simuladores): solo se vio a escritorio
 - [x] Remoto en GitHub (`jacafor/astupropiedad`) y primer `git push` — 2026-10-05 *(D-12)*. Pendiente: confirmar en GitHub que el repositorio es **privado**
 
 ## P3 — continuo
