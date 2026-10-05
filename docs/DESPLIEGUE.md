@@ -4,6 +4,8 @@ Resumen de cómo llega el código a Vercel. Detalle de la integración: [INTEGRA
 
 > **Advertencia:** el proyecto Vercel `web-as-tupropiedad` está conectado a `jacafor/astupropiedad`. Un `push` (o merge) a **`main` despliega a producción**. Trabaja siempre en ramas.
 
+> `main` **no está protegido** por decisión de jforero (2026-10-05, mientras dure el desarrollo): GitHub no bloquea el push directo, así que la disciplina de ramas depende de nosotros. El dominio `astupropiedad.com` **no está asignado** a este proyecto (hoy sirve otra web); producción solo se ve en la URL `*.vercel.app`.
+
 ## Flujo acordado
 
 1. Una rama por sesión/tarea (`git switch -c <nombre>`).
