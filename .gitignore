@@ -1,0 +1,33 @@
+# dependencias
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+
+# next.js
+/.next/
+/out/
+next-env.d.ts
+
+# build
+/build
+
+# variables de entorno (se versiona solo .env.example)
+.env
+.env.*
+!.env.example
+
+# typescript
+*.tsbuildinfo
+
+# logs y sistema
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
+
+# vercel
+.vercel
+
+# claude code: configuración personal (los comandos y launch.json del proyecto sí se versionan)
+.claude/settings.local.json

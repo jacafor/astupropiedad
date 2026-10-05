@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Propuestas de Estilo Inmobiliario - AS Tupropiedad</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;700&family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&family=Inter:wght@300;400&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #004A99;
+            /* Azul AS Tupropiedad */
+            --secondary: #7AC142;
+            /* Verde AS Tupropiedad */
+            --dark: #0a1128;
+            --light: #f4f7f6;
+            --transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            color: var(--dark);
+        }
+
+        .container {
+            width: 100%;
+        }
+
+        .section-header {
+            padding: 80px 40px;
+            background: #fff;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        .section-header h1 {
+            margin: 0;
+            font-size: 3rem;
+            color: var(--primary);
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .brand-accent {
+            width: 80px;
+            height: 4px;
+            background: var(--secondary);
+            margin: 20px auto;
+        }
+
+        .preview-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 100px 5%;
+            box-sizing: border-box;
+            background: #fff;
+        }
+
+        .sub-section {
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        /* proposta A: PREMIUM BLUE & WHITE */
+        #luxury {
+            background-color: var(--dark);
+            color: #fff;
+        }
+
+        #luxury .hero-visual {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+
+        #luxury .main-text {
+            flex: 1;
+        }
+
+        #luxury .main-text h2 {
+            font-size: 5.5rem;
+            line-height: 0.9;
+            margin: 0;
+            font-weight: 900;
+        }
+
+        #luxury .main-text span {
+            color: var(--secondary);
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            font-weight: 600;
+        }
+
+        #luxury .property-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            transition: var(--transition);
+        }
+
+        #luxury .property-card:hover {
+            border-color: var(--secondary);
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-10px);
+        }
+
+        /* proposta B: THE INVESTMENT HUB */
+        #modern {
+            background-color: #fff;
+        }
+
+        #modern .grid-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        #modern .calc-container {
+            background: var(--light);
+            padding: 60px;
+            border-bottom: 8px solid var(--primary);
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.05);
+        }
+
+        #modern .tag {
+            background: var(--primary);
+            color: #fff;
+            padding: 5px 15px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        #modern input {
+            border: none;
+            border-bottom: 2px solid #ddd;
+            background: transparent;
+            padding: 15px 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+            width: 100%;
+            margin-bottom: 30px;
+            outline: none;
+        }
+
+        #modern input:focus {
+            border-color: var(--secondary);
+        }
+
+        /* proposta C: EDITORIAL EXPERIENCE */
+        #warm {
+            background-color: var(--primary);
+            color: #fff;
+        }
+
+        #warm .editorial-content {
+            display: grid;
+            grid-template-columns: 0.8fr 1.2fr;
+            gap: 100px;
+            align-items: center;
+        }
+
+        #warm .image-stack {
+            position: relative;
+        }
+
+        #warm .main-img {
+            width: 100%;
+            height: 700px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        #warm .overlay-box {
+            position: absolute;
+            bottom: -40px;
+            right: -40px;
+            background: var(--secondary);
+            color: var(--dark);
+            padding: 40px;
+            width: 250px;
+            font-weight: 800;
+            font-size: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .cta-btn {
+            background: var(--secondary);
+            color: var(--dark);
+            padding: 20px 45px;
+            text-decoration: none;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: inline-block;
+            margin-top: 30px;
+            transition: var(--transition);
+        }
+
+        .cta-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 40px rgba(122, 193, 66, 0.3);
+        }
+
+        .label {
+            position: absolute;
+            top: 40px;
+            left: 40px;
+            background: var(--secondary);
+            color: var(--dark);
+            padding: 8px 18px;
+            font-weight: 800;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .img-overlay-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .img-item {
+            height: 250px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 4px;
+            filter: brightness(0.8) contrast(1.1);
+            transition: 0.5s;
+        }
+
+        .img-item:hover {
+            filter: brightness(1);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="section-header">
+        <h1>AS TUPROPIEDAD</h1>
+        <div class="brand-accent"></div>
+        <p>Evolución de identidad visual: Azul Profesional y Verde de Crecimiento.</p>
+    </div>
+
+    <!-- LUXURY / REFINED -->
+    <div id="luxury" class="preview-section">
+        <div class="label">VISIÓN 01: ELITE PORTFOLIO</div>
+        <div class="sub-section">
+            <div class="hero-visual">
+                <div class="main-text">
+                    <span>TU PRÓXIMO CAPÍTULO</span>
+                    <h2>VENTA DE<br>ALTO NIVEL.</h2>
+                    <p>Propiedades seleccionadas bajo criterios de inversión y confort. Sin ruido, solo oportunidades
+                        reales en el mercado peruano.</p>
+                    <a href="#" class="cta-btn">EXPLORAR LISTADOS</a>
+                </div>
+            </div>
+
+            <div class="img-overlay-grid">
+                <div class="property-card" style="padding: 10px; border-radius: 8px;">
+                    <div class="img-item"
+                        style="background-image: url('https://images.unsplash.com/photo-1600607687940-4e524cb35431?auto=format&fit=crop&q=80&w=800')">
+                    </div>
+                    <div style="padding: 20px;">
+                        <span style="color: var(--secondary); font-size: 0.7rem; font-weight: 700;">VENTA</span>
+                        <h4 style="margin: 5px 0;">MIRAFLORES LUXURY</h4>
+                    </div>
+                </div>
+                <div class="property-card" style="padding: 10px; border-radius: 8px;">
+                    <div class="img-item"
+                        style="background-image: url('https://images.unsplash.com/photo-1628592102751-ba83b035e250?auto=format&fit=crop&q=80&w=800')">
+                    </div>
+                    <div style="padding: 20px;">
+                        <span style="color: var(--secondary); font-size: 0.7rem; font-weight: 700;">VENTA</span>
+                        <h4 style="margin: 5px 0;">SAN ISIDRO PENTHOUSE</h4>
+                    </div>
+                </div>
+                <div class="property-card" style="padding: 10px; border-radius: 8px;">
+                    <div class="img-item"
+                        style="background-image: url('https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?auto=format&fit=crop&q=80&w=800')">
+                    </div>
+                    <div style="padding: 20px;">
+                        <span style="color: var(--secondary); font-size: 0.7rem; font-weight: 700;">VENTA</span>
+                        <h4 style="margin: 5px 0;">MOLINA RESIDENCE</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODERN / ARCHITECTURAL -->
+    <div id="modern" class="preview-section" style="background: #fff;">
+        <div class="label">VISIÓN 02: INVESTMENT INTELLIGENCE</div>
+        <div class="sub-section">
+            <div class="grid-layout">
+                <div>
+                    <h2 style="font-size: 4rem; margin: 0; color: var(--primary);">CONVIERTE<br>PESOS EN<br>METROS.</h2>
+                    <p style="font-size: 1.2rem; margin-top: 20px; color: #666;">Optimizamos tu capital mediante
+                        análisis de rentabilidad real. No solo vendemos inmuebles, construimos libertad financiera.</p>
+                </div>
+                <div class="calc-container">
+                    <div class="tag">SIMULADOR DE RENTABILIDAD</div>
+                    <label style="font-size: 0.7rem; color: #999; font-weight: 700;">INVERSIÓN ESTIMADA</label>
+                    <input type="text" value="$250,000">
+                    <label style="font-size: 0.7rem; color: #999; font-weight: 700;">ALQUILER PROYECTADO</label>
+                    <input type="text" value="$1,500">
+                    <div
+                        style="background: var(--dark); padding: 30px; color: #fff; display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-size: 0.8rem; font-weight: 700;">RETORNO ANUAL</span>
+                        <span style="font-size: 2rem; font-weight: 900; color: var(--secondary);">8.4%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- WARM / EDITORIAL -->
+    <div id="warm" class="preview-section">
+        <div class="label">VISIÓN 03: PERSONAL SHOPPER EXPERIENCE</div>
+        <div class="sub-section">
+            <div class="editorial-content">
+                <div class="image-stack">
+                    <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&q=80&w=1000"
+                        class="main-img" alt="Expert">
+                    <div class="overlay-box">
+                        EL SERVICIO QUE<br>TE MERECES.
+                    </div>
+                </div>
+                <div>
+                    <h2 style="font-size: 4.5rem; line-height: 1; margin: 0;">NOSOTROS<br>BUSCAMOS,<br>TÚ ELIGES.</h2>
+                    <p style="font-size: 1.35rem; margin-top: 40px; line-height: 1.6; color: rgba(255,255,255,0.8);">A
+                        diferencia de una agencia tradicional, el Personal Shopper Inmobiliario trabaja <strong>solo
+                            para ti</strong>. Tu tiempo es sagrado, y nuestra misión es protegerlo mientras encontramos
+                        la mejor opción del mercado.</p>
+                    <a href="#" class="cta-btn" style="background: #fff; color: var(--primary);">RESERVAR ENTREVISTA</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
