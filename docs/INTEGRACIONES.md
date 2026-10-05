@@ -92,7 +92,7 @@ Usar un webhook/pipeline de **prueba** y datos ficticios. No enviar datos reales
 ## 5. Vercel
 
 - Proyecto: `web-as-tupropiedad` (`.vercel/project.json`, local; no se versiona). `vercel.json`: framework `nextjs`.
-- Repositorio de GitHub: `jacafor/astupropiedad` (rama `main`). **Conexión Git ↔ Vercel: pendiente** (sesión [14](prompts/14-conectar-vercel.md), decisión P-12). Una vez conectada, cada `push` a `main` es un despliegue a producción: se trabaja en ramas y se fusiona por pull request; las demás ramas generan *previews*.
+- Repositorio de GitHub: `jacafor/astupropiedad` (rama `main`). **Conexión Git ↔ Vercel: hecha el 2026-10-05** (producción = `main`; previews activos; ajustes de Git por defecto). Cada `push` a `main` es un despliegue a producción: se trabaja en ramas y se fusiona por pull request; las demás ramas generan *previews*, protegidos con Vercel Authentication (hay que iniciar sesión para verlos). Flujo, rollback y variables: [DESPLIEGUE.md](DESPLIEGUE.md). Pendiente en P-12: protección de `main`, dominio y `www`. Hoy no hay variables de entorno definidas en Vercel.
 - La CLI de Vercel está instalada en el equipo de jforero (`vercel login` lo hace él, nunca se guardan tokens). Variables de entorno: se crean en el panel de Vercel; en el chat solo se mencionan sus nombres.
 - **Desplegar solo con confirmación del dueño.** Antes: `/revisar-deploy`.
 - Pendiente: dominio de producción, redirecciones de dominios alternativos, cabeceras de seguridad (`next.config.ts` → `headers()`), `poweredByHeader: false`.
