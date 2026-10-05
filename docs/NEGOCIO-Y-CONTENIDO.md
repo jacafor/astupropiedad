@@ -14,9 +14,9 @@ Qué es AS Tupropiedad según el propio sitio, cómo debe sonar, qué se puede a
 
 | Dato | Valores encontrados | Decisión |
 |---|---|---|
-| WhatsApp / teléfono | `+51 940 428 352` (navbar) · `+51 900 000 000` (footer y botón flotante, **relleno**) · `940 215 027` (banner y `legacy/`) · `994 741 703` y `977 588 905` (letreros dentro de flyers) | **Pendiente.** Elegir uno oficial |
+| WhatsApp / teléfono | `+51 940 428 352` (navbar) · `+51 900 000 000` (footer y botón flotante, **relleno**) · `940 215 027` (banner y el HTML anterior, ya archivado) · `994 741 703` y `977 588 905` (letreros dentro de flyers) | **Pendiente.** Elegir uno oficial |
 | Correo | `contacto@astupropiedad.pe` | Confirmar que existe y se lee |
-| Dominio | `astupropiedad.com` (flyers, banner) · `astupropiedad.pe` (correo, `legacy/`) · `as-tupropiedad.pe` (enlace GHL) | **Pendiente.** Elegir dominio canónico y redirigir los demás |
+| Dominio | `astupropiedad.com` (flyers, banner) · `astupropiedad.pe` (correo y el HTML anterior, ya archivado) · `as-tupropiedad.pe` (enlace GHL) | **Pendiente.** Elegir dominio canónico y redirigir los demás |
 | Dirección | "San Isidro, Lima - Perú" | Falta calle y número |
 | Horario de atención | no existe | Necesario si se promete respuesta rápida |
 | Razón social / RUC | no existen | Necesario en el footer |

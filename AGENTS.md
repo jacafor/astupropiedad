@@ -20,7 +20,7 @@ Sitio web de **AS Tupropiedad**, boutique inmobiliaria de Lima (Perú): compra, 
 | Fuentes | `next/font`: Geist (sans), Playfair Display (serif), Geist Mono (sin uso) |
 | Hosting | Vercel (proyecto `web-as-tupropiedad`, framework `nextjs`) |
 | Calidad | ESLint 9 flat config (`eslint-config-next`), `tsc --noEmit`. **No hay pruebas todavía.** |
-| Entorno | Node ≥ 20.9 (probado con 24), npm. Windows + PowerShell/Git Bash. **No es un repositorio git** (pendiente de `git init`). |
+| Entorno | Node ≥ 20.9 (probado con 24), npm. Windows + PowerShell/Git Bash. **Repositorio git** (rama `main`, iniciado el 2026-10-05; aún sin remoto, ver D-12). |
 
 ## Comandos
 
@@ -41,8 +41,6 @@ src/app/                  rutas (App Router): /, /nosotros, /servicios, /propied
                           /simulador-inversion, /simulador-hipotecario
 src/components/           Navbar, Hero, Footer, FloatingWhatsApp, GHLForm (sin uso) y secciones de la home
 public/imagenes/          fotos y flyers (nombres con espacios: usar URL-encoding o renombrar)
-legacy/                   HTML anterior del sitio — solo referencia, NO editar
-Imagenes/                 copia duplicada de public/imagenes — NO usar, candidata a borrarse
 docs/                     documentación del proyecto (ver índice abajo)
 .claude/commands/         comandos de barra del proyecto (/nueva-pagina, /auditar, …)
 ```
@@ -75,7 +73,7 @@ Mapa completo de rutas, componentes y deuda técnica: [docs/ARQUITECTURA.md](doc
 1. `npx tsc --noEmit && npm run lint && npm run build`, con el resultado **real**.
 2. Si cambió la interfaz: pruebas en el navegador a 390 px y 1280 px; apaga el servidor; borra temporales propios (`tsconfig.tsbuildinfo`, capturas).
 3. Actualiza en el mismo cambio: la casilla de `docs/ROADMAP.md` (con fecha), `docs/DECISIONES.md` (decisiones nuevas con estado, fecha y responsable; pendientes cerrados), y el `.md` afectado (`ARQUITECTURA`, `DISENO`, `INTEGRACIONES`, `NEGOCIO-Y-CONTENIDO`, esta guía si cambian comandos, estructura o línea base).
-4. Si el repo ya es git (`git status` funciona): un commit por tarea, en español, sin `--no-verify` ni `push` sin que te lo pidan. Si aún no es git, no lo inicialices salvo que el prompt (sesión 00) lo pida.
+4. Un commit por tarea, en español, sin `--no-verify` ni `push` sin que te lo pidan (hoy no hay remoto configurado; ver D-12).
 5. Cierra con: qué verificaste de verdad, qué no pudiste verificar y qué decidiste sin consultar.
 
 ## Diseño — resumen obligatorio (detalle y ejemplos: [docs/DISENO.md](docs/DISENO.md))
@@ -112,7 +110,7 @@ Mapa completo de rutas, componentes y deuda técnica: [docs/ARQUITECTURA.md](doc
 ## Reglas del proyecto (obligatorias)
 
 1. **No inventes datos de negocio.** Cifras, precios, teléfonos, nombres del equipo, tasas, alianzas bancarias y fichas de propiedades deben venir del cliente. Si falta el dato, usa un marcador honesto ("Próximamente") y avisa; nunca un número verosímil.
-2. **Una sola fuente de verdad para el contacto.** Teléfono, WhatsApp, correo, dominio y dirección viven en `src/lib/contact.ts` y se importan; no los repitas en componentes. Valores confirmados el 2026-10-04: WhatsApp 51977588905, correo ventas@astupropiedad.com, dominio astupropiedad.com. Si ves otro teléfono o dominio (imágenes, `legacy/`, `GHLForm`), es residuo viejo. Nunca uses `51900000000`.
+2. **Una sola fuente de verdad para el contacto.** Teléfono, WhatsApp, correo, dominio y dirección viven en `src/lib/contact.ts` y se importan; no los repitas en componentes. Valores confirmados el 2026-10-04: WhatsApp 51977588905, correo ventas@astupropiedad.com, dominio astupropiedad.com. Si ves otro teléfono o dominio (imágenes, `GHLForm`, el HTML anterior archivado), es residuo viejo. Nunca uses `51900000000`.
 3. **Ningún botón sin destino.** Todo CTA enlaza a una ruta real, abre WhatsApp o dispara una acción verificada. Si aún no hay backend, enlaza a WhatsApp con mensaje prellenado. Cero texto interno de desarrollo visible (`(GHL)`, `Replace with real number`).
 4. **Sin afirmaciones absolutas** ("garantizado", "100% seguro") ni cifras de mercado sin respaldo — ver política en [docs/NEGOCIO-Y-CONTENIDO.md](docs/NEGOCIO-Y-CONTENIDO.md).
 5. **Los cálculos financieros no van dentro de componentes.** Extraer a `src/lib/finance.ts` (funciones puras, con pruebas) y validar entradas: nunca mostrar `$∞`, `NaN` ni negativos.
@@ -134,7 +132,7 @@ npx tsc --noEmit && npm run lint && npm run build
 
 - Desplegar a producción o cambiar la configuración de Vercel / dominio.
 - Instalar o actualizar dependencias (salvo lo pedido explícitamente).
-- Borrar o renombrar imágenes de `public/imagenes/` o carpetas (`Imagenes/`, `legacy/`).
+- Borrar o renombrar imágenes de `public/imagenes/`.
 - Cambiar teléfono, correo, dominio, cifras o textos legales.
 - Enviar datos reales a GoHighLevel u otros servicios externos durante pruebas (usa datos de prueba y un webhook de prueba).
 

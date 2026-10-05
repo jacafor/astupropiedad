@@ -6,13 +6,13 @@ Creados el 2026-10-04 a partir de [ROADMAP.md](../ROADMAP.md) y [DECISIONES.md](
 
 ## Orden recomendado
 
-**Hazlas en serie, no en paralelo.** El proyecto todavía no es un repositorio git (ver sesión 00) y varias sesiones editan los mismos archivos (`page.tsx`, `Navbar.tsx`, `Footer.tsx`). Dos sesiones a la vez se pisarían los cambios sin forma de deshacerlo.
+**Hazlas en serie, no en paralelo.** El proyecto es un repositorio git desde la sesión 00 (2026-10-05) y varias sesiones editan los mismos archivos (`page.tsx`, `Navbar.tsx`, `Footer.tsx`). Dos sesiones a la vez se pisarían los cambios (git permite deshacerlos, pero sería trabajo perdido).
 
 ### Fase A — no necesitan nada del cliente
 
 | # | Sesión | Roadmap | Qué cierra | Tú das |
 |---|---|---|---|---|
-| 00 | [Git y limpieza](00-git-y-limpieza.md) | P-7, P-8 | Historial + borrar duplicados | URL del repo remoto (opcional) |
+| 00 ✅ | [Git y limpieza](00-git-y-limpieza.md) | P-7, P-8 | Historial + borrar duplicados (hecha 2026-10-05; falta el remoto) | URL del repo remoto (opcional) |
 | 01 | [Layout, navbar y `<main>`](01-layout-navbar-main.md) | P0 · C5 | Navbar visible en `/propiedades`; sin repetir Navbar/Footer | — |
 | 02 | [Enlaces muertos y contenido falso](02-enlaces-y-contenido-falso.md) | P0 · C1, C3 | Ningún botón sin destino ni foto engañosa | — |
 | 03 | [Tono "tú" y español natural](03-tono-tu.md) | D-10, P-6 | Un solo tratamiento en todo el sitio | Tu OK a la tabla de cambios |
@@ -50,7 +50,7 @@ Fuente de verdad: `AGENTS.md` (reglas 1-9, Protocolo de sesión, Diseño — res
 - No desplegar. Apagar cualquier servidor que se levante. Borrar los archivos temporales propios (p. ej. `tsconfig.tsbuildinfo`).
 - Cambios visuales: tokens de marca y patrones de `docs/DISENO.md`; sin hex sueltos; contraste, texto ≥ 12 px y foco visible.
 - Al terminar: marcar la casilla en `docs/ROADMAP.md` (con fecha), anotar decisiones en `docs/DECISIONES.md` y actualizar el `.md` que corresponda.
-- Si el repo ya es git (tras la sesión 00): un commit por tarea, en español, sin `push` salvo que se pida.
+- Un commit por tarea, en español, sin `push` salvo que se pida.
 
 ## Mantener los prompts al día
 

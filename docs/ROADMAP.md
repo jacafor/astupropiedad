@@ -60,7 +60,8 @@ Detalle en [NEGOCIO-Y-CONTENIDO.md](NEGOCIO-Y-CONTENIDO.md) §7 y [DECISIONES.md
 - [ ] `next/image`, WebP/AVIF, Server Components para contenido estático, lint a cero *(Rendimiento)*
 - [ ] Pruebas: Vitest para `finance.ts`, Playwright para flujos críticos; CI con `tsc` + `eslint` + `build` *(Bloque H)*
 - [ ] Cabeceras de seguridad y `poweredByHeader: false`; `not-found.tsx`/`error.tsx` en español
-- [ ] `git init` + repositorio remoto *(ver DECISIONES P-7)*
+- [x] `git init` (rama `main`) y limpieza de duplicados — 2026-10-05, 3 commits *(D-12)*
+- [ ] Repositorio remoto privado en GitHub y primer `git push` *(falta la URL del remoto; ver D-12)*
 
 ## P3 — continuo
 

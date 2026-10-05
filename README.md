@@ -57,6 +57,6 @@ Variables de entorno: copia `.env.example` a `.env.local` y completa lo que nece
 
 Vercel (proyecto `web-as-tupropiedad`, configuración en `vercel.json`). Antes de desplegar: `/revisar-deploy` o la lista de [AGENTS.md](AGENTS.md#antes-de-dar-algo-por-terminado).
 
-## Carpetas ajenas al sitio actual
+## Archivo histórico
 
-`legacy/` (HTML anterior, solo referencia) e `Imagenes/` (copia duplicada de `public/imagenes/`).
+El HTML anterior del sitio (`legacy/`) está archivado en `../Web-AS-Tupropiedad-respaldo/legacy.zip` (fuera del proyecto). Tanto ese HTML como la antigua carpeta `Imagenes/` (duplicado de `public/imagenes/`) se pueden recuperar del primer commit del historial git ("Estado inicial del proyecto"). Ver `docs/DECISIONES.md` D-12.

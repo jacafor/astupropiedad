@@ -15,7 +15,7 @@ Lo que ya usa el sitio (extraído del código) más las reglas para que los camb
 | `font-serif` | Playfair Display | Titulares (`font-serif font-black`) |
 | `font-mono` | Geist Mono | **Sin uso** (se puede quitar) |
 
-> `legacy/Estilos_Propuesta.html` (la sesión 00 archiva `legacy/`; queda en el historial de git) usa una paleta casi idéntica (`#004A99` / `#7AC142`). **La vigente es la de `globals.css`.**
+> `Estilos_Propuesta.html` del sitio anterior (archivado en `../Web-AS-Tupropiedad-respaldo/legacy.zip` y en el primer commit del historial git) usa una paleta casi idéntica (`#004A99` / `#7AC142`). **La vigente es la de `globals.css`.**
 > No añadas hex sueltos en componentes: define un token nuevo en `@theme`.
 
 ## 2. Layout y espaciado

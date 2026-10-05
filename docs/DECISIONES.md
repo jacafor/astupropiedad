@@ -56,7 +56,7 @@ Cada entrada lleva `estado`, `fecha` y `responsable` (quien debe validarla). Par
 - **Estado:** **Aceptada** · **Fecha:** 2026-10-04 · **Responsable:** jforero (los entregó en chat; conviene que el cliente los ratifique por escrito)
 - **Decisión:** WhatsApp/teléfono **+51 977 588 905** (`51977588905`), correo **ventas@astupropiedad.com**, dominio **astupropiedad.com** (se deduce del correo: el usuario no escribió el dominio aparte).
 - **Consecuencias:** viven solo en `src/lib/contact.ts` (creado el mismo día y usado en navbar, footer y botón flotante; verificado en el HTML de `/`, `/propiedades` y `/vender`). Quedan **residuos viejos** (ver P-11).
-- **Sin decidir:** si el sitio responde en `astupropiedad.com` o `www.astupropiedad.com` (hoy se asume sin `www`), y qué pasa con el dominio `.pe` que aparece en `GHLForm` y en `legacy/`.
+- **Sin decidir:** si el sitio responde en `astupropiedad.com` o `www.astupropiedad.com` (hoy se asume sin `www`), y qué pasa con el dominio `.pe` que aparece en `GHLForm` y en el HTML anterior (archivado, ver D-12).
 
 ### D-10 · Tratamiento "tú" (cierra P-2)
 - **Estado:** **Aceptada** · **Fecha:** 2026-10-04 · **Responsable:** jforero
@@ -68,17 +68,20 @@ Cada entrada lleva `estado`, `fecha` y `responsable` (quien debe validarla). Par
 - **Decisión:** las propiedades viven en `src/data/properties.ts` (un solo archivo, un tipo `Property`). Quien actualiza el inventario es jforero, con Claude o a mano; no hay panel ni base de datos por ahora.
 - **Consecuencias:** no se necesita Supabase en esta etapa. Si más personas van a editar inventario sin tocar código, esta decisión se revisa (entrada nueva).
 
+### D-12 · Repositorio git y limpieza de duplicados (cierra P-7 y P-8)
+- **Estado:** **Aceptada** · **Fecha:** 2026-10-05 · **Responsable:** jforero
+- **Decisión:** el proyecto es un repositorio git (rama `main`, identidad local Jaime Forero, sin `--global`). `Imagenes/` se eliminó tras comprobar de nuevo que sus 14 archivos eran idénticos byte a byte a los de `public/imagenes/` y que nada en `src/` ni en la configuración la usaba. `legacy/` (2 HTML) se archivó en `../Web-AS-Tupropiedad-respaldo/legacy.zip`, fuera del proyecto, y se quitó del árbol.
+- **Consecuencias:** ambas carpetas siguen recuperables en el primer commit ("Estado inicial del proyecto"). Hay 3 commits y **no hay remoto**: crear un repositorio **privado** vacío en GitHub y ejecutar `git remote add origin <url>` y `git push -u origin main` queda pendiente de la URL de jforero. Con remoto se podrá habilitar CI (ver `docs/prompts/12-pruebas-ci-docs.md`).
+
 ## Pendientes (necesitan respuesta del cliente o del equipo)
 
-P-1, P-2 y P-3 se cerraron el 2026-10-04 (ver D-9, D-10, D-11). Cada pendiente indica **quién decide**, **qué hay que entregar para cerrarlo** y **qué se hará por defecto** si no hay respuesta (el valor por defecto es provisional y nunca toca datos del cliente).
+P-1, P-2 y P-3 se cerraron el 2026-10-04 (ver D-9, D-10, D-11); P-7 y P-8 el 2026-10-05 (ver D-12). Cada pendiente indica **quién decide**, **qué hay que entregar para cerrarlo** y **qué se hará por defecto** si no hay respuesta (el valor por defecto es provisional y nunca toca datos del cliente).
 
 | ID | Pregunta | Quién decide | Qué se necesita para cerrarlo | Por defecto (provisional) | Bloquea |
 |---|---|---|---|---|---|
 | **P-4** | ¿Moneda principal: USD, PEN o ambas? | jforero / cliente | Moneda en que se publican precios y fuente del tipo de cambio | Ambas con tipo de cambio editable (los precios hoy están en USD) | Simuladores, fichas |
 | **P-5** | GHL: ¿webhook o API? ¿pipeline/etiquetas/campos? | Cliente / quien administra GHL | Acceso a la cuenta (o URL de un **webhook de prueba**), nombre del pipeline, campos y etiquetas, calendario a embeber | Webhook para empezar | Embudo de leads |
 | **P-6** | ¿Se mantienen los anglicismos (Elite Portfolio, Off-Market, Flat, Cap Rate…)? | Cliente | Lista de términos que son marca/servicio y deben conservarse | Español natural, salvo marca/servicio | Textos y SEO |
-| **P-7** | ¿Repositorio git y remoto? (hoy no es repo) | jforero | **Recomendación de Claude: sí.** `git init` ahora, primer commit con el estado actual y remoto **privado** en GitHub (lo creas tú en la web; no hay `gh` instalado). Con historial, cualquier cambio se puede deshacer y se habilita CI | Ninguno: se trabaja sin historial | Historial, CI, revisiones |
-| **P-8** | ¿Se conservan `legacy/` e `Imagenes/`? | jforero | **Recomendación de Claude:** borrar `Imagenes/` (verificado: sus 14 archivos son idénticos byte a byte a `public/imagenes/`); mover `legacy/` (2 HTML, 60 KB, con teléfono y correo viejos) a un `.zip` fuera del repo y quitarlo del proyecto. Hacerlo **después** del primer commit | Conservar hasta que se responda | Higiene |
 | **P-9** | ¿Qué se promete con la valoración ("en 10 minutos")? ¿Quién atiende y en qué horario? | Cliente | SLA real: plazo de respuesta, canal, horario, responsable | Texto sin plazo concreto | `/vender` |
 | **P-10** | ¿Qué cifras de "Nosotros" son verificables y qué convenios bancarios se pueden nombrar? | Cliente | Cada cifra con su respaldo (fecha y fuente) y autorización escrita para nombrar bancos | Quitar lo no respaldado | Credibilidad y riesgo legal |
 | **P-11** | Residuos del teléfono/dominio viejos: flyers de `public/imagenes/` que muestran **940 215 027** y `GHLForm.tsx` con `link.as-tupropiedad.pe` | jforero | Decidir si se rehacen los flyers con el número nuevo o se dejan de usar; confirmar el dominio de GHL | Los flyers siguen en el repo | Coherencia de contacto |

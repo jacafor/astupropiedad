@@ -33,4 +33,4 @@ Si pruebas formularios, usa datos de prueba (nunca datos reales de clientes) y u
 
 - Contacto, dominio y tono ("tú") ya están decididos (ver `docs/DECISIONES.md` D-9, D-10). El cliente (AS Tupropiedad) aún no ha confirmado: dirección, horario, fichas reales de propiedades, fotos del equipo ni las cifras de la sección "Nosotros". Ver `docs/DECISIONES.md` → *Pendientes*.
 - GoHighLevel (GHL) es el CRM previsto; no hay credenciales en el repo. Ver `docs/INTEGRACIONES.md`.
-- `legacy/` e `Imagenes/` no forman parte del sitio actual.
+- El HTML anterior (`legacy/`) está archivado fuera del proyecto en `../Web-AS-Tupropiedad-respaldo/legacy.zip`; `Imagenes/` se eliminó por ser un duplicado de `public/imagenes/`. Ambas siguen en el primer commit del historial git (D-12).
