@@ -61,7 +61,7 @@ Detalle en [NEGOCIO-Y-CONTENIDO.md](NEGOCIO-Y-CONTENIDO.md) §7 y [DECISIONES.md
 - [ ] Pruebas: Vitest para `finance.ts`, Playwright para flujos críticos; CI con `tsc` + `eslint` + `build` *(Bloque H)*
 - [ ] Cabeceras de seguridad y `poweredByHeader: false`; `not-found.tsx`/`error.tsx` en español
 - [x] `git init` (rama `main`) y limpieza de duplicados — 2026-10-05, 3 commits *(D-12)*
-- [ ] Repositorio remoto privado en GitHub y primer `git push` *(falta la URL del remoto; ver D-12)*
+- [x] Remoto en GitHub (`jacafor/astupropiedad`) y primer `git push` — 2026-10-05 *(D-12)*. Pendiente: confirmar en GitHub que el repositorio es **privado**
 
 ## P3 — continuo
 

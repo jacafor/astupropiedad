@@ -20,7 +20,7 @@ Sitio web de **AS Tupropiedad**, boutique inmobiliaria de Lima (Perú): compra, 
 | Fuentes | `next/font`: Geist (sans), Playfair Display (serif), Geist Mono (sin uso) |
 | Hosting | Vercel (proyecto `web-as-tupropiedad`, framework `nextjs`) |
 | Calidad | ESLint 9 flat config (`eslint-config-next`), `tsc --noEmit`. **No hay pruebas todavía.** |
-| Entorno | Node ≥ 20.9 (probado con 24), npm. Windows + PowerShell/Git Bash. **Repositorio git** (rama `main`, iniciado el 2026-10-05; aún sin remoto, ver D-12). |
+| Entorno | Node ≥ 20.9 (probado con 24), npm. Windows + PowerShell/Git Bash. **Repositorio git** (rama `main`, iniciado el 2026-10-05; remoto `origin` = https://github.com/jacafor/astupropiedad, ver D-12). |
 
 ## Comandos
 
@@ -73,7 +73,7 @@ Mapa completo de rutas, componentes y deuda técnica: [docs/ARQUITECTURA.md](doc
 1. `npx tsc --noEmit && npm run lint && npm run build`, con el resultado **real**.
 2. Si cambió la interfaz: pruebas en el navegador a 390 px y 1280 px; apaga el servidor; borra temporales propios (`tsconfig.tsbuildinfo`, capturas).
 3. Actualiza en el mismo cambio: la casilla de `docs/ROADMAP.md` (con fecha), `docs/DECISIONES.md` (decisiones nuevas con estado, fecha y responsable; pendientes cerrados), y el `.md` afectado (`ARQUITECTURA`, `DISENO`, `INTEGRACIONES`, `NEGOCIO-Y-CONTENIDO`, esta guía si cambian comandos, estructura o línea base).
-4. Un commit por tarea, en español, sin `--no-verify` ni `push` sin que te lo pidan (hoy no hay remoto configurado; ver D-12).
+4. Un commit por tarea, en español, sin `--no-verify` ni `push` sin que te lo pidan (el remoto es `origin`; ver D-12).
 5. Cierra con: qué verificaste de verdad, qué no pudiste verificar y qué decidiste sin consultar.
 
 ## Diseño — resumen obligatorio (detalle y ejemplos: [docs/DISENO.md](docs/DISENO.md))

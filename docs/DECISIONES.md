@@ -71,7 +71,7 @@ Cada entrada lleva `estado`, `fecha` y `responsable` (quien debe validarla). Par
 ### D-12 · Repositorio git y limpieza de duplicados (cierra P-7 y P-8)
 - **Estado:** **Aceptada** · **Fecha:** 2026-10-05 · **Responsable:** jforero
 - **Decisión:** el proyecto es un repositorio git (rama `main`, identidad local Jaime Forero, sin `--global`). `Imagenes/` se eliminó tras comprobar de nuevo que sus 14 archivos eran idénticos byte a byte a los de `public/imagenes/` y que nada en `src/` ni en la configuración la usaba. `legacy/` (2 HTML) se archivó en `../Web-AS-Tupropiedad-respaldo/legacy.zip`, fuera del proyecto, y se quitó del árbol.
-- **Consecuencias:** ambas carpetas siguen recuperables en el primer commit ("Estado inicial del proyecto"). Hay 3 commits y **no hay remoto**: crear un repositorio **privado** vacío en GitHub y ejecutar `git remote add origin <url>` y `git push -u origin main` queda pendiente de la URL de jforero. Con remoto se podrá habilitar CI (ver `docs/prompts/12-pruebas-ci-docs.md`).
+- **Consecuencias:** ambas carpetas siguen recuperables en el primer commit ("Estado inicial del proyecto"). El remoto es `origin` = https://github.com/jacafor/astupropiedad (primer `git push -u origin main` el 2026-10-05). La visibilidad **privada** no se pudo comprobar desde aquí: confírmala en GitHub → Settings. Con remoto ya se puede habilitar CI (ver `docs/prompts/12-pruebas-ci-docs.md`).
 
 ## Pendientes (necesitan respuesta del cliente o del equipo)
 

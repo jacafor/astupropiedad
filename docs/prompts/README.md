@@ -12,7 +12,7 @@ Creados el 2026-10-04 a partir de [ROADMAP.md](../ROADMAP.md) y [DECISIONES.md](
 
 | # | Sesión | Roadmap | Qué cierra | Tú das |
 |---|---|---|---|---|
-| 00 ✅ | [Git y limpieza](00-git-y-limpieza.md) | P-7, P-8 | Historial + borrar duplicados (hecha 2026-10-05; falta el remoto) | URL del repo remoto (opcional) |
+| 00 ✅ | [Git y limpieza](00-git-y-limpieza.md) | P-7, P-8 | Historial + borrar duplicados (hecha 2026-10-05; remoto subido) | URL del repo remoto (opcional) |
 | 01 | [Layout, navbar y `<main>`](01-layout-navbar-main.md) | P0 · C5 | Navbar visible en `/propiedades`; sin repetir Navbar/Footer | — |
 | 02 | [Enlaces muertos y contenido falso](02-enlaces-y-contenido-falso.md) | P0 · C1, C3 | Ningún botón sin destino ni foto engañosa | — |
 | 03 | [Tono "tú" y español natural](03-tono-tu.md) | D-10, P-6 | Un solo tratamiento en todo el sitio | Tu OK a la tabla de cambios |
