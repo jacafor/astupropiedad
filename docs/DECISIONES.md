@@ -78,9 +78,9 @@ Cada entrada lleva `estado`, `fecha` y `responsable` (quien debe validarla). Par
 - **Decisión propuesta:** la barra es transparente con texto blanco solo en las rutas listadas en `RUTAS_CON_HERO_OSCURO` (`Navbar.tsx`); en cualquier otra ruta es sólida desde el inicio. Así una página nueva con fondo claro nunca deja la barra invisible.
 - **Consecuencias:** al crear una ruta con hero oscuro, hay que añadirla a esa lista (anotado en `ARQUITECTURA.md`).
 
-### D-14 · Push y pull request al cerrar cada sesión (durante el desarrollo)
-- **Estado:** **Aceptada** · **Fecha:** 2026-10-05 · **Responsable:** jforero
-- **Decisión:** cada sesión termina con `push` de su rama y un pull request hacia `main`, sin que haya que pedirlo. Claude **no fusiona**: el merge despliega a producción y lo pulsa jforero. Vigente hasta que jforero declare terminado el desarrollo; entonces se revisa (y se puede reabrir la protección de `main`, ver P-12).
+### D-14 · Push, pull request y merge al cerrar cada sesión (durante el desarrollo)
+- **Estado:** **Aceptada** · **Fecha:** 2026-10-05 (ampliada el mismo día para incluir el merge) · **Responsable:** jforero
+- **Decisión:** cada sesión termina con `push` de su rama, pull request hacia `main` y **merge automático por Claude**, sin que haya que pedirlo. Condiciones: `tsc`, lint y build locales pasan (lint sin empeorar) y el preview de Vercel está en *Ready*; si algo falla, no se fusiona y se avisa. Cada merge **despliega a producción** (solo en `*.vercel.app`; sin dominio). Vigente hasta que jforero declare terminado el desarrollo; entonces se revisa (y se puede reabrir la protección de `main`, ver P-12).
 - **Consecuencias:** reemplaza la regla anterior "sin `push` salvo que se pida" de `AGENTS.md` y `docs/prompts/README.md`.
 
 ## Pendientes (necesitan respuesta del cliente o del equipo)
