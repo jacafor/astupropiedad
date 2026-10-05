@@ -8,6 +8,8 @@ Resumen de cómo llega el código a Vercel. Detalle de la integración: [INTEGRA
 
 ## Flujo acordado
 
+> **Regla de desarrollo (jforero, 2026-10-05, hasta que él diga que terminó):** al cerrar cada sesión, Claude hace `push` de la rama y abre el pull request; **jforero es quien pulsa Merge**.
+
 1. Una rama por sesión/tarea (`git switch -c <nombre>`).
 2. `npx tsc --noEmit && npm run lint && npm run build` en local.
 3. `push` de la rama → Vercel genera un **preview** (URL propia por rama/commit; revisa que el estado sea *Ready*).

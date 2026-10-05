@@ -73,7 +73,7 @@ Mapa completo de rutas, componentes y deuda técnica: [docs/ARQUITECTURA.md](doc
 1. `npx tsc --noEmit && npm run lint && npm run build`, con el resultado **real**.
 2. Si cambió la interfaz: pruebas en el navegador a 390 px y 1280 px; apaga el servidor; borra temporales propios (`tsconfig.tsbuildinfo`, capturas).
 3. Actualiza en el mismo cambio: la casilla de `docs/ROADMAP.md` (con fecha), `docs/DECISIONES.md` (decisiones nuevas con estado, fecha y responsable; pendientes cerrados), y el `.md` afectado (`ARQUITECTURA`, `DISENO`, `INTEGRACIONES`, `NEGOCIO-Y-CONTENIDO`, esta guía si cambian comandos, estructura o línea base).
-4. Un commit por tarea, en español, sin `--no-verify` ni `push` sin que te lo pidan (el remoto es `origin`; ver D-12).
+4. Un commit por tarea, en español, sin `--no-verify` (el remoto es `origin`; ver D-12). **Durante el desarrollo (decisión de jforero, 2026-10-05, vigente hasta que él diga que terminó):** al cerrar la sesión haz `push` de **tu rama** (nunca de `main`) y abre el pull request hacia `main` con `gh pr create` (descripción: qué cambia, qué verificaste, qué no). **Nunca fusiones el PR ni empujes a `main`: el merge lo pulsa jforero, porque despliega a producción.** Termina entregando el enlace del PR y el del preview de Vercel.
 5. Cierra con: qué verificaste de verdad, qué no pudiste verificar y qué decidiste sin consultar.
 
 ## Diseño — resumen obligatorio (detalle y ejemplos: [docs/DISENO.md](docs/DISENO.md))

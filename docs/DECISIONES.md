@@ -78,6 +78,11 @@ Cada entrada lleva `estado`, `fecha` y `responsable` (quien debe validarla). Par
 - **Decisión propuesta:** la barra es transparente con texto blanco solo en las rutas listadas en `RUTAS_CON_HERO_OSCURO` (`Navbar.tsx`); en cualquier otra ruta es sólida desde el inicio. Así una página nueva con fondo claro nunca deja la barra invisible.
 - **Consecuencias:** al crear una ruta con hero oscuro, hay que añadirla a esa lista (anotado en `ARQUITECTURA.md`).
 
+### D-14 · Push y pull request al cerrar cada sesión (durante el desarrollo)
+- **Estado:** **Aceptada** · **Fecha:** 2026-10-05 · **Responsable:** jforero
+- **Decisión:** cada sesión termina con `push` de su rama y un pull request hacia `main`, sin que haya que pedirlo. Claude **no fusiona**: el merge despliega a producción y lo pulsa jforero. Vigente hasta que jforero declare terminado el desarrollo; entonces se revisa (y se puede reabrir la protección de `main`, ver P-12).
+- **Consecuencias:** reemplaza la regla anterior "sin `push` salvo que se pida" de `AGENTS.md` y `docs/prompts/README.md`.
+
 ## Pendientes (necesitan respuesta del cliente o del equipo)
 
 P-1, P-2 y P-3 se cerraron el 2026-10-04 (ver D-9, D-10, D-11); P-7 y P-8 el 2026-10-05 (ver D-12). Cada pendiente indica **quién decide**, **qué hay que entregar para cerrarlo** y **qué se hará por defecto** si no hay respuesta (el valor por defecto es provisional y nunca toca datos del cliente).
