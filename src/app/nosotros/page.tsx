@@ -3,6 +3,7 @@
 import React from 'react';
 import { Award, Target, Shield, Users } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { waLink } from '@/lib/contact';
 
 const NosotrosPage = () => {
   return (
@@ -17,7 +18,7 @@ const NosotrosPage = () => {
             initial={{ opacity: 0 }} animate={{ opacity: 1 }}
             className="text-secondary font-black tracking-widest uppercase text-xs mb-6 block"
           >
-            Liderazgo Bancario y Excelencia
+            Quiénes somos
           </motion.span>
           <motion.h1 
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
@@ -30,7 +31,7 @@ const NosotrosPage = () => {
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}
             className="text-gray-400 text-lg font-light leading-relaxed mx-auto max-w-2xl"
           >
-            AS Tupropiedad surge de la convergencia entre la banca de inversión y el mercado inmobiliario premium. Redefinimos el estándar de servicio.
+            AS Tupropiedad es una boutique inmobiliaria de Lima enfocada en la compra, venta e inversión de propiedades.
           </motion.p>
         </div>
       </section>
@@ -45,15 +46,15 @@ const NosotrosPage = () => {
                 No somos simples intermediarios; somos asesores integrales de inversión patrimonial. Entendemos que adquirir o vender una propiedad es una de las decisiones financieras más importantes.
               </p>
               <p className="text-gray-500 font-light leading-relaxed">
-                Nuestra profunda conexión con la matriz bancaria del Perú nos permite estructurar operaciones que otros no pueden, ofreciendo a nuestros clientes pre-calificaciones ágiles, tasas preferenciales y seguridad jurídica blindada.
+                Te acompañamos a estructurar tu operación con análisis financiero y revisión legal, para que decidas con información clara.
               </p>
             </div>
             
             <div className="grid grid-cols-2 gap-6">
               {[
-                { icon: Shield, title: 'Transparencia Absoluta' },
-                { icon: Award, title: 'Garantía de Excelencia' },
-                { icon: Users, title: 'Red Exclusiva' },
+                { icon: Shield, title: 'Transparencia' },
+                { icon: Award, title: 'Compromiso con la excelencia' },
+                { icon: Users, title: 'Atención cercana' },
                 { icon: Target, title: 'Enfoque a Resultados' }
               ].map((value, i) => (
                 <div key={i} className="bg-gray-50 p-8 rounded-3xl border border-gray-100 text-center">
@@ -66,50 +67,22 @@ const NosotrosPage = () => {
         </div>
       </section>
 
-      {/* Leadership Stats */}
-      <section className="py-24 bg-primary text-white">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 text-center divide-y md:divide-y-0 md:divide-x divide-white/20">
-            <div className="pt-8 md:pt-0">
-              <h3 className="text-6xl font-black text-secondary mb-2">+15</h3>
-              <p className="text-sm font-black uppercase tracking-widest text-white/50">Años de Experiencia Bancaria</p>
-            </div>
-            <div className="pt-8 md:pt-0">
-              <h3 className="text-6xl font-black text-secondary mb-2">$40M</h3>
-              <p className="text-sm font-black uppercase tracking-widest text-white/50">Volumen Intermediado</p>
-            </div>
-            <div className="pt-8 md:pt-0">
-              <h3 className="text-6xl font-black text-secondary mb-2">120+</h3>
-              <p className="text-sm font-black uppercase tracking-widest text-white/50">Familias Asesoradas</p>
-            </div>
-            <div className="pt-8 md:pt-0">
-              <h3 className="text-6xl font-black text-secondary mb-2">4</h3>
-              <p className="text-sm font-black uppercase tracking-widest text-white/50">Alianzas Bancarias Top</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Team Intro */}
+      {/* Equipo: sin personas ni cifras hasta tener datos verificados */}
       <section className="py-24 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12 text-center">
-          <span className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-4 block">El Equipo</span>
-          <h2 className="text-4xl font-serif font-black text-dark mb-16">Especialistas de Alto Nivel</h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[1, 2, 3].map(i => (
-              <div key={i} className="bg-white rounded-[2rem] overflow-hidden border border-gray-100 group">
-                <div className="h-80 bg-gray-200 overflow-hidden">
-                  <img src={i === 1 ? '/imagenes/IMG-20250117-WA0101.jpg' : i === 2 ? '/imagenes/IMG-20250117-WA01012.jpg' : '/imagenes/Imagen de WhatsApp 2025-05-06 a las 16.44.00_c526d028.jpg'} alt="Team Member" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
-                </div>
-                <div className="p-8">
-                  <h4 className="text-xl font-bold text-dark mb-1">Especialista {i}</h4>
-                  <p className="text-primary text-xs font-black uppercase tracking-widest mb-4">Arquitecto & Broker</p>
-                  <p className="text-gray-500 font-light text-sm">Más de 10 años conectando exclusividad e inteligencia financiera.</p>
-                </div>
-              </div>
-            ))}
-          </div>
+        <div className="max-w-3xl mx-auto px-6 lg:px-12 text-center">
+          <span className="text-xs font-black uppercase tracking-widest text-primary mb-4 block">El Equipo</span>
+          <h2 className="text-4xl font-serif font-black text-dark mb-6">Pronto conocerás al equipo</h2>
+          <p className="text-gray-600 font-light leading-relaxed mb-10">
+            Estamos preparando la presentación de las personas que te acompañarán en tu compra, venta o inversión. Mientras tanto, escríbenos y te atendemos directamente.
+          </p>
+          <a
+            href={waLink("Hola, quisiera conocer más sobre el equipo de AS Tupropiedad")}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block bg-secondary text-dark px-10 py-5 font-black uppercase text-xs tracking-[0.2em] hover:bg-dark hover:text-white transition-all"
+          >
+            Escríbenos por WhatsApp
+          </a>
         </div>
       </section>
 

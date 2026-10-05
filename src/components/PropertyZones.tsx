@@ -7,18 +7,18 @@ import { motion } from 'framer-motion';
 const zones = [
   {
     title: "Miraflores",
-    tag: "Alta Demanda Rentas Cortas",
-    desc: "El distrito más cosmopolita. Ideal para inversores apuntando a Airbnb y turismo, con tasas de ocupación superiores al 75%."
+    tag: "Rentas Cortas",
+    desc: "Un distrito cosmopolita y turístico, que suele interesar a quienes buscan renta de corta estancia."
   },
   {
     title: "San Isidro",
     tag: "Core Financiero / Premium",
-    desc: "Seguridad, exclusividad y el centro corporativo del país. Resguardo de capital garantizado y tickets de alto valor."
+    desc: "Zona corporativa y financiera de Lima, con propiedades de alto valor."
   },
   {
     title: "Surco",
     tag: "Expansión Residencial",
-    desc: "Demanda constante para familias locales. Desarrollos modernos, conectividad y oferta de colegios/universidades top."
+    desc: "Zona residencial para familias, con desarrollos modernos, buena conectividad y oferta educativa cercana."
   }
 ];
 
@@ -53,8 +53,8 @@ const PropertyZones = () => {
           <div className="p-4 bg-white/10 rounded-full mb-6 group-hover:scale-110 transition-transform">
             <MapPin className="w-8 h-8 text-secondary" />
           </div>
-          <h4 className="text-xl font-bold mb-3">Cobertura Global</h4>
-          <p className="text-white/70 text-sm font-light leading-relaxed">Operamos en los enclaves más estratégicos de Lima Metropolitana, pre-calificando cada activo.</p>
+          <h4 className="text-xl font-bold mb-3">Cobertura en Lima</h4>
+          <p className="text-white/70 text-sm font-light leading-relaxed">Trabajamos en distintos distritos de Lima Metropolitana.</p>
         </motion.div>
       </div>
     </section>

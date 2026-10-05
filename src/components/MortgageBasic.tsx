@@ -1,8 +1,9 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { Calculator, Landmark, Calendar, Percent } from 'lucide-react';
+import { Calculator, Calendar, Percent } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { waLink } from '@/lib/contact';
 
 const MortgageBasic = () => {
   const [price, setPrice] = useState(250000);
@@ -51,18 +52,6 @@ const MortgageBasic = () => {
               No dejes tu sueño inmobiliario al azar. Utiliza nuestro simulador rápido para entender el impacto real de tu crédito en tu flujo de caja mensual.
             </p>
             
-            <div className="space-y-6">
-              <div className="flex items-center space-x-4">
-                <div className="w-12 h-12 bg-secondary/10 rounded-full flex items-center justify-center">
-                  <Landmark className="text-secondary w-6 h-6" />
-                </div>
-                <div>
-                  <h4 className="font-bold text-dark">Alianzas Bancarias</h4>
-                  <p className="text-sm text-gray-400">Tasas preferenciales con los principales bancos del país.</p>
-                </div>
-              </div>
-            </div>
-
             <motion.a 
               href="/simulador-hipotecario"
               className="inline-flex items-center mt-12 text-primary font-black text-[10px] uppercase tracking-[0.3em] hover:text-secondary transition-all group"
@@ -134,9 +123,13 @@ const MortgageBasic = () => {
                 </div>
               </div>
 
-              <button className="w-full py-6 bg-white/5 border border-white/10 text-white font-black uppercase tracking-widest text-xs rounded-xl hover:bg-white hover:text-dark transition-all duration-500">
-                Contactar a un Broker
-              </button>
+              <a
+                href={waLink(`Hola, hice una simulación hipotecaria: inmueble de ${formatter.format(price)}, cuota inicial ${downPayment}%, plazo ${years} años. Quisiera orientación de un asesor.`)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block text-center w-full py-6 bg-white/5 border border-white/10 text-white font-black uppercase tracking-widest text-xs rounded-xl hover:bg-white hover:text-dark transition-all duration-500">
+                Hablar con un asesor
+              </a>
             </div>
           </motion.div>
 

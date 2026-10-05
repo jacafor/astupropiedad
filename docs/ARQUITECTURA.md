@@ -31,12 +31,12 @@ No existen: `/propiedades/[slug]`, `/contacto`, `/agendar`, `/privacidad`, `/ter
 | `Navbar` | sí | Barra fija en el layout; transparente con texto blanco solo en las rutas con hero oscuro (lista `RUTAS_CON_HERO_OSCURO`) y sólida en las demás (p. ej. `/propiedades`); también se vuelve sólida al hacer scroll > 50 px. Menú móvil con `aria-label`/`aria-expanded`, se cierra al cambiar de ruta | **Ruta nueva con hero oscuro → añádela a `RUTAS_CON_HERO_OSCURO`**; si no, la barra será sólida desde el inicio (el fallo seguro) |
 | `Hero` | sí | Portada con fondo `portada.jpg` (es un banner con el logo) y 2 CTAs | `#vender` no existe; animación infinita |
 | `InvestmentSmarter` | sí | Calculadora "Cap Rate" (en realidad rentabilidad bruta) | `useEffect`+`setState` (lint) |
-| `FeaturedProperties` | sí | 3 propiedades destacadas fijas | Una es de Unsplash; 2 comparten foto |
+| `FeaturedProperties` | sí | 2 propiedades destacadas fijas + tarjeta "Próximamente" | Los datos de las 2 fichas contradicen sus fotos (ver informe de la sesión 02); enlaces a `/propiedades` |
 | `PersonalShopper` | sí | Sección de servicio + imagen | CTA a `#contacto` |
 | `PropertyZones` | sí | Miraflores / San Isidro / Surco | Solo texto |
 | `MortgageBasic` | sí | Calculadora hipotecaria rápida | `$∞` con plazo 0; "Contactar a un Broker" sin acción |
 | `PhilosophyAndTeam` | sí | Filosofía + "Portal de Consultores" | CTA es un `<div>` |
-| `Footer` | no declarado | Marca, enlaces, contacto, "calendario GHL", legal | En el layout; enlaces internos con `next/link`; `href="#"` ×5; `<img>` crudo para el logo |
+| `Footer` | no declarado | Marca, enlaces, contacto, "calendario GHL", legal | En el layout; enlaces internos con `next/link`; sin redes sociales ni Privacidad/Términos (ocultos hasta tener URL y páginas); CTA de videollamada por WhatsApp; `<img>` crudo para el logo |
 | `FloatingWhatsApp` | sí | Botón flotante en el layout (todas las rutas); 56 px en móvil y 64 px desde `md`; `aria-label` | Número desde `contact.ts` |
 | `GHLForm` | sí | Iframe de formulario GHL | **No se usa en ninguna parte**; `DEFAULT_FORM_ID` y dominio sin confirmar |
 

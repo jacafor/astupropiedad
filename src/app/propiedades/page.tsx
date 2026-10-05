@@ -1,8 +1,9 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Search, MapPin, Grid, List as ListIcon, SlidersHorizontal, ArrowUpRight, BedDouble, Bath, Square } from 'lucide-react';
+import { Search, MapPin, Grid, List as ListIcon, ArrowUpRight, BedDouble, Bath, Square } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { waLink } from '@/lib/contact';
 
 // Mock Data
 const PROPERTIES = [
@@ -50,9 +51,9 @@ const CatalogPage = () => {
                     className="w-full bg-transparent border-none outline-none text-dark font-bold placeholder:font-normal"
                   />
                 </div>
-                <button className="bg-primary hover:bg-dark text-white p-4 rounded-xl transition-colors">
+                <span className="bg-primary text-white p-4 rounded-xl" aria-hidden="true">
                   <Search className="w-5 h-5" />
-                </button>
+                </span>
               </div>
             </div>
           </div>
@@ -77,10 +78,6 @@ const CatalogPage = () => {
             </div>
 
             <div className="flex items-center space-x-4 w-full md:w-auto justify-between">
-              <button className="flex items-center text-[10px] font-black uppercase tracking-widest text-gray-500 hover:text-dark px-4 py-3 bg-white border border-gray-200 rounded-lg">
-                <SlidersHorizontal className="w-4 h-4 mr-2" /> Filtros
-              </button>
-              
               <div className="flex bg-white border border-gray-200 rounded-lg p-1">
                 <button onClick={() => setViewMode('grid')} className={`p-2 rounded-md ${viewMode === 'grid' ? 'bg-gray-100 text-dark' : 'text-gray-400'}`}><Grid className="w-4 h-4" /></button>
                 <button onClick={() => setViewMode('list')} className={`p-2 rounded-md ${viewMode === 'list' ? 'bg-gray-100 text-dark' : 'text-gray-400'}`}><ListIcon className="w-4 h-4" /></button>
@@ -113,9 +110,15 @@ const CatalogPage = () => {
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-dark/80 via-dark/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity"></div>
-                    <button className="absolute bottom-4 right-4 w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-secondary hover:text-dark transition-colors drop-shadow-md">
+                    <a
+                      href={waLink(`Hola, quisiera más información sobre la propiedad "${property.title}" (${property.district}) del catálogo`)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`Consultar por WhatsApp: ${property.title}`}
+                      className="absolute bottom-4 right-4 w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-secondary hover:text-dark transition-colors drop-shadow-md"
+                    >
                       <ArrowUpRight className="w-5 h-5" />
-                    </button>
+                    </a>
                     <div className="absolute bottom-4 left-4">
                       <p className="text-white text-2xl font-black">{formatter.format(property.price)}</p>
                     </div>

@@ -2,6 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
+import Link from "next/link";
 import { ArrowDown } from "lucide-react";
 
 const Hero = () => {
@@ -54,24 +55,26 @@ const Hero = () => {
             transition={{ delay: 1.5 }}
             className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6"
           >
-            <a
-              href="#comprar"
+            <Link
+              href="/propiedades"
               className="bg-secondary text-dark px-10 py-5 font-black uppercase text-xs tracking-[0.2em] hover:bg-white transition-all shadow-2xl"
             >
               Explorar Catálogo
-            </a>
-            <a
-              href="#vender"
+            </Link>
+            <Link
+              href="/vender"
               className="bg-white/10 backdrop-blur-md text-white border border-white/20 px-10 py-5 font-black uppercase text-xs tracking-[0.2em] hover:bg-white/20 transition-all"
             >
               Vender mi propiedad
-            </a>
+            </Link>
           </motion.div>
         </div>
       </div>
 
       {/* Floating Scroll Indicator */}
-      <motion.div
+      <motion.button
+        type="button"
+        aria-label="Bajar a la siguiente sección"
         animate={{ y: [0, 10, 0] }}
         transition={{ duration: 2, repeat: Infinity }}
         className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center space-y-4 cursor-pointer"
@@ -79,7 +82,7 @@ const Hero = () => {
       >
         <span className="text-[9px] font-black text-white/40 uppercase tracking-[0.5em] vertical-text">Scroll</span>
         <ArrowDown className="text-secondary w-5 h-5" />
-      </motion.div>
+      </motion.button>
     </section>
   );
 };

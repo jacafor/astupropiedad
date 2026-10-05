@@ -42,6 +42,8 @@ Los datos de contacto confirmados van **solo** en `src/lib/contact.ts` y se impo
 
 ### Inventario de afirmaciones actuales (todas *sin verificar*)
 
+> **Sesión 02 (2026-10-05):** las cifras (+15 años, $40M, 120+, 4 alianzas, 45 días, +5k, ROI 8.5 %, plusvalía 12 %, ocupación 75 %), los nombres de bancos, "garantizado"/"100 % seguro" y el equipo ficticio **se quitaron del sitio**. Cuando el cliente las respalde (P-10), se reponen con fuente y fecha. Quedan por revisar las afirmaciones cualitativas marcadas en la columna *Acción* de la tabla de abajo (tour 360°, Home Staging, campañas con IA, "10 minutos").
+
 | Afirmación | Dónde | Acción |
 |---|---|---|
 | "+15 años de experiencia" | Nosotros, Personal Shopper | Confirmar o quitar |
@@ -54,6 +56,23 @@ Los datos de contacto confirmados van **solo** en `src/lib/contact.ts` y se impo
 | "Especialista — Arquitecto & Broker, +10 años" ×3 | Nosotros | Reemplazar por personas reales |
 | "Análisis en 10 minutos por WhatsApp o correo" | Vender | Solo si hay proceso/horario que lo cumpla |
 | "Tour virtual 360°, Home Staging, campañas con IA" | Servicios, Vender | Mostrar muestra real o quitar |
+
+### Contradicciones entre el catálogo y los flyers (2026-10-05, pendiente del cliente — P-13)
+
+Ningún flyer muestra precio: **todos los precios del sitio carecen de respaldo.** Estos son los datos que no coinciden (flyer = lo que dice la imagen de `public/imagenes/`):
+
+| Dónde | Dice el sitio | Dice el flyer / la foto |
+|---|---|---|
+| Home, destacada 1 (`IMG-20250117-WA0101.jpg`) | "Flat Moderno con Vista Panorámica", Jesús María, $155,000, 85 m², 2 dorm, 2 baños | La foto es un edificio en **Miraflores** (cartel: "Último depa de 3 dorm – 100 m²") |
+| Home, destacada 2 (`IMG-20250117-WA01012.jpg`) | "Residencia Familiar", La Molina, $275,000, 220 m², 4 dorm, 3 baños | Misma foto del edificio de **Miraflores**; no es una residencia |
+| Catálogo 1 | Jesús María, $165,000, 3 dorm, 2 baños, **95 m²** (la home dice $155,000 · 85 m² · 2 dorm para "Jesús María") | Calle Talara, Jesús María: **77 m²**, 3 dorm, 2 baños, 1 cochera, ascensor; sin precio |
+| Catálogo 2 | "Hermoso Depa en La Molina", $250,000, **4 dorm, 4 baños, 320 m²** | Santa Patricia, La Molina: **113 m²**, 3 dorm, 2 baños |
+| Catálogo 3 | "**Casa** en Urb. Alpamayo", distrito **Ate**, $420,000, 3 dorm, 3 baños, **180 m²** | **Departamento**, Calle El Banco – Urb. Alpamayo: **94 m²**, 3 dorm, 2 baños; el flyer no indica distrito |
+| Catálogo 4 | "Departamento Amplio Callao", $85,000, **0 dorm**, 2 baños, **85 m²** | Ciudad del Pescador, Bellavista – Callao: **94 m²**, **3 dorm**, **3 baños**, ascensor |
+| Catálogo 5 (`6137335_…jpg`) | "Proyecto Inversión", Lima, $110,000, 1 dorm, 1 baño, 45 m² | Es el flyer del departamento de **Av. Hipólito Unanue, Miraflores** (el edificio rotula 3 dorm – 100 m²) |
+| Catálogo 6 (`6449363_…jpg`) | "Casa Exclusiva", La Molina, $550,000, 5 dorm, 4 baños, 400 m² | La foto es un **edificio de departamentos**; sin ubicación ni datos |
+| Sin uso en el catálogo | — | Pueblo Libre, Calle Coraceros: 86 m², 3 dorm, 2 baños (`Imagen de WhatsApp … 16.44.00…jpg`); `6601394_…jpg` y `PORTADA CORDILLERA CONDOR…png` no se revisaron |
+| `/propiedades` filtro "Alquiler" | Existe la pestaña | No hay ninguna propiedad en alquiler |
 
 ## 5. Cumplimiento (Perú) — checklist a validar con asesoría legal
 
