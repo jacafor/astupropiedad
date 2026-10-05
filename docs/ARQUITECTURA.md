@@ -7,13 +7,13 @@ Estado actual del código (oct 2026) y arquitectura objetivo. Las referencias `C
 - **Sitio 100 % estático:** `next build` genera las 7 páginas más el 404 como `○ Static`. No hay Route Handlers, Server Actions, `proxy.ts`, base de datos ni variables de entorno en uso.
 - **Todo es cliente:** las 7 páginas y 10 de los 11 componentes declaran `"use client"` (el `Footer` se hidrata igual porque lo importan páginas cliente). Por eso ninguna página puede exportar `metadata` (C4).
 - **Todo está escrito a mano en el código:** propiedades (en dos archivos distintos), cifras, textos, contacto.
-- **Navbar y Footer se repiten dentro de cada página**, no viven en `layout.tsx`.
+- **`Navbar`, `Footer` y `FloatingWhatsApp` viven en `src/app/layout.tsx`** (Server Component) junto con el único `<main id="contenido">` y el enlace "Saltar al contenido" (sesión 01, 2026-10-05). Las páginas ya no los importan ni llevan `<main>`.
 
 ## 2. Mapa de rutas
 
 | Ruta | Archivo | Secciones | Estado interno |
 |---|---|---|---|
-| `/` | `src/app/page.tsx` | `Navbar`, `Hero`, `InvestmentSmarter`, `FeaturedProperties`, `PersonalShopper`, `PropertyZones`, `MortgageBasic`, `PhilosophyAndTeam`, `Footer`, `FloatingWhatsApp` | solo los de cada componente |
+| `/` | `src/app/page.tsx` | `Hero`, `InvestmentSmarter`, `FeaturedProperties`, `PersonalShopper`, `PropertyZones`, `MortgageBasic`, `PhilosophyAndTeam` | solo los de cada componente |
 | `/nosotros` | `src/app/nosotros/page.tsx` | hero, cultura, 4 estadísticas, 3 "especialistas" | ninguno |
 | `/servicios` | `src/app/servicios/page.tsx` | hero + 4 tarjetas de servicio | ninguno |
 | `/propiedades` | `src/app/propiedades/page.tsx` | búsqueda, chips de tipo, cuadrícula | `activeType`, `searchDistrict`, `viewMode` (sin efecto) |
@@ -28,7 +28,7 @@ No existen: `/propiedades/[slug]`, `/contacto`, `/agendar`, `/privacidad`, `/ter
 
 | Componente | Cliente | Qué hace | Notas |
 |---|---|---|---|
-| `Navbar` | sí | Barra fija; cambia a blanco al hacer scroll > 50 px; menú móvil | Texto blanco sin scroll → invisible sobre fondos claros (C5). Botón sin `aria-label`. WhatsApp `51940428352` |
+| `Navbar` | sí | Barra fija en el layout; transparente con texto blanco solo en las rutas con hero oscuro (lista `RUTAS_CON_HERO_OSCURO`) y sólida en las demás (p. ej. `/propiedades`); también se vuelve sólida al hacer scroll > 50 px. Menú móvil con `aria-label`/`aria-expanded`, se cierra al cambiar de ruta | **Ruta nueva con hero oscuro → añádela a `RUTAS_CON_HERO_OSCURO`**; si no, la barra será sólida desde el inicio (el fallo seguro) |
 | `Hero` | sí | Portada con fondo `portada.jpg` (es un banner con el logo) y 2 CTAs | `#vender` no existe; animación infinita |
 | `InvestmentSmarter` | sí | Calculadora "Cap Rate" (en realidad rentabilidad bruta) | `useEffect`+`setState` (lint) |
 | `FeaturedProperties` | sí | 3 propiedades destacadas fijas | Una es de Unsplash; 2 comparten foto |
@@ -36,8 +36,8 @@ No existen: `/propiedades/[slug]`, `/contacto`, `/agendar`, `/privacidad`, `/ter
 | `PropertyZones` | sí | Miraflores / San Isidro / Surco | Solo texto |
 | `MortgageBasic` | sí | Calculadora hipotecaria rápida | `$∞` con plazo 0; "Contactar a un Broker" sin acción |
 | `PhilosophyAndTeam` | sí | Filosofía + "Portal de Consultores" | CTA es un `<div>` |
-| `Footer` | no declarado | Marca, enlaces, contacto, "calendario GHL", legal | Enlaces con `<a>`; `href="#"` ×5; teléfono de relleno |
-| `FloatingWhatsApp` | sí | Botón flotante | Número `51900000000` de relleno |
+| `Footer` | no declarado | Marca, enlaces, contacto, "calendario GHL", legal | En el layout; enlaces internos con `next/link`; `href="#"` ×5; `<img>` crudo para el logo |
+| `FloatingWhatsApp` | sí | Botón flotante en el layout (todas las rutas); 56 px en móvil y 64 px desde `md`; `aria-label` | Número desde `contact.ts` |
 | `GHLForm` | sí | Iframe de formulario GHL | **No se usa en ninguna parte**; `DEFAULT_FORM_ID` y dominio sin confirmar |
 
 ## 4. Datos y cálculos (dónde viven hoy)
@@ -66,7 +66,7 @@ No existen: `/propiedades/[slug]`, `/contacto`, `/agendar`, `/privacidad`, `/ter
 |---|---|
 | Páginas `"use client"` sin `metadata` | C4 |
 | Sin `robots`/`sitemap`/OG/JSON-LD | C4 |
-| Navbar invisible en `/propiedades` | C5 |
+| ~~Navbar invisible en `/propiedades`~~ (resuelto en la sesión 01, 2026-10-05) | C5 |
 | `next@16.2.0` con avisos críticos (`npm audit`) → `16.3.8` | C6 |
 | Simuladores con valores imposibles y duplicados | C7 |
 | 4 errores `react-hooks/set-state-in-effect`, 2 `react/no-unescaped-entities` | lint |

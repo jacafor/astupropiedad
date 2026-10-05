@@ -17,7 +17,7 @@ Detalle en [NEGOCIO-Y-CONTENIDO.md](NEGOCIO-Y-CONTENIDO.md) §7 y [DECISIONES.md
 
 ## P0 — esta semana
 
-- [ ] **Mover `Navbar`, `Footer` y `FloatingWhatsApp` a `layout.tsx`** y poner `<main>` por página *(base de varias correcciones; C5)*
+- [x] **Mover `Navbar`, `Footer` y `FloatingWhatsApp` a `layout.tsx`** y poner `<main>` por página *(base de varias correcciones; C5)* — 2026-10-05, sesión [01](prompts/01-layout-navbar-main.md)
   - Hecho cuando: ninguna página repite Navbar/Footer; `/propiedades` muestra el menú sin hacer scroll.
 - [x] **Crear `src/lib/contact.ts`** y usarlo en navbar, footer, botón flotante *(C2)* — hecho 2026-10-04 (falta: metadata/JSON-LD cuando existan, y las imágenes con teléfono viejo)
   - Hecho cuando: un único teléfono/correo/dominio en todo el sitio; cero apariciones de `51900000000`; `mailto:`/`tel:` en el footer.
@@ -62,7 +62,7 @@ Detalle en [NEGOCIO-Y-CONTENIDO.md](NEGOCIO-Y-CONTENIDO.md) §7 y [DECISIONES.md
 - [ ] Cabeceras de seguridad y `poweredByHeader: false`; `not-found.tsx`/`error.tsx` en español
 - [x] `git init` (rama `main`) y limpieza de duplicados — 2026-10-05, 3 commits *(D-12)*
 - [x] Conectar el repo con Vercel (previews por rama; producción solo desde `main`, sin asignar dominio todavía) — 2026-10-05, sesión [14](prompts/14-conectar-vercel.md), ver [DESPLIEGUE.md](DESPLIEGUE.md). Preview de `prueba/vercel-preview` en Ready. Pendiente de decidir: P-12 (protección de `main`, dominio, `www`)
-- [ ] Añadir `<main>` a las 6 páginas internas (solo `/` lo tiene; regla 7 de AGENTS.md) — detectado en el preview, 2026-10-05
+- [x] Añadir `<main>` a las 6 páginas internas — resuelto con el `<main id="contenido">` único del layout, 2026-10-05 (sesión 01)
 - [ ] Revisar a 390 px el preview de Vercel (menú móvil, botón flotante, simuladores): solo se vio a escritorio
 - [x] Remoto en GitHub (`jacafor/astupropiedad`) y primer `git push` — 2026-10-05 *(D-12)*. Pendiente: confirmar en GitHub que el repositorio es **privado**
 
