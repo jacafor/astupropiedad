@@ -1,9 +1,11 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { Calculator, Landmark, Calendar, Percent, ShieldCheck, ArrowRight, Table } from 'lucide-react';
+import { Calculator, Landmark, Calendar, Percent, ShieldCheck, Table } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { waLink } from '@/lib/contact';
+import LeadForm from '@/components/LeadForm';
+import { numeroValido } from '@/lib/lead-tipos';
 
 const MortgageSimulator = () => {
   const [loanAmount, setLoanAmount] = useState(200000);
@@ -118,15 +120,19 @@ const MortgageSimulator = () => {
                   Un asesor puede revisar contigo esta simulación y orientarte sobre los siguientes pasos. La cuota es referencial y depende de la evaluación de cada banco.
                 </p>
 
-                <a
-                  href={waLink(`Hola, hice una simulación hipotecaria: préstamo de ${formatter.format(loanAmount)}, plazo ${years} años, TEA ${rate}%. Quisiera orientación de un asesor.`)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full mt-12 py-5 bg-secondary text-dark font-black uppercase tracking-widest text-[10px] rounded-sm flex items-center justify-center group"
-                >
-                  Consultar por WhatsApp
-                  <ArrowRight className="w-4 h-4 ml-3 group-hover:translate-x-2 transition-transform" />
-                </a>
+                <LeadForm
+                  variante="oscuro"
+                  interes="hipoteca"
+                  origen="simulador-hipotecario:cta"
+                  contexto={{
+                    montoPrestamo: numeroValido(loanAmount),
+                    plazoAnios: numeroValido(years),
+                    tea: numeroValido(rate),
+                    cuota: numeroValido(monthlyPayment),
+                  }}
+                  mensajeWhatsApp={`Hola, hice una simulación hipotecaria: préstamo de ${formatter.format(loanAmount)}, plazo ${years} años, TEA ${rate}%. Quisiera orientación de un asesor.`}
+                  textoBoton="Quiero orientación"
+                />
               </div>
 
               <div className="bg-white p-10 rounded-3xl shadow-sm border border-gray-100">

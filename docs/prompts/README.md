@@ -26,7 +26,7 @@ Creados el 2026-10-04 a partir de [ROADMAP.md](../ROADMAP.md) y [DECISIONES.md](
 
 | # | Sesión | Necesita | Por defecto si no lo tienes |
 |---|---|---|---|
-| 05 | [Embudo de leads](05-embudo-leads.md) | URL de un **webhook de prueba** de GHL (P-5) | Flujo por WhatsApp; GHL queda apagado |
+| 05 ✅ | [Embudo de leads](05-embudo-leads.md) | URL de un **webhook de prueba** de GHL (P-5) | Flujo por WhatsApp; GHL queda apagado |
 | 07 | [Propiedades y fichas](07-propiedades-y-fichas.md) | Datos y fotos reales (D-11) | Marcador "Próximamente" |
 | 09 | [Privacidad y términos](09-legal.md) | Texto legal revisado, razón social, RUC | Borrador `noindex` marcado como pendiente |
 | 13 | [Analítica y cookies](13-analitica-cookies.md) | ID de Google Analytics / Meta | Solo eventos internos, sin cargar scripts |

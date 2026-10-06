@@ -1,9 +1,10 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { TrendingUp, PieChart, Wallet, ShieldCheck, Download, ArrowRight, Info } from 'lucide-react';
+import { TrendingUp, PieChart, Wallet, ShieldCheck, Download, Info } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { waLink } from '@/lib/contact';
+import LeadForm from '@/components/LeadForm';
+import { numeroValido } from '@/lib/lead-tipos';
 
 const InvestmentSimulator = () => {
   // Inputs
@@ -117,14 +118,18 @@ const InvestmentSimulator = () => {
                 <Download className="absolute -bottom-4 -right-4 w-32 h-32 opacity-10 group-hover:scale-110 transition-transform" />
                 <h4 className="text-xl font-serif font-bold mb-4">¿Quieres revisar estos números?</h4>
                 <p className="text-white/70 text-sm mb-8 font-light leading-relaxed">Un asesor puede analizar contigo esta simulación. Los resultados son estimados y dependen de los supuestos que ingresaste.</p>
-                <a
-                  href={waLink(`Hola, hice una simulación de inversión: precio ${formatter.format(price)}, alquiler mensual ${formatter.format(monthlyRent)}. Quisiera que un asesor la revise conmigo.`)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block text-center w-full py-4 bg-secondary text-dark font-black uppercase tracking-widest text-[10px] rounded-sm hover:bg-white transition-all"
-                >
-                  Hablar con un asesor
-                </a>
+                <LeadForm
+                  variante="oscuro"
+                  interes="invertir"
+                  origen="simulador-inversion:cta"
+                  contexto={{
+                    precio: numeroValido(price),
+                    alquilerMensual: numeroValido(monthlyRent),
+                    capRateNeto: numeroValido(capRate),
+                  }}
+                  mensajeWhatsApp={`Hola, hice una simulación de inversión: precio ${formatter.format(price)}, alquiler mensual ${formatter.format(monthlyRent)}. Quisiera que un asesor la revise conmigo.`}
+                  textoBoton="Hablar con un asesor"
+                />
               </div>
             </div>
 
