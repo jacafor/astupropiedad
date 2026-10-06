@@ -5,7 +5,7 @@ Estado actual del código (oct 2026) y arquitectura objetivo. Las referencias `C
 ## 1. Resumen
 
 - **Sitio 100 % estático:** `next build` genera las 7 páginas más el 404 como `○ Static`. No hay Route Handlers, Server Actions, `proxy.ts`, base de datos ni variables de entorno en uso.
-- **Todo es cliente:** las 7 páginas y 10 de los 11 componentes declaran `"use client"` (el `Footer` se hidrata igual porque lo importan páginas cliente). Por eso ninguna página puede exportar `metadata` (C4).
+- **Páginas = Server Components** (sesión 04): cada `page.tsx` exporta su `metadata` y renderiza un `*Client.tsx` con lo interactivo (la home compone directamente sus secciones, que ya son cliente). SEO técnico en [SEO.md](SEO.md).
 - **Todo está escrito a mano en el código:** propiedades (en dos archivos distintos), cifras, textos, contacto.
 - **`Navbar`, `Footer` y `FloatingWhatsApp` viven en `src/app/layout.tsx`** (Server Component) junto con el único `<main id="contenido">` y el enlace "Saltar al contenido" (sesión 01, 2026-10-05). Las páginas ya no los importan ni llevan `<main>`.
 
@@ -14,15 +14,15 @@ Estado actual del código (oct 2026) y arquitectura objetivo. Las referencias `C
 | Ruta | Archivo | Secciones | Estado interno |
 |---|---|---|---|
 | `/` | `src/app/page.tsx` | `Hero`, `InvestmentSmarter`, `FeaturedProperties`, `PersonalShopper`, `PropertyZones`, `MortgageBasic`, `PhilosophyAndTeam` | solo los de cada componente |
-| `/nosotros` | `src/app/nosotros/page.tsx` | hero, cultura, 4 estadísticas, 3 "especialistas" | ninguno |
-| `/servicios` | `src/app/servicios/page.tsx` | hero + 4 tarjetas de servicio | ninguno |
-| `/propiedades` | `src/app/propiedades/page.tsx` | búsqueda, chips de tipo, cuadrícula | `activeType`, `searchDistrict`, `viewMode` (sin efecto) |
-| `/vender` | `src/app/vender/page.tsx` | hero + asistente de 3 pasos + 3 ventajas | `step`, `propertyType`, `district` |
-| `/simulador-hipotecario` | `src/app/simulador-hipotecario/page.tsx` | formulario + 4 resultados + CTA | `loanAmount`, `years`, `rate` + 2 derivados |
-| `/simulador-inversion` | `src/app/simulador-inversion/page.tsx` | sliders + KPIs + proyección 5 años | 6 inputs + 4 derivados |
+| `/nosotros` | `src/app/nosotros/NosotrosClient.tsx` | hero, cultura, 4 estadísticas, 3 "especialistas" | ninguno |
+| `/servicios` | `src/app/servicios/ServiciosClient.tsx` | hero + 4 tarjetas de servicio | ninguno |
+| `/propiedades` | `src/app/propiedades/PropiedadesClient.tsx` | búsqueda, chips de tipo, cuadrícula | `activeType`, `searchDistrict`, `viewMode` (sin efecto) |
+| `/vender` | `src/app/vender/VenderClient.tsx` | hero + asistente de 3 pasos + 3 ventajas | `step`, `propertyType`, `district` |
+| `/simulador-hipotecario` | `src/app/simulador-hipotecario/SimuladorHipotecarioClient.tsx` | formulario + 4 resultados + CTA | `loanAmount`, `years`, `rate` + 2 derivados |
+| `/simulador-inversion` | `src/app/simulador-inversion/SimuladorInversionClient.tsx` | sliders + KPIs + proyección 5 años | 6 inputs + 4 derivados |
 | `/_not-found` | automático | 404 por defecto de Next (en inglés) | — |
 
-No existen: `/propiedades/[slug]`, `/contacto`, `/agendar`, `/privacidad`, `/terminos`, `/unete`, `robots.txt`, `sitemap.xml`, imagen OG.
+No existen: `/propiedades/[slug]`, `/contacto`, `/agendar`, `/privacidad`, `/terminos`, `/unete`.
 
 ## 3. Componentes (`src/components/`)
 
@@ -44,12 +44,12 @@ No existen: `/propiedades/[slug]`, `/contacto`, `/agendar`, `/privacidad`, `/ter
 
 | Dato / cálculo | Ubicación | Problema |
 |---|---|---|
-| Propiedades del catálogo (6) | `propiedades/page.tsx` líneas 10-17 | Contradice al flyer de cada imagen |
+| Propiedades del catálogo (6) | `propiedades/PropiedadesClient.tsx` líneas 10-17 | Contradice al flyer de cada imagen |
 | Propiedades destacadas (3) | `FeaturedProperties.tsx` líneas 7-44 | Duplicada y distinta del catálogo |
 | Cifras corporativas | `nosotros`, `vender`, `InvestmentSmarter`, `PropertyZones` | Sin respaldo |
 | Contacto | `Navbar`, `Footer`, `FloatingWhatsApp` | 3 teléfonos y 3 dominios distintos |
-| Cuota hipotecaria | `MortgageBasic.tsx` y `simulador-hipotecario/page.tsx` | Fórmula duplicada; TEA tratada como nominal |
-| Rentabilidad | `InvestmentSmarter.tsx` y `simulador-inversion/page.tsx` | Dos definiciones de "cap rate" |
+| Cuota hipotecaria | `MortgageBasic.tsx` y `SimuladorHipotecarioClient.tsx` | Fórmula duplicada; TEA tratada como nominal |
+| Rentabilidad | `InvestmentSmarter.tsx` y `SimuladorInversionClient.tsx` | Dos definiciones de "cap rate" |
 
 ## 5. Configuración
 
@@ -64,8 +64,8 @@ No existen: `/propiedades/[slug]`, `/contacto`, `/agendar`, `/privacidad`, `/ter
 
 | Deuda | Referencia |
 |---|---|
-| Páginas `"use client"` sin `metadata` | C4 |
-| Sin `robots`/`sitemap`/OG/JSON-LD | C4 |
+| ~~Páginas `"use client"` sin `metadata`~~ (resuelto en la sesión 04, 2026-10-05) | C4 |
+| ~~Sin `robots`/`sitemap`/OG/JSON-LD~~ (resuelto en la sesión 04; faltan `FAQPage`/`Offer` con las fichas) | C4 |
 | ~~Navbar invisible en `/propiedades`~~ (resuelto en la sesión 01, 2026-10-05) | C5 |
 | `next@16.2.0` con avisos críticos (`npm audit`) → `16.3.8` | C6 |
 | Simuladores con valores imposibles y duplicados | C7 |
@@ -80,7 +80,7 @@ No existen: `/propiedades/[slug]`, `/contacto`, `/agendar`, `/privacidad`, `/ter
 src/
 ├─ app/
 │  ├─ layout.tsx                 Navbar + Footer + FloatingWhatsApp + <main> + JSON-LD global + metadataBase
-│  ├─ page.tsx                   Server Component + metadata
+│  ├─ page.tsx                   Server Component + metadata (rutaMetadata)
 │  ├─ propiedades/
 │  │  ├─ page.tsx                Server Component (lee src/data o Supabase) → <CatalogoCliente/>
 │  │  └─ [slug]/page.tsx         ficha: generateStaticParams + generateMetadata + JSON-LD

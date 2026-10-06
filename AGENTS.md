@@ -55,6 +55,7 @@ Mapa completo de rutas, componentes y deuda técnica: [docs/ARQUITECTURA.md](doc
 | Tocar estilos, componentes o animaciones | [docs/DISENO.md](docs/DISENO.md) |
 | Escribir textos, cifras, datos de contacto o temas legales | [docs/NEGOCIO-Y-CONTENIDO.md](docs/NEGOCIO-Y-CONTENIDO.md) |
 | Conectar GoHighLevel, WhatsApp, analítica, variables de entorno | [docs/INTEGRACIONES.md](docs/INTEGRACIONES.md) |
+| Metadata, sitemap, Open Graph, JSON-LD | [docs/SEO.md](docs/SEO.md) |
 | Decidir qué construir ahora | [docs/ROADMAP.md](docs/ROADMAP.md) |
 | Ver por qué se decidió algo / qué está pendiente de decidir | [docs/DECISIONES.md](docs/DECISIONES.md) |
 | Abrir una sesión nueva por tarea (prompts listos, orden y datos que necesita cada uno) | [docs/prompts/README.md](docs/prompts/README.md) |
@@ -91,7 +92,7 @@ Mapa completo de rutas, componentes y deuda técnica: [docs/ARQUITECTURA.md](doc
 
 - **APIs de petición asíncronas:** `params`, `searchParams`, `cookies()`, `headers()`, `draftMode()` solo se acceden con `await`. El acceso síncrono fue eliminado.
 - **`middleware` se llama `proxy`** (`proxy.ts`). Misma función, nuevo nombre.
-- **`export const metadata` / `generateMetadata` solo funcionan en Server Components.** Una página con `"use client"` no puede exportarlos: ponla como Server Component y mueve lo interactivo a un componente cliente aparte. *(Hoy las 7 páginas incumplen esto — es el hallazgo C4 de la auditoría.)*
+- **`export const metadata` / `generateMetadata` solo funcionan en Server Components.** Una página con `"use client"` no puede exportarlos: ponla como Server Component y mueve lo interactivo a un componente cliente aparte. *(Resuelto en la sesión 04: `page.tsx` servidor + `*Client.tsx`; ver [docs/SEO.md](docs/SEO.md).)*
 - **`next/image`:** `images.domains` está deprecado (usar `remotePatterns`); `qualities` por defecto es solo `[75]`; imágenes locales con query string requieren `images.localPatterns`; `next/legacy/image` está deprecado.
 - **Scroll suave:** `scroll-smooth` en `<html>` ya no se desactiva en cambios de ruta salvo que se añada `data-scroll-behavior="smooth"`.
 - **Formularios:** preferir Server Actions + `useActionState` (guía `01-app/02-guides/forms.md`). Trabajo posterior a la respuesta (analítica, logs) con `after()` de `next/server`.
@@ -114,7 +115,7 @@ Mapa completo de rutas, componentes y deuda técnica: [docs/ARQUITECTURA.md](doc
 3. **Ningún botón sin destino.** Todo CTA enlaza a una ruta real, abre WhatsApp o dispara una acción verificada. Si aún no hay backend, enlaza a WhatsApp con mensaje prellenado. Cero texto interno de desarrollo visible (`(GHL)`, `Replace with real number`).
 4. **Sin afirmaciones absolutas** ("garantizado", "100% seguro") ni cifras de mercado sin respaldo — ver política en [docs/NEGOCIO-Y-CONTENIDO.md](docs/NEGOCIO-Y-CONTENIDO.md).
 5. **Los cálculos financieros no van dentro de componentes.** Extraer a `src/lib/finance.ts` (funciones puras, con pruebas) y validar entradas: nunca mostrar `$∞`, `NaN` ni negativos.
-6. **Páginas nuevas = Server Component con `metadata` propia** (title ≤ 60 car., description ≈ 150-160) + entrada en el sitemap. Usa `/nueva-pagina`.
+6. **Páginas nuevas = Server Component con `metadata` propia** (title ≤ 60 car., description ≈ 150-160) + entrada en `RUTAS` de `src/lib/rutas.ts` (alimenta metadata y sitemap; ver [docs/SEO.md](docs/SEO.md)). Usa `/nueva-pagina`.
 7. **Accesibilidad mínima en todo cambio:** `<label>` asociado a cada campo, `aria-label` en botones de solo icono, `<main>` por página, texto ≥ 12 px, contraste ≥ 4.5:1, foco visible, `prefers-reduced-motion` respetado. Colores a evitar para texto pequeño: ver [docs/DISENO.md](docs/DISENO.md).
 8. **Datos personales:** todo formulario lleva casilla de consentimiento y enlace a `/privacidad`. Los secretos solo en variables de entorno (`.env.local`, Vercel); nunca en el código ni en el repo.
 9. **Móvil primero:** verifica cada cambio visual a **390 px** (y ≥ 1280 px). El menú móvil debe seguir abriendo y todo CTA debe ser alcanzable con el pulgar.
