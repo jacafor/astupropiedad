@@ -34,10 +34,11 @@ No existen: `/propiedades/[slug]`, `/contacto`, `/agendar`, `/privacidad`, `/ter
 | `FeaturedProperties` | sí | 2 propiedades destacadas fijas + tarjeta "Próximamente" | Los datos de las 2 fichas contradicen sus fotos (ver informe de la sesión 02); enlaces a `/propiedades` |
 | `PersonalShopper` | sí | Sección de servicio + imagen | CTA a `#contacto` |
 | `PropertyZones` | sí | Miraflores / San Isidro / Surco | Solo texto |
-| `MortgageBasic` | sí | Calculadora hipotecaria rápida | `$∞` con plazo 0; "Contactar a un Broker" sin acción |
-| `PhilosophyAndTeam` | sí | Filosofía + "Portal de Consultores" | CTA es un `<div>` |
+| `MortgageBasic` | sí | Calculadora hipotecaria rápida + formulario "Habla con un asesor" (`LeadForm`, origen `home-hipoteca:cta`) | `$∞` con plazo 0 (sesión 06) |
+| `PhilosophyAndTeam` | sí | Filosofía + formulario de reclutamiento (`LeadForm`, origen `home:reclutamiento`) | — |
 | `Footer` | no declarado | Marca, enlaces, contacto, "calendario GHL", legal | En el layout; enlaces internos con `next/link`; sin redes sociales ni Privacidad/Términos (ocultos hasta tener URL y páginas); CTA de videollamada por WhatsApp; `<img>` crudo para el logo |
 | `FloatingWhatsApp` | sí | Botón flotante en el layout (todas las rutas); 56 px en móvil y 64 px desde `md`; `aria-label` | Número desde `contact.ts` |
+| `LeadForm` | sí | Formulario reutilizable de leads (`useActionState` + `enviarLead`): etiquetas, errores por campo, estado "enviando", consentimiento, éxito real y plan B de WhatsApp. Props: `interes`, `origen`, `contexto`, `mensajeWhatsApp`, `variante` (`claro`/`oscuro`), `onAtras` | Enlaza a `/privacidad`, que aún no existe (sesión 09) |
 | `GHLForm` | sí | Iframe de formulario GHL | **No se usa en ninguna parte**; `DEFAULT_FORM_ID` y dominio sin confirmar |
 
 ## 4. Datos y cálculos (dónde viven hoy)

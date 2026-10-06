@@ -9,7 +9,7 @@ Plantilla en [`.env.example`](../.env.example). Copiar a `.env.local` (ignorado 
 | Variable | Uso | Público | Estado |
 |---|---|---|---|
 | `NEXT_PUBLIC_SITE_URL` | `metadataBase`, canonical, sitemap, OG (opcional: `contact.ts` ya trae `https://astupropiedad.com` por defecto) | sí | dominio dado por jforero 2026-10-04; confirmar `www` |
-| `GHL_WEBHOOK_URL` | Webhook de entrada de leads en GoHighLevel | **no** | pendiente |
+| `GHL_WEBHOOK_URL` | Webhook de entrada de leads en GoHighLevel (lo lee `src/app/actions/lead.ts`; si falta, los formularios muestran un error controlado y ofrecen WhatsApp) | **no** | **en uso (sesión 05)**; valor pendiente: falta el webhook de GHL |
 | `GHL_API_KEY` · `GHL_LOCATION_ID` | Alternativa vía API de GHL | **no** | pendiente |
 | `NEXT_PUBLIC_GHL_CALENDAR_URL` | Embed del calendario de videollamadas | sí | pendiente |
 | `NEXT_PUBLIC_GA_ID` / Vercel Analytics | Analítica | sí | pendiente |
@@ -21,7 +21,7 @@ Reglas: lee los secretos solo en código de servidor (Server Actions, Route Hand
 
 ## 2. GoHighLevel (CRM)
 
-**Lo que existe hoy:** `src/components/GHLForm.tsx` (iframe + script de `link.as-tupropiedad.pe`), **sin uso** y con `DEFAULT_FORM_ID` sin definir. Los botones "(GHL)" de los simuladores y el calendario del footer no hacen nada.
+**Lo que existe hoy (sesión 05, 2026-10-05):** formularios reales (`LeadForm`) en `/vender`, ambos simuladores y la home, que envían por la Server Action `enviarLead` al webhook de `GHL_WEBHOOK_URL`. `GHLForm.tsx` (iframe de `link.as-tupropiedad.pe`) sigue **sin uso**. **No se ha probado contra un GHL real**: solo contra un receptor local de prueba. El calendario del footer sigue siendo un enlace a WhatsApp.
 **Lo que se desconoce (pedir al cliente):** si usará webhook o API, formularios existentes, pipeline, calendario, flujos de autorespuesta, quién atiende y con qué SLA.
 
 ### Contrato de un lead (propuesto)
@@ -52,6 +52,47 @@ type Lead = {
 - Disparar en GHL un workflow: autorespuesta por WhatsApp/correo + **aviso inmediato al asesor** + tarea de seguimiento.
 - Registrar el evento de analítica con `after()` (no bloquea la respuesta).
 - Si GHL falla: mostrar error entendible **y** un botón de WhatsApp con el mensaje armado. No mostrar "¡Enviado!" si no se envió.
+
+### Implementación (sesión 05)
+
+| Pieza | Archivo |
+|---|---|
+| Esquema zod, normalización de celular, payload hacia GHL | `src/lib/leads.ts` (solo servidor) |
+| Tipos, `numeroValido`, mensaje de WhatsApp del plan B | `src/lib/lead-tipos.ts` (llega al navegador; sin zod) |
+| Server Action `enviarLead(estadoPrevio, formData)` → `{ ok: true }` o `{ ok: false, motivo, mensaje, errores }` | `src/app/actions/lead.ts` |
+| Formulario reutilizable | `src/components/LeadForm.tsx` |
+
+Comportamiento:
+- **Honeypot:** campo `sitio_web` oculto; si viene relleno, se responde `{ ok: true }` sin llamar a GHL (el bot no se entera).
+- **Validación:** errores por campo en español ("tú"). El celular se normaliza a E.164 sin espacios (`+51987654321`); acepta `987654321`, `987 654 321`, `+51 987 654 321`, `0051…`. Solo móviles peruanos (9 dígitos que empiezan en 9).
+- **Motivos de fallo** (`motivo`): `validacion` (corregir campos), `no-configurado` (falta `GHL_WEBHOOK_URL`) y `servicio` (GHL no responde, responde con error o tarda más de 8 s). En los dos últimos el formulario muestra el mensaje y un botón de WhatsApp con el mensaje contextual **más el nombre y el celular escritos**. Lo escrito nunca se borra tras un fallo.
+- **Doble envío:** el botón se bloquea de inmediato (un `ref` evita el doble clic antes del primer render) y cada formulario manda un `id_envio` (UUID, el mismo en los reintentos) para que GHL pueda deduplicar. **No hay deduplicación en el servidor.**
+- **Logs:** solo `[metrica] lead_enviado|lead_error {origen, interes|motivo}` (con `after()`) y un aviso de error sin URL ni datos personales. La analítica real llega en la sesión 13.
+- **UTM:** se leen de la URL en el momento del envío (`utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, `utm_content`); si la persona llegó a otra página antes, se pierden (captura en la primera visita: sesión 13).
+- **Pendiente:** Turnstile, límite por IP y deduplicación en servidor (ver §7).
+
+### Mapeo de campos (cuerpo JSON del POST al webhook)
+
+Plano a propósito: en el workflow de GHL se asigna cada clave a un campo de contacto, campo personalizado o etiqueta. Las claves sin dato van como cadena vacía.
+
+| Clave del POST | Qué es | Sugerencia en GHL |
+|---|---|---|
+| `nombre` | Nombre completo | Contacto → Nombre |
+| `telefono` | Celular E.164 | Contacto → Teléfono |
+| `email` | Correo (vacío si no lo dio) | Contacto → Correo |
+| `interes` / `interes_etiqueta` | `comprar·vender·invertir·hipoteca·asesor·reclutamiento·contacto` / texto legible | Etiqueta o campo personalizado |
+| `origen` | Qué formulario fue (tabla de abajo) | Campo personalizado + etiqueta |
+| `pagina` | Ruta desde donde se envió | Campo personalizado |
+| `consentimiento` / `consentimiento_fecha` | `true` / fecha-hora ISO (Ley 29733) | Campo personalizado (conservar) |
+| `id_envio` | UUID del envío (deduplicar) | Campo personalizado |
+| `etiquetas` | `["web-astupropiedad","interes:<x>","origen:<y>"]` | Etiquetas del contacto |
+| `ctx_tipo_propiedad`, `ctx_distrito`, `ctx_area_m2`, `ctx_habitaciones` | Datos de `/vender` | Campos personalizados |
+| `ctx_monto_prestamo`, `ctx_plazo_anios`, `ctx_tea`, `ctx_cuota`, `ctx_precio` | Datos de los simuladores hipotecarios | Campos personalizados |
+| `ctx_precio`, `ctx_alquiler_mensual`, `ctx_cap_rate_neto` | Datos del simulador de inversión | Campos personalizados |
+| `ctx_propiedad_id` | Ficha de propiedad (sin uso todavía) | Campo personalizado |
+| `utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, `utm_content` | Campaña | Campos de atribución |
+
+Valores de `origen`: `vender:valoracion` (`/vender`, interés `vender`) · `simulador-hipotecario:cta` (`/simulador-hipotecario`, `hipoteca`) · `simulador-inversion:cta` (`/simulador-inversion`, `invertir`) · `home-hipoteca:cta` (calculadora de la home; es el antiguo "Contactar a un Broker", `hipoteca`) · `home:asesor-privado` (`asesor`) · `home:reclutamiento` (`reclutamiento`). Los números del contexto solo se envían si son finitos y mayores que 0.
 
 ### Pruebas
 Usar un webhook/pipeline de **prueba** y datos ficticios. No enviar datos reales de clientes desde desarrollo.

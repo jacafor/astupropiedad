@@ -3,7 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import { Calculator, Calendar, Percent } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { waLink } from '@/lib/contact';
+import LeadForm from '@/components/LeadForm';
+import { numeroValido } from '@/lib/lead-tipos';
 
 const MortgageBasic = () => {
   const [price, setPrice] = useState(250000);
@@ -123,13 +124,24 @@ const MortgageBasic = () => {
                 </div>
               </div>
 
-              <a
-                href={waLink(`Hola, hice una simulación hipotecaria: inmueble de ${formatter.format(price)}, cuota inicial ${downPayment}%, plazo ${years} años. Quisiera orientación de un asesor.`)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block text-center w-full py-6 bg-white/5 border border-white/10 text-white font-black uppercase tracking-widest text-xs rounded-xl hover:bg-white hover:text-dark transition-all duration-500">
-                Hablar con un asesor
-              </a>
+              <div className="pt-10 border-t border-white/10">
+                <h3 className="text-xl font-serif font-black text-white mb-2">Habla con un asesor</h3>
+                <p className="text-gray-300 text-sm mb-6">Déjanos tus datos y revisamos contigo esta simulación.</p>
+                <LeadForm
+                  variante="oscuro"
+                  interes="hipoteca"
+                  origen="home-hipoteca:cta"
+                  contexto={{
+                    precio: numeroValido(price),
+                    montoPrestamo: numeroValido(price * (1 - downPayment / 100)),
+                    plazoAnios: numeroValido(years),
+                    tea: numeroValido(rate),
+                    cuota: numeroValido(monthlyPayment),
+                  }}
+                  mensajeWhatsApp={`Hola, hice una simulación hipotecaria: inmueble de ${formatter.format(price)}, cuota inicial ${downPayment}%, plazo ${years} años. Quisiera orientación de un asesor.`}
+                  textoBoton="Hablar con un asesor"
+                />
+              </div>
             </div>
           </motion.div>
 

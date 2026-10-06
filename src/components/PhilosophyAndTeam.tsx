@@ -1,9 +1,9 @@
 "use client";
 
 import React from 'react';
-import { ShieldCheck, Users, ArrowRight } from 'lucide-react';
+import { ShieldCheck, Users } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { waLink } from '@/lib/contact';
+import LeadForm from '@/components/LeadForm';
 
 const PhilosophyAndTeam = () => {
   return (
@@ -51,19 +51,20 @@ const PhilosophyAndTeam = () => {
                 ¿Buscas una plataforma que potencie tu talento? Cuéntanos tu perfil y conversemos sobre cómo sumarte al equipo.
               </p>
 
-              <a
-                href={waLink("Hola, me interesa postular como consultor al equipo de AS Tupropiedad")}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block bg-white/5 border border-white/10 p-8 rounded-xl text-center group hover:bg-white/10 transition-all"
-              >
-                <Users className="w-10 h-10 text-secondary mb-4 mx-auto group-hover:scale-110 transition-transform" />
-                <p className="text-[10px] text-gray-400 font-black uppercase tracking-widest mb-6">Consultores</p>
-                <div className="flex items-center justify-center space-x-2 text-white font-bold group-hover:text-secondary transition-colors">
-                  <span>POSTULAR AL EQUIPO</span>
-                  <ArrowRight className="w-4 h-4 ml-2" />
+              <div className="bg-white/5 border border-white/10 p-6 sm:p-8 rounded-xl">
+                <div className="flex items-center gap-3 mb-6">
+                  <Users className="w-8 h-8 text-secondary" aria-hidden="true" />
+                  <p className="text-xs text-gray-300 font-black uppercase tracking-widest">Postula como consultor</p>
                 </div>
-              </a>
+                <LeadForm
+                  variante="oscuro"
+                  interes="reclutamiento"
+                  origen="home:reclutamiento"
+                  mensajeWhatsApp="Hola, me interesa postular como consultor al equipo de AS Tupropiedad"
+                  textoBoton="Postular al equipo"
+                  textoExito="Revisaremos tu perfil y te escribiremos al celular que dejaste."
+                />
+              </div>
             </div>
           </motion.div>
 

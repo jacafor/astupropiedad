@@ -32,11 +32,12 @@ Detalle en [NEGOCIO-Y-CONTENIDO.md](NEGOCIO-Y-CONTENIDO.md) §7 y [DECISIONES.md
 
 ## P0 — semana 1: embudo de leads *(Bloque A, C1)*
 
-- [ ] Server Action `enviarLead` + validación (zod) + honeypot/Turnstile + envío a GHL
-- [ ] Conectar: asistente de `/vender`, CTA del simulador hipotecario, CTA del simulador de inversión, "Contactar a un Broker", "Solicitar asesor privado", reclutamiento
-- [ ] Botón de WhatsApp con mensaje prellenado como plan B (`waLink` en `src/lib/contact.ts`, ya existe)
-- [ ] Páginas `/privacidad` y `/terminos` + casilla de consentimiento en cada formulario
+- [x] *(hecho 2026-10-05, sesión 05; honeypot sí, Turnstile no; envío a GHL probado solo contra un receptor local, no contra GHL real)* Server Action `enviarLead` + validación (zod) + honeypot/Turnstile + envío a GHL
+- [x] *(hecho 2026-10-05, sesión 05; el "Broker" es el CTA de `MortgageBasic`)* Conectar: asistente de `/vender`, CTA del simulador hipotecario, CTA del simulador de inversión, "Contactar a un Broker", "Solicitar asesor privado", reclutamiento
+- [x] *(hecho 2026-10-05, sesión 05)* Botón de WhatsApp con mensaje prellenado como plan B (`waLink` en `src/lib/contact.ts`, ya existe)
+- [ ] Páginas `/privacidad` y `/terminos` *(la casilla de consentimiento ya está en cada formulario desde la sesión 05; su enlace a `/privacidad` da 404 hasta la sesión 09)*
   - Hecho cuando: un lead de prueba llega a GHL con origen, página y consentimiento; el usuario ve confirmación real y error entendible.
+- [ ] **Pendiente tras la sesión 05:** definir `GHL_WEBHOOK_URL` (local y Vercel) con un webhook de **prueba** de GHL, mapear los campos de [INTEGRACIONES.md](INTEGRACIONES.md) §2 y repetir la prueba contra GHL real; sin ella, en producción los formularios muestran el error controlado y ofrecen WhatsApp. Anti-spam adicional (Turnstile, límite por IP) y deduplicación en el servidor siguen sin hacer.
 
 ## P0 — semana 1: SEO base *(C4)*
 

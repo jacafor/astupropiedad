@@ -1,15 +1,22 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Camera, Bot, Users, ArrowRight, Home, MapPin, Ruler, CheckCircle2 } from 'lucide-react';
+import { Camera, Bot, Users, ArrowRight, ArrowLeft, Home, MapPin, Ruler } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import LeadForm from '@/components/LeadForm';
+import { numeroValido } from '@/lib/lead-tipos';
 
 const VenderPage = () => {
   const [step, setStep] = useState(1);
   const [propertyType, setPropertyType] = useState('');
   const [district, setDistrict] = useState('');
+  const [area, setArea] = useState('');
+  const [rooms, setRooms] = useState('');
 
   const nextStep = () => setStep(prev => prev + 1);
+  const prevStep = () => setStep(prev => Math.max(1, prev - 1));
+
+  const mensajeWhatsApp = `Hola, quiero vender mi ${propertyType.toLowerCase()} en ${district.trim()}. ¿Pueden valorarlo?`;
 
   return (
     <div className="min-h-screen bg-white">
@@ -17,10 +24,10 @@ const VenderPage = () => {
       <section className="pt-40 pb-20 bg-dark text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('/imagenes/PORTADA%20CORDILLERA%20CONDOR%202DO%20PISO.png')] bg-cover bg-center opacity-20"></div>
         <div className="absolute inset-0 bg-gradient-to-t from-dark via-dark/80 to-transparent"></div>
-        
+
         <div className="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            
+
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
@@ -40,86 +47,118 @@ const VenderPage = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="bg-white p-10 rounded-3xl shadow-2xl text-dark relative"
+              className="bg-white p-6 sm:p-10 rounded-3xl shadow-2xl text-dark relative"
             >
               {/* Step Progress */}
-              <div className="flex space-x-2 mb-8">
+              <div className="flex space-x-2 mb-8" role="img" aria-label={`Paso ${step} de 3`}>
                 {[1, 2, 3].map(i => (
                   <div key={i} className={`h-1 flex-1 rounded-full ${i <= step ? 'bg-primary' : 'bg-gray-100'}`}></div>
                 ))}
               </div>
 
               <h3 className="text-2xl font-serif font-black mb-2">Valoración Gratuita</h3>
-              <p className="text-gray-500 text-sm mb-8 font-light">Descubre el valor de tu inmueble hoy.</p>
+              <p className="text-gray-700 text-sm mb-8">Cuéntanos de tu inmueble y un asesor te contactará.</p>
 
               <AnimatePresence mode="wait">
                 {step === 1 && (
                   <motion.div key="step1" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-6">
-                    <label className="text-[10px] font-black uppercase tracking-widest text-gray-400">¿Qué quieres vender?</label>
-                    <div className="grid grid-cols-2 gap-4">
-                      {['Departamento', 'Casa', 'Oficina', 'Terreno'].map(type => (
-                        <button 
-                          key={type}
-                          onClick={() => setPropertyType(type)}
-                          className={`p-4 rounded-xl border-2 text-left font-bold transition-all ${propertyType === type ? 'border-primary bg-primary/5 text-primary' : 'border-gray-100 text-gray-500 hover:border-gray-200'}`}
-                        >
-                          <Home className="w-5 h-5 mb-2" />
-                          {type}
-                        </button>
-                      ))}
-                    </div>
-                    <button 
+                    <fieldset>
+                      <legend className="text-xs font-black uppercase tracking-widest text-dark mb-3">¿Qué quieres vender?</legend>
+                      <div className="grid grid-cols-2 gap-4">
+                        {['Departamento', 'Casa', 'Oficina', 'Terreno'].map(type => (
+                          <button
+                            key={type}
+                            type="button"
+                            aria-pressed={propertyType === type}
+                            onClick={() => setPropertyType(type)}
+                            className={`p-4 rounded-xl border-2 text-left font-bold transition-all outline-none focus-visible:ring-2 focus-visible:ring-primary ${propertyType === type ? 'border-primary bg-primary/5 text-primary' : 'border-gray-200 text-gray-700 hover:border-gray-300'}`}
+                          >
+                            <Home className="w-5 h-5 mb-2" aria-hidden="true" />
+                            {type}
+                          </button>
+                        ))}
+                      </div>
+                    </fieldset>
+                    <button
+                      type="button"
                       onClick={nextStep}
                       disabled={!propertyType}
-                      className="w-full mt-4 py-4 bg-dark text-white font-black uppercase tracking-widest text-[10px] rounded-xl hover:bg-primary transition-all disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center group"
+                      className="w-full mt-4 py-4 bg-dark text-white font-black uppercase tracking-widest text-xs rounded-xl hover:bg-primary transition-all disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center group outline-none focus-visible:ring-2 focus-visible:ring-primary"
                     >
-                      Continuar <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                      Continuar <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
                     </button>
                   </motion.div>
                 )}
 
                 {step === 2 && (
                   <motion.div key="step2" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-6">
-                    <label className="text-[10px] font-black uppercase tracking-widest text-gray-400">¿Dónde está ubicado?</label>
-                    <div className="relative">
-                      <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
-                      <input 
-                        type="text" 
-                        placeholder="Ej: Miraflores, San Isidro..."
-                        value={district}
-                        onChange={(e) => setDistrict(e.target.value)}
-                        className="w-full bg-gray-50 border border-gray-100 p-4 pl-12 rounded-xl text-dark font-bold focus:ring-2 focus:ring-primary outline-none"
-                      />
+                    <div className="space-y-2">
+                      <label htmlFor="vender-distrito" className="block text-xs font-black uppercase tracking-widest text-dark">¿Dónde está ubicado?</label>
+                      <div className="relative">
+                        <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" aria-hidden="true" />
+                        <input
+                          id="vender-distrito"
+                          type="text"
+                          placeholder="Ej: Miraflores, San Isidro..."
+                          value={district}
+                          onChange={(e) => setDistrict(e.target.value)}
+                          className="w-full bg-gray-50 border border-gray-200 p-4 pl-12 rounded-xl text-dark font-bold placeholder:text-gray-500 outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                        />
+                      </div>
                     </div>
                     <div className="grid grid-cols-2 gap-4">
-                      <div className="relative">
-                        <Ruler className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
-                        <input type="number" placeholder="Área m²" className="w-full bg-gray-50 border border-gray-100 p-4 pl-10 rounded-xl text-dark font-bold focus:ring-2 focus:ring-primary outline-none" />
+                      <div className="space-y-2">
+                        <label htmlFor="vender-area" className="block text-xs font-black uppercase tracking-widest text-dark">Área m² <span className="normal-case tracking-normal font-normal text-gray-600">(opcional)</span></label>
+                        <div className="relative">
+                          <Ruler className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4" aria-hidden="true" />
+                          <input id="vender-area" type="number" min="1" inputMode="decimal" value={area} onChange={(e) => setArea(e.target.value)} className="w-full bg-gray-50 border border-gray-200 p-4 pl-10 rounded-xl text-dark font-bold outline-none focus-visible:ring-2 focus-visible:ring-primary" />
+                        </div>
                       </div>
-                      <input type="number" placeholder="Habitaciones" className="w-full bg-gray-50 border border-gray-100 p-4 rounded-xl text-dark font-bold focus:ring-2 focus:ring-primary outline-none" />
+                      <div className="space-y-2">
+                        <label htmlFor="vender-habitaciones" className="block text-xs font-black uppercase tracking-widest text-dark">Habitaciones <span className="normal-case tracking-normal font-normal text-gray-600">(opcional)</span></label>
+                        <input id="vender-habitaciones" type="number" min="1" inputMode="numeric" value={rooms} onChange={(e) => setRooms(e.target.value)} className="w-full bg-gray-50 border border-gray-200 p-4 rounded-xl text-dark font-bold outline-none focus-visible:ring-2 focus-visible:ring-primary" />
+                      </div>
                     </div>
-                    <button 
-                      onClick={nextStep}
-                      disabled={!district}
-                      className="w-full mt-4 py-4 bg-dark text-white font-black uppercase tracking-widest text-[10px] rounded-xl hover:bg-primary transition-all disabled:opacity-50 flex justify-center items-center group"
-                    >
-                      Último Paso <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                    </button>
+                    <div className="flex gap-3">
+                      <button
+                        type="button"
+                        onClick={prevStep}
+                        className="inline-flex items-center justify-center gap-2 px-6 py-4 border border-gray-200 rounded-xl text-xs font-black uppercase tracking-widest text-gray-700 hover:text-dark transition-all outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                      >
+                        <ArrowLeft className="w-4 h-4" aria-hidden="true" /> Atrás
+                      </button>
+                      <button
+                        type="button"
+                        onClick={nextStep}
+                        disabled={!district.trim()}
+                        className="flex-1 py-4 bg-dark text-white font-black uppercase tracking-widest text-xs rounded-xl hover:bg-primary transition-all disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center group outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                      >
+                        Último paso <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
+                      </button>
+                    </div>
                   </motion.div>
                 )}
 
                 {step === 3 && (
-                  <motion.div key="step3" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-6 text-center py-4">
-                    <CheckCircle2 className="w-16 h-16 text-secondary mx-auto mb-4" />
-                    <h4 className="font-serif font-black text-2xl">Casi Listo</h4>
-                    <p className="text-gray-500 font-light text-sm">Ingresa tus datos para recibir el análisis detallado vía WhatsApp o correo en los próximos 10 minutos.</p>
-                    
-                    <input type="text" placeholder="Nombre completo" className="w-full bg-gray-50 border border-gray-100 p-4 rounded-xl text-dark mb-4 outline-none" />
-                    <input type="tel" placeholder="Número de celular" className="w-full bg-gray-50 border border-gray-100 p-4 rounded-xl text-dark mb-6 outline-none" />
-
-                    <button className="w-full py-4 bg-primary text-white font-black uppercase tracking-widest text-[10px] rounded-xl hover:bg-dark transition-all shadow-lg hover:shadow-primary/30">
-                      ENVIAR DATOS PARA ANÁLISIS
-                    </button>
+                  <motion.div key="step3" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-4">
+                    <h4 className="font-serif font-black text-2xl">Casi listo</h4>
+                    <p className="text-gray-700 text-sm leading-relaxed">
+                      Déjanos tus datos y un asesor revisará tu {propertyType.toLowerCase()} en {district.trim()}.
+                    </p>
+                    <LeadForm
+                      interes="vender"
+                      origen="vender:valoracion"
+                      contexto={{
+                        tipoPropiedad: propertyType,
+                        distrito: district.trim(),
+                        areaM2: numeroValido(Number(area)),
+                        habitaciones: numeroValido(Number(rooms)),
+                      }}
+                      mensajeWhatsApp={mensajeWhatsApp}
+                      textoBoton="Enviar datos para la valoración"
+                      textoExito="Un asesor revisará los datos de tu inmueble y se pondrá en contacto contigo al celular que dejaste."
+                      onAtras={prevStep}
+                    />
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -139,20 +178,20 @@ const VenderPage = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { 
-                icon: Camera, 
-                title: 'Producción y home staging', 
-                desc: 'Recorrido virtual 360°, fotografías arquitectónicas y home staging para destacar lo mejor de tu inmueble.' 
+              {
+                icon: Camera,
+                title: 'Producción y home staging',
+                desc: 'Recorrido virtual 360°, fotografías arquitectónicas y home staging para destacar lo mejor de tu inmueble.'
               },
-              { 
-                icon: Users, 
-                title: 'Red Personal Shopper', 
-                desc: 'Nuestros agentes tienen clientes esperando. Enlazamos tu propiedad directamente con inversores pre-aprobados.' 
+              {
+                icon: Users,
+                title: 'Red Personal Shopper',
+                desc: 'Nuestros agentes tienen clientes esperando. Enlazamos tu propiedad directamente con inversores pre-aprobados.'
               },
-              { 
-                icon: Bot, 
-                title: 'Marketing Algorítmico', 
-                desc: 'Campañas pautadas con IA para segmentar y encontrar al comprador ideal en tiempo récord.' 
+              {
+                icon: Bot,
+                title: 'Marketing Algorítmico',
+                desc: 'Campañas pautadas con IA para segmentar y encontrar al comprador ideal en tiempo récord.'
               }
             ].map((feature, idx) => (
               <div key={idx} className="bg-white p-10 rounded-3xl border border-gray-100 hover:shadow-xl transition-shadow">

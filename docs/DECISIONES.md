@@ -30,7 +30,7 @@ Cada entrada lleva `estado`, `fecha` y `responsable` (quien debe validarla). Par
 ### D-4 · GoHighLevel como CRM
 - **Estado:** **Propuesta** (inferida: solo existe un componente `GHLForm` sin uso y textos "(GHL)" en botones; no hay credenciales ni confirmación) · **Fecha:** 2026-10-04 · **Responsable:** cliente / quien administra GHL
 - **Decisión propuesta:** los leads se envían a GHL (formularios, calendario, flujos).
-- **Consecuencias:** requiere credenciales y definición del flujo de atención. Ver [INTEGRACIONES.md](INTEGRACIONES.md). *(Método de integración: pendiente, ver P-5.)*
+- **Consecuencias:** requiere credenciales y definición del flujo de atención. Ver [INTEGRACIONES.md](INTEGRACIONES.md). *(Método: webhook, ver D-18; la URL sigue pendiente en P-5.)*
 
 ### D-5 · Sitio estático primero
 - **Estado:** **Propuesta** · **Fecha:** 2026-10-04 · **Responsable:** equipo técnico
@@ -98,6 +98,12 @@ Cada entrada lleva `estado`, `fecha` y `responsable` (quien debe validarla). Par
 - **Decisión propuesta:** títulos y descripciones viven en `src/lib/rutas.ts` y se aplican con `rutaMetadata()`; el sitemap sale de la misma lista. Del borrador de la auditoría se descartaron las frases sin respaldo ("valoración gratuita", "experiencia bancaria", "red de compradores calificados"). El JSON-LD `RealEstateAgent` solo lleva nombre, URL, teléfono, correo y logo. Canonical y sitemap asumen `astupropiedad.com` sin `www` (P-12).
 - **Consecuencias:** hasta asignar el dominio, canonical/OG/sitemap apuntan a un dominio que aún sirve otra web. Detalle en [SEO.md](SEO.md).
 
+### D-18 · Leads por webhook de GHL, con WhatsApp como plan B (sesión 05; cierra la parte "método" de P-5)
+- **Estado:** **Propuesta** · **Fecha:** 2026-10-05 · **Responsable:** jforero (la tomó Claude aplicando el valor por defecto de P-5; reversible)
+- **Decisión propuesta:** los formularios envían por Server Action (`enviarLead`) a un **webhook** de GHL (`GHL_WEBHOOK_URL`, solo servidor), no por la API. Si el webhook no está configurado o falla, se muestra un error honesto y un botón de WhatsApp con los datos ya escritos; nunca un "Enviado" falso. Se instaló `zod` (autorizado por jforero). Detalle y mapeo de campos en [INTEGRACIONES.md](INTEGRACIONES.md) §2.
+- **Decidido sin consultar:** celular en E.164 sin espacios (`+51987654321`); correo opcional en todos los formularios; se quitó la promesa "en los próximos 10 minutos" del asistente de `/vender` (P-9); el "Contactar a un Broker" es el CTA de la calculadora de la home (`home-hipoteca:cta`); los formularios de asesor privado y reclutamiento quedaron visibles en la página (no tras un botón); un honeypot relleno responde "OK" sin enviar nada.
+- **Sigue abierto en P-5:** URL del webhook de prueba, pipeline, campos y etiquetas. El envío **no se ha probado contra GHL real**. La casilla de consentimiento enlaza a `/privacidad`, que da 404 hasta la sesión 09.
+
 ## Pendientes (necesitan respuesta del cliente o del equipo)
 
 P-1, P-2 y P-3 se cerraron el 2026-10-04 (ver D-9, D-10, D-11); P-7 y P-8 el 2026-10-05 (ver D-12); P-6 el 2026-10-05 (ver D-16). Cada pendiente indica **quién decide**, **qué hay que entregar para cerrarlo** y **qué se hará por defecto** si no hay respuesta (el valor por defecto es provisional y nunca toca datos del cliente).
@@ -105,7 +111,7 @@ P-1, P-2 y P-3 se cerraron el 2026-10-04 (ver D-9, D-10, D-11); P-7 y P-8 el 202
 | ID | Pregunta | Quién decide | Qué se necesita para cerrarlo | Por defecto (provisional) | Bloquea |
 |---|---|---|---|---|---|
 | **P-4** | ¿Moneda principal: USD, PEN o ambas? | jforero / cliente | Moneda en que se publican precios y fuente del tipo de cambio | Ambas con tipo de cambio editable (los precios hoy están en USD) | Simuladores, fichas |
-| **P-5** | GHL: ¿webhook o API? ¿pipeline/etiquetas/campos? | Cliente / quien administra GHL | Acceso a la cuenta (o URL de un **webhook de prueba**), nombre del pipeline, campos y etiquetas, calendario a embeber | Webhook para empezar | Embudo de leads |
+| **P-5** *(parcial, ver D-18)* | GHL: ~~¿webhook o API?~~ (webhook, D-18) · **sigue abierto:** URL del webhook de prueba, pipeline, campos y etiquetas | Cliente / quien administra GHL | Acceso a la cuenta (o URL de un **webhook de prueba**), nombre del pipeline, campos y etiquetas, calendario a embeber | Webhook para empezar | Embudo de leads |
 | ~~P-6~~ | *(cerrada el 2026-10-05, ver D-16)* ¿Se mantienen los anglicismos (Elite Portfolio, Off-Market, Flat, Cap Rate…)? | Cliente | Lista de términos que son marca/servicio y deben conservarse | Español natural, salvo marca/servicio | Textos y SEO |
 | **P-9** | ¿Qué se promete con la valoración ("en 10 minutos")? ¿Quién atiende y en qué horario? | Cliente | SLA real: plazo de respuesta, canal, horario, responsable | Texto sin plazo concreto | `/vender` |
 | **P-10** | ¿Qué cifras de "Nosotros" son verificables y qué convenios bancarios se pueden nombrar? | Cliente | Cada cifra con su respaldo (fecha y fuente) y autorización escrita para nombrar bancos | Quitar lo no respaldado | Credibilidad y riesgo legal |

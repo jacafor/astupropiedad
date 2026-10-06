@@ -2,8 +2,8 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, ShieldCheck } from 'lucide-react';
-import { waLink } from '@/lib/contact';
+import { ShieldCheck } from 'lucide-react';
+import LeadForm from '@/components/LeadForm';
 
 const PersonalShopper = () => {
   return (
@@ -59,16 +59,17 @@ const PersonalShopper = () => {
               </div>
             </div>
 
-            <motion.a 
-              href={waLink("Hola, quisiera solicitar un asesor privado para buscar una propiedad")}
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="inline-block mt-12 px-10 py-5 bg-secondary text-dark font-black uppercase tracking-widest text-xs rounded-sm hover:bg-white transition-all duration-500 shadow-lg"
-            >
-              Solicitar Asesor Privado
-            </motion.a>
+            <div className="mt-12 bg-white/5 border border-white/10 rounded-2xl p-6 sm:p-8">
+              <h3 className="text-xl font-serif font-black mb-2">Solicita tu asesor privado</h3>
+              <p className="text-gray-300 text-sm mb-6">Déjanos tus datos y un asesor te contactará para entender qué buscas.</p>
+              <LeadForm
+                variante="oscuro"
+                interes="asesor"
+                origen="home:asesor-privado"
+                mensajeWhatsApp="Hola, quisiera solicitar un asesor privado para buscar una propiedad"
+                textoBoton="Solicitar asesor privado"
+              />
+            </div>
           </motion.div>
 
         </div>
