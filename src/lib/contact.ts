@@ -4,6 +4,9 @@
  * Confirmados por jforero el 2026-10-04 (ver docs/DECISIONES.md, D-9).
  */
 
+/** Nombre comercial. */
+export const BRAND_NAME = "AS Tupropiedad";
+
 /** Número de WhatsApp en formato internacional, sin "+" ni espacios. */
 export const WHATSAPP_NUMBER = "51977588905";
 

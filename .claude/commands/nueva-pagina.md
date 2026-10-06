@@ -17,7 +17,7 @@ Reglas de implementación:
 - Todo CTA con destino real (ruta, WhatsApp con mensaje prellenado o acción verificada). Cero `href="#"`.
 - Formularios: `<label htmlFor>`, consentimiento de datos, estado de carga/éxito/error en español.
 - Texto en español, ≥ 12 px, contraste ≥ 4.5:1, `aria-label` en botones de icono.
-- Añade la ruta al sitemap (`src/app/sitemap.ts`, si ya existe) y al enlazado interno que corresponda (navbar/footer).
+- Añade la ruta al sitemap añadiendo su entrada en `RUTAS` de `src/lib/rutas.ts` (alimenta `sitemap.ts` y `rutaMetadata`; ver `docs/SEO.md`) y al enlazado interno que corresponda (navbar/footer).
 
 Al terminar:
 - Ejecuta `npx tsc --noEmit && npm run lint && npm run build` y reporta el resultado real.

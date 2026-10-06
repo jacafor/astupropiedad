@@ -40,10 +40,10 @@ Detalle en [NEGOCIO-Y-CONTENIDO.md](NEGOCIO-Y-CONTENIDO.md) §7 y [DECISIONES.md
 
 ## P0 — semana 1: SEO base *(C4)*
 
-- [ ] Convertir cada `page.tsx` en Server Component con `metadata` propia (usar los títulos/descripciones de AUDITORIA-WEB §C4)
-- [ ] `metadataBase`, Open Graph/Twitter, canonical, `robots.ts`, `sitemap.ts`, imagen OG
-- [ ] JSON-LD `RealEstateAgent` en el layout
-  - Hecho cuando: cada ruta tiene título/description únicos; `/robots.txt` y `/sitemap.xml` responden 200; el link se ve bien al pegarlo en WhatsApp.
+- [x] *(hecho 2026-10-05, sesión 04)* Convertir cada `page.tsx` en Server Component con `metadata` propia (usar los títulos/descripciones de AUDITORIA-WEB §C4)
+- [x] *(hecho 2026-10-05, sesión 04)* `metadataBase`, Open Graph/Twitter, canonical, `robots.ts`, `sitemap.ts`, imagen OG
+- [x] *(hecho 2026-10-05, sesión 04; solo nombre, URL, teléfono, correo y logo)* JSON-LD `RealEstateAgent` en el layout
+  - Hecho cuando: cada ruta tiene título/description únicos; `/robots.txt` y `/sitemap.xml` responden 200; el link se ve bien al pegarlo en WhatsApp. *(Lo primero está verificado; lo de WhatsApp requiere dominio público: cómo probarlo en [SEO.md](SEO.md).)*
 
 ## P1 — semanas 2-3
 

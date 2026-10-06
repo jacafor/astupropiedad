@@ -93,6 +93,11 @@ Cada entrada lleva `estado`, `fecha` y `responsable` (quien debe validarla). Par
 - **Decisión:** se aplicó el valor por defecto de P-6. Se conservan **Personal Shopper** (servicio de la marca; jforero lo confirmó), *Premium*, *marketing*, *Boutique Inmobiliaria*; *cap rate*, TEA y *home staging* se conservan **explicados** la primera vez; el resto de anglicismos se tradujo. Se eliminaron todas las formas de "usted" (cumple D-10). Detalle y lista en [NEGOCIO-Y-CONTENIDO.md](NEGOCIO-Y-CONTENIDO.md) §3.
 - **Consecuencias:** si el cliente pide recuperar un término en inglés como marca, se revierte ese texto (entrada nueva). Impacto SEO: los titulares ya no usan "Real Estate"/"Flat"; las búsquedas peruanas dicen "departamento" e "inmobiliaria".
 
+### D-17 · Metadata centralizada y JSON-LD mínimo (sesión 04)
+- **Estado:** **Propuesta** · **Fecha:** 2026-10-05 · **Responsable:** jforero (la tomó Claude sin consultar; reversible)
+- **Decisión propuesta:** títulos y descripciones viven en `src/lib/rutas.ts` y se aplican con `rutaMetadata()`; el sitemap sale de la misma lista. Del borrador de la auditoría se descartaron las frases sin respaldo ("valoración gratuita", "experiencia bancaria", "red de compradores calificados"). El JSON-LD `RealEstateAgent` solo lleva nombre, URL, teléfono, correo y logo. Canonical y sitemap asumen `astupropiedad.com` sin `www` (P-12).
+- **Consecuencias:** hasta asignar el dominio, canonical/OG/sitemap apuntan a un dominio que aún sirve otra web. Detalle en [SEO.md](SEO.md).
+
 ## Pendientes (necesitan respuesta del cliente o del equipo)
 
 P-1, P-2 y P-3 se cerraron el 2026-10-04 (ver D-9, D-10, D-11); P-7 y P-8 el 2026-10-05 (ver D-12); P-6 el 2026-10-05 (ver D-16). Cada pendiente indica **quién decide**, **qué hay que entregar para cerrarlo** y **qué se hará por defecto** si no hay respuesta (el valor por defecto es provisional y nunca toca datos del cliente).
