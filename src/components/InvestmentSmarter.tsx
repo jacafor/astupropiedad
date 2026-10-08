@@ -1,23 +1,25 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { TrendingUp, DollarSign } from "lucide-react";
+import { TrendingUp } from "lucide-react";
+import { CampoNumerico } from "@/components/simuladores";
+import { mensajeDe, rentabilidadBruta } from "@/lib/finance";
+import { formatearMoneda, formatearPorcentaje, leerNumero } from "@/lib/formato";
 
 const InvestmentSmarter = () => {
-  const [propertyValue, setPropertyValue] = useState<number>(0);
-  const [monthlyRent, setMonthlyRent] = useState<number>(0);
-  const [capRate, setCapRate] = useState<number>(0);
+  const [propertyValue, setPropertyValue] = useState("");
+  const [monthlyRent, setMonthlyRent] = useState("");
 
-  useEffect(() => {
-    if (propertyValue > 0 && monthlyRent > 0) {
-      const annualIncome = monthlyRent * 12;
-      const rate = (annualIncome / propertyValue) * 100;
-      setCapRate(Number(rate.toFixed(2)));
-    } else {
-      setCapRate(0);
-    }
-  }, [propertyValue, monthlyRent]);
+  // Con ambos campos vacíos no se muestra error: la persona aún no empieza.
+  const vacio = propertyValue.trim() === "" && monthlyRent.trim() === "";
+  const resultado = useMemo(
+    () => rentabilidadBruta(leerNumero(propertyValue), leerNumero(monthlyRent)),
+    [propertyValue, monthlyRent]
+  );
+  const errores = !vacio && !resultado.ok ? resultado.errores : [];
+  const rentabilidad = resultado.ok ? resultado.valor : undefined;
+  const ingresoAnual = resultado.ok ? leerNumero(monthlyRent) * 12 : undefined;
 
   return (
     <section id="inversores" className="py-24 bg-white relative">
@@ -43,40 +45,31 @@ const InvestmentSmarter = () => {
                         Calculadora de Retorno
                     </h4>
                     <div className="space-y-6">
-                        <div>
-                            <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">Inversión Estimada (USD)</label>
-                            <div className="relative">
-                                <DollarSign className="absolute left-0 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-300" />
-                                <input 
-                                    type="number" 
-                                    value={propertyValue || ""}
-                                    onChange={(e) => setPropertyValue(Number(e.target.value))}
-                                    placeholder="250,000" 
-                                    className="w-full bg-transparent border-b-2 border-primary/10 pl-8 p-4 text-2xl font-black text-primary focus:border-secondary outline-none transition-all"
-                                />
-                            </div>
-                        </div>
-                        <div>
-                            <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">Alquiler Mensual Proyectado (USD)</label>
-                            <div className="relative">
-                                <DollarSign className="absolute left-0 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-300" />
-                                <input 
-                                    type="number" 
-                                    value={monthlyRent || ""}
-                                    onChange={(e) => setMonthlyRent(Number(e.target.value))}
-                                    placeholder="1,500" 
-                                    className="w-full bg-transparent border-b-2 border-primary/10 pl-8 p-4 text-2xl font-black text-primary focus:border-secondary outline-none transition-all"
-                                />
-                            </div>
-                        </div>
-                        
-                        <div className="bg-dark p-8 rounded-xl flex justify-between items-center mt-10 shadow-xl">
+                        <CampoNumerico
+                            etiqueta="Inversión estimada (US$)" prefijo="US$"
+                            valor={propertyValue} onChange={setPropertyValue}
+                            placeholder="250000" error={mensajeDe(errores, "precio")}
+                        />
+                        <CampoNumerico
+                            etiqueta="Alquiler mensual proyectado (US$)" prefijo="US$"
+                            valor={monthlyRent} onChange={setMonthlyRent}
+                            placeholder="1500" error={mensajeDe(errores, "alquiler")}
+                        />
+
+                        <div className="bg-dark p-8 rounded-xl flex justify-between items-center gap-4 mt-10 shadow-xl" aria-live="polite">
                             <div>
-                                <p className="text-white font-black text-[10px] uppercase tracking-widest">Rentabilidad anual (cap rate)</p>
-                                <p className="text-gray-400 text-[10px] mt-1 italic">Basado en ingreso anual de ${(monthlyRent * 12).toLocaleString()}</p>
+                                <p className="text-white font-black text-xs uppercase tracking-widest">Rentabilidad bruta anual</p>
+                                <p className="text-gray-300 text-xs mt-1">
+                                    {ingresoAnual !== undefined
+                                        ? `Alquiler anual de ${formatearMoneda(ingresoAnual, "USD")}, sin descontar gastos ni impuestos.`
+                                        : "Escribe el precio y el alquiler para calcularla."}
+                                </p>
                             </div>
-                            <p className="text-4xl font-black text-secondary">{capRate}%</p>
+                            <p className="text-4xl font-black text-secondary">{formatearPorcentaje(rentabilidad)}</p>
                         </div>
+                        <p className="text-xs text-gray-600">
+                            Cálculo referencial. Para la rentabilidad neta (cap rate) con gastos e impuestos usa el simulador de inversión.
+                        </p>
                     </div>
                 </motion.div>
             </div>

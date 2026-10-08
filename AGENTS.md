@@ -19,7 +19,7 @@ Sitio web de **AS Tupropiedad**, boutique inmobiliaria de Lima (Perú): compra, 
 | Lenguaje | TypeScript estricto (`strict: true`), alias `@/*` → `src/*` |
 | Fuentes | `next/font`: Geist (sans), Playfair Display (serif), Geist Mono (sin uso) |
 | Hosting | Vercel (proyecto `web-as-tupropiedad`, framework `nextjs`). Conectado a GitHub (2026-10-05): **un `push` a `main` despliega a producción**; las demás ramas generan *previews*. Trabaja en ramas; flujo y rollback en [docs/DESPLIEGUE.md](docs/DESPLIEGUE.md). |
-| Calidad | ESLint 9 flat config (`eslint-config-next`), `tsc --noEmit`. **No hay pruebas todavía.** |
+| Calidad | ESLint 9 flat config (`eslint-config-next`), `tsc --noEmit`, **Vitest** (solo `src/lib/finance.test.ts` por ahora; sin Playwright todavía). |
 | Entorno | Node ≥ 20.9 (probado con 24), npm. Windows + PowerShell/Git Bash. **Repositorio git** (rama `main`, iniciado el 2026-10-05; remoto `origin` = https://github.com/jacafor/astupropiedad, ver D-12). |
 
 ## Comandos
@@ -28,7 +28,8 @@ Sitio web de **AS Tupropiedad**, boutique inmobiliaria de Lima (Perú): compra, 
 npm run dev            # servidor de desarrollo, http://localhost:3000
 npm run build          # build de producción (debe terminar sin errores)
 npm run start          # sirve el build (usa otro puerto con: npx next start -p 3055)
-npm run lint           # eslint (línea base actual: 4 errores, 15 advertencias — no añadas más)
+npm run lint           # eslint (línea base actual: 0 errores, 7 advertencias — no añadas más)
+npm test               # vitest run: pruebas de src/lib/finance.test.ts
 npx tsc --noEmit       # chequeo de tipos (línea base: limpio)
 ```
 
@@ -39,7 +40,8 @@ npx tsc --noEmit       # chequeo de tipos (línea base: limpio)
 ```
 src/app/                  rutas (App Router): /, /nosotros, /servicios, /propiedades, /vender,
                           /simulador-inversion, /simulador-hipotecario
-src/components/           Navbar, Hero, Footer, FloatingWhatsApp, LeadForm (formulario de leads), GHLForm (sin uso) y secciones de la home
+src/components/           Navbar, Hero, Footer, FloatingWhatsApp, LeadForm (formulario de leads), simuladores.tsx (campo numérico, moneda, aviso), GHLForm (sin uso) y secciones de la home
+src/lib/finance.ts        matemática financiera pura (cuota, cronograma, cap rate…) con pruebas en finance.test.ts; formato.ts = presentación
 src/app/actions/lead.ts   Server Action enviarLead (valida, honeypot, POST a GHL); esquema en src/lib/leads.ts
 public/imagenes/          fotos y flyers (nombres con espacios: usar URL-encoding o renombrar)
 docs/                     documentación del proyecto (ver índice abajo)
@@ -126,7 +128,7 @@ Mapa completo de rutas, componentes y deuda técnica: [docs/ARQUITECTURA.md](doc
 ```bash
 npx tsc --noEmit && npm run lint && npm run build
 ```
-- Reporta el resultado **real**, aunque falle. Si el lint empeora respecto a la línea base (4 errores / 15 advertencias), arréglalo.
+- Reporta el resultado **real**, aunque falle. Si el lint empeora respecto a la línea base (0 errores / 7 advertencias) y corre `npm test`, arréglalo.
 - Para cambios de UI: abre la página en el navegador a 390 px y pruébala (menú, CTAs, formularios). No declares "funciona" sin haberlo probado.
 - Si tocaste un formulario o CTA: pruébalo de punta a punta y confirma que el dato llega (o que el enlace abre el destino correcto).
 

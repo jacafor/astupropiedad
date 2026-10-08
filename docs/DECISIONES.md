@@ -104,6 +104,12 @@ Cada entrada lleva `estado`, `fecha` y `responsable` (quien debe validarla). Par
 - **Decidido sin consultar:** celular en E.164 sin espacios (`+51987654321`); correo opcional en todos los formularios; se quitó la promesa "en los próximos 10 minutos" del asistente de `/vender` (P-9); el "Contactar a un Broker" es el CTA de la calculadora de la home (`home-hipoteca:cta`); los formularios de asesor privado y reclutamiento quedaron visibles en la página (no tras un botón); un honeypot relleno responde "OK" sin enviar nada.
 - **Sigue abierto en P-5:** URL del webhook de prueba, pipeline, campos y etiquetas. El envío **no se ha probado contra GHL real**. La casilla de consentimiento enlaza a `/privacidad`, que da 404 hasta la sesión 09.
 
+### D-19 · Simuladores sin valores inventados; matemática en `lib/finance.ts` (sesión 06)
+- **Estado:** **Propuesta** · **Fecha:** 2026-10-07 · **Responsable:** jforero (la tomó Claude; reversible)
+- **Decisión propuesta:** toda la cuenta vive en `src/lib/finance.ts` (Vitest, `npm test`; se instaló vitest 4 porque el 5 choca con `@types/node` 20). Alcabala, impuesto a la renta, gastos notariales, plusvalía, mantenimiento, arbitrios, ingreso y tope cuota/ingreso empiezan **vacíos** y vacío = "no se incluye"; cada uno lleva la nota "confírmalo con tu notario o contador". USD/PEN con tipo de cambio que escribe la persona (sin valor por defecto; P-4 sigue abierta para la moneda de los precios). La "Relación cuota/ingreso" fija de 3.5x se sustituyó por un porcentaje calculado con el ingreso que la persona escribe. En la home, la calculadora de rentabilidad se rotuló **bruta** (antes decía cap rate).
+- **Decidido sin consultar:** límites (montos ≤ 1 000 millones, TEA 0-100 %, plazo 1-40 años); precio y alquiler del simulador de inversión (350 000 / 1 800) y TEA 8,5 % siguen con los valores de ejemplo que ya tenía el código; mantenimiento y arbitrios pasaron de 450 / 1 200 a vacío; la home sigue solo en USD; el plazo hipotecario pasó de lista cerrada a campo numérico (para poder validar 0).
+- **Pendiente de validar:** la TEA de ejemplo de 8,5 % no tiene respaldo (¿qué tasa de referencia quiere el cliente?); fórmulas contra un simulador bancario real.
+
 ## Pendientes (necesitan respuesta del cliente o del equipo)
 
 P-1, P-2 y P-3 se cerraron el 2026-10-04 (ver D-9, D-10, D-11); P-7 y P-8 el 2026-10-05 (ver D-12); P-6 el 2026-10-05 (ver D-16). Cada pendiente indica **quién decide**, **qué hay que entregar para cerrarlo** y **qué se hará por defecto** si no hay respuesta (el valor por defecto es provisional y nunca toca datos del cliente).
@@ -129,6 +135,6 @@ No los trates como hechos. Antes de publicar algo basado en ellos, confírmalos 
 |---|---|---|
 | Normativa peruana aplicable: Ley 29733 (datos personales), Libro de Reclamaciones, publicidad ante INDECOPI, registro de agentes inmobiliarios | [NEGOCIO-Y-CONTENIDO.md](NEGOCIO-Y-CONTENIDO.md), auditorías | Asesoría legal |
 | Tratamiento de la alcabala (tramo inafecto) y de la plusvalía en los simuladores | Auditoría de funcionalidades (Bloque D) | Contador / notario |
-| Fórmula de tasa mensual `(1+TEA)^(1/12)−1` y TCEA | Auditoría web C7 | Revisar con un simulador bancario real |
+| Fórmula de tasa mensual `(1+TEA)^(1/12)−1` (ya implementada, D-19) y TCEA (sin implementar) | Auditoría web C7 | Revisar con un simulador bancario real |
 | Ratios de contraste de color | Auditoría web, accesibilidad | Medir con herramienta (son aproximados) |
 | Puntaje de accesibilidad ≈ 35 | Auditoría web | Es estimación, no medición con herramienta automática |

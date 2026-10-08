@@ -87,7 +87,7 @@ Ningún flyer muestra precio: **todos los precios del sitio carecen de respaldo.
 - [ ] **Razón social, RUC y domicilio** visibles.
 - [ ] **Registro del agente inmobiliario**, si corresponde por normativa.
 - [ ] **Publicidad veraz** (INDECOPI): sin afirmaciones absolutas ni cifras sin respaldo.
-- [ ] Simulador hipotecario: aviso de **referencial / no vinculante**; mostrar **TCEA**; indicar que depende de la evaluación del banco.
+- [ ] Simulador hipotecario: aviso de **referencial / no vinculante** y de que depende de la evaluación del banco *(hecho 2026-10-07, sesión 06; fórmulas en [ARQUITECTURA.md](ARQUITECTURA.md))*. **Pendiente:** mostrar **TCEA** (requiere seguros y comisiones del banco).
 - [ ] **Cookies/analítica:** banner de consentimiento antes de activar píxeles o analítica.
 - [ ] **Fotos:** sin matrículas ni personas identificables; derechos de uso de cada imagen.
 

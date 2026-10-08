@@ -50,7 +50,7 @@ Detalle en [NEGOCIO-Y-CONTENIDO.md](NEGOCIO-Y-CONTENIDO.md) §7 y [DECISIONES.md
 
 - [ ] **Fuente única de propiedades** `src/data/properties.ts` (tipo `Property`) y datos/fotos reales *(C3, Bloque B)*
 - [ ] **Fichas** `/propiedades/[slug]` con galería, WhatsApp prellenado, JSON-LD, similares *(Bloque C)*
-- [ ] **Simuladores v2:** `src/lib/finance.ts` con pruebas, TEA→TEM, validación de entradas, cronograma, capacidad de pago, alcabala/plusvalía editables, resultado enviable como lead *(C7, Bloque D)*
+- [x] **Simuladores v2** *(hecho 2026-10-07, sesión 06)*: `src/lib/finance.ts` con pruebas, TEA→TEM, validación de entradas, cronograma, capacidad de pago, alcabala/plusvalía/notariales/IR editables sin valor inicial, USD/PEN con tipo de cambio escrito por la persona, aviso de simulación referencial *(C7, Bloque D)*. El resultado ya viajaba como lead (sesión 05). **Pendiente:** TCEA, seguros/comisiones, y contrastar con un simulador bancario real
 - [ ] **Analítica + eventos + banner de cookies** *(Bloque G)*
 - [ ] **Accesibilidad:** labels, `aria-label`, contraste, texto ≥ 12 px, `reducedMotion`, foco visible *(AUDITORIA-WEB §Accesibilidad)*
   - Hecho cuando: `design:accessibility-review` sin críticos; cero `<div onClick>`.
@@ -60,7 +60,7 @@ Detalle en [NEGOCIO-Y-CONTENIDO.md](NEGOCIO-Y-CONTENIDO.md) §7 y [DECISIONES.md
 - [ ] Catálogo avanzado: filtros de precio/dormitorios/m², orden, estado en la URL, vista lista real, favoritos, estado vacío con acción *(Bloque C)*
 - [ ] Calendario GHL en `/agendar` y asistente de valoración v2 (Atrás, borrador, validación) *(Bloque E)*
 - [ ] `next/image`, WebP/AVIF, Server Components para contenido estático, lint a cero *(Rendimiento)*
-- [ ] Pruebas: Vitest para `finance.ts`, Playwright para flujos críticos; CI con `tsc` + `eslint` + `build` *(Bloque H)*
+- [ ] Pruebas: ~~Vitest para `finance.ts`~~ *(hecho 2026-10-07, sesión 06)*, Playwright para flujos críticos; CI con `tsc` + `eslint` + `build` *(Bloque H)*
 - [ ] Cabeceras de seguridad y `poweredByHeader: false`; `not-found.tsx`/`error.tsx` en español
 - [x] `git init` (rama `main`) y limpieza de duplicados — 2026-10-05, 3 commits *(D-12)*
 - [x] Conectar el repo con Vercel (previews por rama; producción solo desde `main`, sin asignar dominio todavía) — 2026-10-05, sesión [14](prompts/14-conectar-vercel.md), ver [DESPLIEGUE.md](DESPLIEGUE.md). Preview de `prueba/vercel-preview` en Ready. Pendiente de decidir: P-12 (protección de `main`, dominio, `www`)

@@ -1,37 +1,41 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
-import { Calculator, Calendar, Percent } from 'lucide-react';
+import React, { useMemo, useState } from 'react';
+import { Calculator } from 'lucide-react';
 import { motion } from 'framer-motion';
 import LeadForm from '@/components/LeadForm';
+import { AvisoSimulacion, CampoNumerico } from '@/components/simuladores';
 import { numeroValido } from '@/lib/lead-tipos';
+import { cuotaFrancesa, mensajeDe, mesesDesdeAnios, montoFinanciado, type ErrorFinanza } from '@/lib/finance';
+import { formatearMoneda, leerNumero } from '@/lib/formato';
 
 const MortgageBasic = () => {
   const [price, setPrice] = useState(250000);
-  const [downPayment, setDownPayment] = useState(20); // %
-  const [years, setYears] = useState(20);
-  const [rate, setRate] = useState(8.5); // % Annual
-  const [monthlyPayment, setMonthlyPayment] = useState(0);
+  const [downPayment, setDownPayment] = useState('20'); // %
+  const [years, setYears] = useState('20');
+  const [rate, setRate] = useState('8.5'); // % anual (TEA), referencial
 
-  useEffect(() => {
-    const principal = price * (1 - downPayment / 100);
-    const monthlyRate = (rate / 100) / 12;
-    const numberOfPayments = years * 12;
-    
-    if (monthlyRate === 0) {
-      setMonthlyPayment(principal / numberOfPayments);
-    } else {
-      const payment = (principal * monthlyRate * Math.pow(1 + monthlyRate, numberOfPayments)) / 
-                      (Math.pow(1 + monthlyRate, numberOfPayments) - 1);
-      setMonthlyPayment(payment);
-    }
+  const calculo = useMemo(() => {
+    const errores: ErrorFinanza[] = [];
+    const monto = montoFinanciado(price, leerNumero(downPayment));
+    if (!monto.ok) errores.push(...monto.errores);
+    const plazo = mesesDesdeAnios(leerNumero(years));
+    if (!plazo.ok) errores.push(...plazo.errores);
+    const cuota = cuotaFrancesa({
+      capital: monto.ok ? monto.valor : NaN,
+      teaPct: leerNumero(rate),
+      plazoMeses: plazo.ok ? plazo.valor : 0,
+    });
+    if (!cuota.ok) errores.push(...cuota.errores.filter((e) => e.campo === 'tea'));
+    return {
+      errores,
+      capital: monto.ok ? monto.valor : undefined,
+      cuota: monto.ok && plazo.ok && cuota.ok ? cuota.valor : undefined,
+    };
   }, [price, downPayment, years, rate]);
 
-  const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    maximumFractionDigits: 0
-  });
+  const { errores, capital, cuota: monthlyPayment } = calculo;
+  const usd = (v: number | undefined) => formatearMoneda(v, 'USD');
 
   return (
     <section id="hipoteca" className="py-24 bg-white">
@@ -79,48 +83,48 @@ const MortgageBasic = () => {
               {/* Slider 1: Price */}
               <div className="space-y-4">
                 <div className="flex justify-between items-end">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-gray-400">Precio del Inmueble</label>
-                  <span className="text-2xl font-black text-white">{formatter.format(price)}</span>
+                  <label htmlFor="precio-inmueble" className="text-xs font-black uppercase tracking-widest text-gray-300">Precio del inmueble</label>
+                  <span className="text-2xl font-black text-white">{usd(price)}</span>
                 </div>
                 <input 
-                  type="range" min="50000" max="1000000" step="10000" 
+                  id="precio-inmueble" type="range" min="50000" max="1000000" step="10000" 
                   value={price} onChange={(e) => setPrice(Number(e.target.value))}
                   className="w-full h-1.5 bg-white/10 rounded-lg appearance-none cursor-pointer accent-secondary"
                 />
               </div>
 
               {/* Grid for other inputs */}
-              <div className="grid grid-cols-2 gap-8">
-                <div className="space-y-4">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-gray-400">Cuota Inicial (%)</label>
-                  <div className="relative">
-                    <input 
-                      type="number" value={downPayment} onChange={(e) => setDownPayment(Number(e.target.value))}
-                      className="w-full bg-white/5 border border-white/10 p-4 rounded-xl text-white font-bold text-xl focus:outline-none focus:border-secondary transition-all"
-                    />
-                    <Percent className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 w-5 h-5" />
-                  </div>
-                </div>
-                <div className="space-y-4">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-gray-400">Plazo (Años)</label>
-                  <div className="relative">
-                    <input 
-                      type="number" value={years} onChange={(e) => setYears(Number(e.target.value))}
-                      className="w-full bg-white/5 border border-white/10 p-4 rounded-xl text-white font-bold text-xl focus:outline-none focus:border-secondary transition-all"
-                    />
-                    <Calendar className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 w-5 h-5" />
-                  </div>
-                </div>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                <CampoNumerico
+                  variante="oscuro" etiqueta="Cuota inicial" sufijo="%"
+                  valor={downPayment} onChange={setDownPayment}
+                  error={mensajeDe(errores, 'cuotaInicial')}
+                />
+                <CampoNumerico
+                  variante="oscuro" etiqueta="Plazo (años)" sufijo="años" step="1"
+                  valor={years} onChange={setYears}
+                  error={mensajeDe(errores, 'plazoAnios')}
+                />
+                <CampoNumerico
+                  variante="oscuro" etiqueta="TEA estimada" sufijo="%" step="0.1"
+                  valor={rate} onChange={setRate}
+                  error={mensajeDe(errores, 'tea')}
+                />
               </div>
 
               {/* Results Area */}
               <div className="pt-10 border-t border-white/10">
-                <div className="bg-secondary p-10 rounded-2xl text-dark text-center">
-                  <p className="text-[10px] font-black uppercase tracking-widest mb-2 opacity-60">Cuota Mensual Estimada</p>
-                  <h3 className="text-5xl font-black">{formatter.format(monthlyPayment)}</h3>
-                  <p className="mt-4 text-[9px] font-bold uppercase tracking-widest opacity-40 leading-relaxed italic">
-                    *Tasa referencial de {rate}% (sujeta a evaluación crediticia).
+                <div className="bg-secondary p-8 sm:p-10 rounded-2xl text-dark text-center" aria-live="polite">
+                  <p className="text-xs font-black uppercase tracking-widest mb-2">Cuota mensual estimada</p>
+                  <p className="text-5xl font-black">{usd(monthlyPayment)}</p>
+                  <p className="mt-4 text-xs font-bold leading-relaxed">
+                    {monthlyPayment === undefined ? 'Corrige los campos marcados para ver la cuota.' : `Financias ${usd(capital)}.`}
                   </p>
+                </div>
+                <div className="mt-6">
+                  <AvisoSimulacion variante="oscuro">
+                    La cuota es referencial (cuota fija en dólares, TEA {rate || '—'} %, sin seguros ni comisiones) y está sujeta a la evaluación de la entidad financiera.
+                  </AvisoSimulacion>
                 </div>
               </div>
 
@@ -133,12 +137,12 @@ const MortgageBasic = () => {
                   origen="home-hipoteca:cta"
                   contexto={{
                     precio: numeroValido(price),
-                    montoPrestamo: numeroValido(price * (1 - downPayment / 100)),
-                    plazoAnios: numeroValido(years),
-                    tea: numeroValido(rate),
+                    montoPrestamo: numeroValido(capital),
+                    plazoAnios: monthlyPayment === undefined ? undefined : numeroValido(leerNumero(years)),
+                    tea: monthlyPayment === undefined ? undefined : numeroValido(leerNumero(rate)),
                     cuota: numeroValido(monthlyPayment),
                   }}
-                  mensajeWhatsApp={`Hola, hice una simulación hipotecaria: inmueble de ${formatter.format(price)}, cuota inicial ${downPayment}%, plazo ${years} años. Quisiera orientación de un asesor.`}
+                  mensajeWhatsApp={`Hola, hice una simulación hipotecaria: inmueble de ${usd(price)}, cuota inicial ${downPayment}%, plazo ${years} años. Quisiera orientación de un asesor.`}
                   textoBoton="Hablar con un asesor"
                 />
               </div>

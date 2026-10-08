@@ -39,6 +39,7 @@ No existen: `/propiedades/[slug]`, `/contacto`, `/agendar`, `/privacidad`, `/ter
 | `Footer` | no declarado | Marca, enlaces, contacto, "calendario GHL", legal | En el layout; enlaces internos con `next/link`; sin redes sociales ni Privacidad/Términos (ocultos hasta tener URL y páginas); CTA de videollamada por WhatsApp; `<img>` crudo para el logo |
 | `FloatingWhatsApp` | sí | Botón flotante en el layout (todas las rutas); 56 px en móvil y 64 px desde `md`; `aria-label` | Número desde `contact.ts` |
 | `LeadForm` | sí | Formulario reutilizable de leads (`useActionState` + `enviarLead`): etiquetas, errores por campo, estado "enviando", consentimiento, éxito real y plan B de WhatsApp. Props: `interes`, `origen`, `contexto`, `mensajeWhatsApp`, `variante` (`claro`/`oscuro`), `onAtras` | Enlaza a `/privacidad`, que aún no existe (sesión 09) |
+| `simuladores` (`CampoNumerico`, `SelectorMoneda`, `AvisoSimulacion`) | sí | Piezas compartidas de los simuladores: campo numérico con `<label>`, error en español (`role="alert"`) y variante `claro`/`oscuro`; selector USD/PEN + tipo de cambio escrito por la persona; aviso "Simulación referencial" | Sin estado propio; los valores viven en el simulador |
 | `GHLForm` | sí | Iframe de formulario GHL | **No se usa en ninguna parte**; `DEFAULT_FORM_ID` y dominio sin confirmar |
 
 ## 4. Datos y cálculos (dónde viven hoy)
@@ -49,8 +50,27 @@ No existen: `/propiedades/[slug]`, `/contacto`, `/agendar`, `/privacidad`, `/ter
 | Propiedades destacadas (3) | `FeaturedProperties.tsx` líneas 7-44 | Duplicada y distinta del catálogo |
 | Cifras corporativas | `nosotros`, `vender`, `InvestmentSmarter`, `PropertyZones` | Sin respaldo |
 | Contacto | `Navbar`, `Footer`, `FloatingWhatsApp` | 3 teléfonos y 3 dominios distintos |
-| Cuota hipotecaria | `MortgageBasic.tsx` y `SimuladorHipotecarioClient.tsx` | Fórmula duplicada; TEA tratada como nominal |
-| Rentabilidad | `InvestmentSmarter.tsx` y `SimuladorInversionClient.tsx` | Dos definiciones de "cap rate" |
+| Cuota hipotecaria | `src/lib/finance.ts` (`cuotaFrancesa`, `cronogramaFrances`) | ✔ Resuelto (sesión 06): una sola fórmula, TEA convertida con (1+TEA)^(1/12)−1 |
+| Rentabilidad | `src/lib/finance.ts` (`rentabilidadBruta`, `rentabilidadNeta`) | ✔ Resuelto (sesión 06): la home muestra rentabilidad **bruta** (rotulada así); el cap rate **neto** vive en `/simulador-inversion` |
+
+### Matemática financiera (`src/lib/finance.ts`, sesión 06)
+
+Funciones puras; cada una valida y devuelve `{ ok: true, valor }` o `{ ok: false, errores: [{ campo, mensaje }] }` (mensajes en español que el componente muestra junto al campo). Nunca NaN, Infinity ni negativos. Porcentajes como número "humano" (8.5 = 8,5 %). Límites en `LIMITES`: montos ≤ 1 000 000 000; TEA 0-100 %; plazo 1-40 años; porcentajes ≤ 100.
+
+| Función | Fórmula / supuesto |
+|---|---|
+| `tasaMensualDesdeTEA` | TEM = (1 + TEA)^(1/12) − 1 (tasa efectiva, no TEA/12) |
+| `cuotaFrancesa` | cuota = C · i / (1 − (1+i)^−n); con TEA 0, C / n. Cuota fija en la moneda elegida |
+| `cronogramaFrances` | interés = saldo · i; amortización = cuota − interés; el saldo final se fuerza a 0. Intereses totales = suma de intereses |
+| `montoFinanciado` | precio · (1 − cuota inicial %); cuota inicial de 0 a 99 % |
+| `relacionCuotaIngreso` / `ingresoMinimoRequerido` | cuota / ingreso · 100 ; cuota / (tope % / 100). El **tope lo escribe la persona**: no hay un límite bancario codificado |
+| `rentabilidadBruta` | alquiler mensual · 12 / precio · 100 |
+| `rentabilidadNeta` | neto = alquiler anual − (mantenimiento · 12 + arbitrios) − impuesto a la renta (% del alquiler bruto, escrito por la persona). Cap rate = neto / precio. Si el neto saldría negativo se devuelve 0 con `gastosSuperanIngresos` y el `faltanteAnual` |
+| `inversionTotal` | precio + precio · alcabala % + gastos notariales (monto). Alcabala y notariales **sin valor inicial**: los escribe la persona |
+| `proyeccionPlusvalia` | precio · (1 + plusvalía %)^años (5 años en pantalla). Plusvalía sin valor inicial; la renta acumulada supone alquiler y gastos constantes |
+| `convertirMoneda` | `tipoCambio` = soles por 1 dólar, escrito por la persona; sin valor por defecto |
+
+**No incluye:** seguros (desgravamen, inmueble), comisiones, gastos de la entidad ni TCEA; tampoco reglas propias del impuesto a la renta de alquileres ni vacancia. Los textos de los simuladores lo dicen. Pruebas: `npm test` (`finance.test.ts`; el origen de cada valor de referencia está en los comentarios).
 
 ## 5. Configuración
 
@@ -96,7 +116,7 @@ src/
 ├─ lib/
 │  ├─ contact.ts (✔ creado)              única fuente de teléfono/WhatsApp/correo/dirección/dominio
 │  ├─ whatsapp.ts                waLink(mensaje) con plantillas por contexto
-│  ├─ finance.ts                 cuota, TEM, TCEA, cronograma, cap rate (puras + pruebas)
+│  ├─ finance.ts (✔ creado, sesión 06)  cuota, TEM, cronograma, cap rate (puras + pruebas; falta TCEA)
 │  ├─ analytics.ts               track(evento, props)
 │  └─ utils.ts                   cn()
 └─ data/
