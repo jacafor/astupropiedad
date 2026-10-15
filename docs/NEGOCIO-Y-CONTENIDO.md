@@ -79,6 +79,18 @@ Ningún flyer muestra precio: **todos los precios del sitio carecen de respaldo.
 | Sin uso en el catálogo | — | Pueblo Libre, Calle Coraceros: 86 m², 3 dorm, 2 baños (`Imagen de WhatsApp … 16.44.00…jpg`); `6601394_…jpg` y `PORTADA CORDILLERA CONDOR…png` no se revisaron |
 | `/propiedades` filtro "Alquiler" | Existe la pestaña | No hay ninguna propiedad en alquiler |
 
+### Cómo agregar una propiedad (5 pasos)
+
+Todo el inventario vive en `src/data/properties.ts` (D-11). No hay que tocar nada más: catálogo, home, ficha, WhatsApp y sitemap se generan solos.
+
+1. **Prepara las fotos.** Cópialas a `public/imagenes/propiedades/` con nombre en minúsculas y con guiones (ej. `jm-001-sala.jpg`). Fotos limpias: sin teléfonos, precios ni marcas de agua incrustadas. La primera es la portada.
+2. **Copia un bloque.** En `src/data/properties.ts`, dentro de la lista `PROPIEDADES`, agrega un objeto nuevo siguiendo el tipo `Property` (el editor te marca lo que falte).
+3. **Completa los datos reales:** `id` (referencia corta única, ej. `JM-001`), `slug` (URL: minúsculas, sin tildes ni espacios, ej. `departamento-jesus-maria-calle-talara`; no lo cambies después), `titulo` (≈ 40 caracteres), `operacion`, `tipo`, `distrito`, `precio` y `moneda`, `areaConstruidaM2`, `dormitorios`, `banos`, `cocheras`, `descripcion`, `estado` (`disponible` | `reservado` | `vendido`) y `fotos` (cada una con `url` y un `alt` que describa lo que se ve). Opcionales: `areaTotalM2`, `caracteristicas`, `destacada: true` (la muestra en la home). Nada de dato inventado: si no lo tienes, no publiques la propiedad.
+4. **Borra el EJEMPLO** (constante `EJEMPLO` y su línea en `visibles()`) cuando cargues la primera real. Solo aparece en desarrollo.
+5. **Verifica y publica.** `npm run dev` → revisa `/propiedades` y `/propiedades/<slug>`, prueba el botón de WhatsApp (el mensaje trae título, referencia y precio) y corre `npx tsc --noEmit && npm run build`. Luego rama, pull request y merge (ver `AGENTS.md`). Para quitarla del catálogo sin romper el enlace, cambia el `estado` a `vendido`; la ficha sigue existiendo con su etiqueta.
+
+Para probar un build de producción con la ficha de ejemplo: `MOSTRAR_EJEMPLO=1 npm run build` (no lo pongas en Vercel).
+
 ## 5. Cumplimiento (Perú) — checklist a validar con asesoría legal
 
 - [ ] **Política de privacidad** y **términos** publicados (`/privacidad`, `/terminos`).

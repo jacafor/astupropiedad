@@ -39,7 +39,7 @@ Se quitaron del borrador de la auditoría las frases sin respaldo: "valoración 
 4. `sitemap.ts` la incluye sola. Verifica con `npm run build` y consulta `/sitemap.xml`.
 5. Una sola `<h1>` en la página.
 
-Las páginas dinámicas (`/propiedades/[slug]`, sesión 07) deberán usar `generateMetadata` y añadir sus URLs en `sitemap.ts` leyendo `src/data/properties.ts`; `rutaMetadata` solo cubre rutas fijas.
+Las fichas `/propiedades/[slug]` (sesión 07) generan su `generateMetadata` (título = `titulo` de la propiedad, descripción armada con tipo, distrito, m², dormitorios, precio y descripción, ≤ 160 caracteres), su JSON-LD `RealEstateListing` y su entrada en `sitemap.ts` a partir de `src/data/properties.ts`. **Mantén el `titulo` de cada propiedad en ≈ 40 caracteres o menos** para que el título completo con la marca no pase de 60. La ficha de ejemplo lleva `noindex`.
 
 ## Reglas que no se rompen
 

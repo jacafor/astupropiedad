@@ -106,7 +106,7 @@ Usar un webhook/pipeline de **prueba** y datos ficticios. No enviar datos reales
 | Contexto | Mensaje |
 |---|---|
 | Navbar / botón flotante | "Hola, quiero información sobre sus servicios inmobiliarios." |
-| Ficha de propiedad | "Hola, me interesa *{título}* (ref. {id}) — {precio}. ¿Sigue disponible?" |
+| Ficha y tarjeta de propiedad (`waPropiedad` en `src/lib/propiedades.ts`) | "Hola, me interesa \"{título}\" (ref. {id}) — {precio}. ¿Sigue disponible?" |
 | Simulador hipotecario | "Hola, simulé un crédito de {monto} a {plazo} años (cuota ≈ {cuota}). Quiero asesoría para pre-calificar." |
 | Simulador de inversión | "Hola, calculé una rentabilidad de {capRate} para un inmueble de {precio}. Quiero evaluar opciones." |
 | Vender | "Hola, quiero vender mi {tipo} en {distrito}. ¿Pueden valorarlo?" |

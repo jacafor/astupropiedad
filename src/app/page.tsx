@@ -6,6 +6,7 @@ import FeaturedProperties from "@/components/FeaturedProperties";
 import PersonalShopper from "@/components/PersonalShopper";
 import PropertyZones from "@/components/PropertyZones";
 import MortgageBasic from "@/components/MortgageBasic";
+import { listarDisponibles } from "@/data/properties";
 import PhilosophyAndTeam from "@/components/PhilosophyAndTeam";
 
 export const metadata: Metadata = rutaMetadata("/");
@@ -15,7 +16,7 @@ export default function Home() {
     <div className="min-h-screen">
       <Hero />
       <InvestmentSmarter />
-      <FeaturedProperties />
+      <FeaturedProperties properties={listarDisponibles().filter((p) => p.destacada).slice(0, 2)} />
       <PersonalShopper />
       <PropertyZones />
       <MortgageBasic />

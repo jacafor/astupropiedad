@@ -110,6 +110,12 @@ Cada entrada lleva `estado`, `fecha` y `responsable` (quien debe validarla). Par
 - **Decidido sin consultar:** límites (montos ≤ 1 000 millones, TEA 0-100 %, plazo 1-40 años); precio y alquiler del simulador de inversión (350 000 / 1 800) y TEA 8,5 % siguen con los valores de ejemplo que ya tenía el código; mantenimiento y arbitrios pasaron de 450 / 1 200 a vacío; la home sigue solo en USD; el plazo hipotecario pasó de lista cerrada a campo numérico (para poder validar 0).
 - **Pendiente de validar:** la TEA de ejemplo de 8,5 % no tiene respaldo (¿qué tasa de referencia quiere el cliente?); fórmulas contra un simulador bancario real.
 
+### D-20 · Inventario vacío hasta tener datos reales (sesión 07)
+- **Estado:** **Propuesta** · **Fecha:** 2026-10-14 · **Responsable:** jforero (la tomó Claude; reversible)
+- **Decisión propuesta:** `src/data/properties.ts` es la única fuente (D-11). Al no entregarse fichas reales, se **descartaron las 6 propiedades del catálogo y las 2 de la home** (contradecían los flyers, P-13). En producción el catálogo y la home muestran un estado vacío honesto con WhatsApp; el único elemento (EJEMPLO, `noindex`) solo aparece en desarrollo o con `MOSTRAR_EJEMPLO=1`.
+- **Decidido sin consultar:** el chip "Inversión" se quitó (no es una operación y no había datos) y los chips muestran solo operaciones con propiedades; el botón cuadrícula/lista, que no hacía nada, se quitó; el catálogo lista solo `disponible` (las `reservado`/`vendido` conservan su ficha); `dynamicParams = false` en la ficha.
+- **Consecuencias:** sin propiedades reales la web no muestra ninguna. Ver el paso a paso en [NEGOCIO-Y-CONTENIDO.md](NEGOCIO-Y-CONTENIDO.md).
+
 ## Pendientes (necesitan respuesta del cliente o del equipo)
 
 P-1, P-2 y P-3 se cerraron el 2026-10-04 (ver D-9, D-10, D-11); P-7 y P-8 el 2026-10-05 (ver D-12); P-6 el 2026-10-05 (ver D-16). Cada pendiente indica **quién decide**, **qué hay que entregar para cerrarlo** y **qué se hará por defecto** si no hay respuesta (el valor por defecto es provisional y nunca toca datos del cliente).
@@ -125,7 +131,7 @@ P-1, P-2 y P-3 se cerraron el 2026-10-04 (ver D-9, D-10, D-11); P-7 y P-8 el 202
 | **P-12** | Vercel: ¿se protege `main` (pull request obligatorio)? ¿Quién y cuándo asigna `astupropiedad.com` a producción, con o sin `www`? | jforero | **Hecho 2026-10-05:** repo conectado (producción = `main`, previews activos, Node 24.x, 0 variables de entorno), flujo en [DESPLIEGUE.md](DESPLIEGUE.md). **Decidido por jforero 2026-10-05:** `main` **sin** protección mientras dure el desarrollo (revisar antes de publicar el dominio); el dominio se asigna **más adelante**, porque hoy sirve otra web en producción. **Sigue abierto:** quién y cuándo asigna el dominio (y quién administra el DNS; revisar que `ventas@astupropiedad.com` no dependa de registros que se pisen) y con o sin `www` (el código asume sin `www`) | Producción solo en la URL `*.vercel.app`; **sin** asignar dominio | Dominio de producción |
 
 ### P-13 · Datos de las fichas que contradicen los flyers
-Detalle en el informe de la sesión 02 (home `FeaturedProperties` y `/propiedades`): el catálogo muestra precio, m², dormitorios, baños y distritos que no coinciden con los flyers de `public/imagenes/`, y varias fotos corresponden a otro inmueble. **Quién decide:** jforero / cliente. **Se necesita:** ficha real por propiedad (precio, m², dormitorios, baños, cocheras, distrito, estado) y fotos limpias. **Por defecto:** se dejan como están (marcadas como contradictorias) hasta la sesión 07. **Bloquea:** sesión 07 y la credibilidad del catálogo.
+Detalle en el informe de la sesión 02 (home `FeaturedProperties` y `/propiedades`): el catálogo muestra precio, m², dormitorios, baños y distritos que no coinciden con los flyers de `public/imagenes/`, y varias fotos corresponden a otro inmueble. **Quién decide:** jforero / cliente. **Se necesita:** ficha real por propiedad (precio, m², dormitorios, baños, cocheras, distrito, estado) y fotos limpias. **Por defecto:** (actualizado en la sesión 07, D-20) los datos contradictorios se retiraron del código; no se publica ninguna propiedad hasta recibir fichas reales. **Bloquea:** sesión 07 y la credibilidad del catálogo.
 
 ## Supuestos escritos en los documentos que **aún no se han validado**
 
