@@ -1,41 +1,16 @@
 "use client";
 
 import React from 'react';
-import { Maximize, BedDouble, Bath, Car, ArrowRight, Key, TrendingUp } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { waLink } from '@/lib/contact';
-
-const properties = [
-  {
-    id: 1,
-    title: "Departamento moderno con vista panorámica",
-    location: "Jesús María",
-    price: "$155,000",
-    sqm: "85 m²",
-    dorms: "2 Dorm",
-    baths: "2 Baños",
-    image: "/imagenes/IMG-20250117-WA0101.jpg",
-    tag: "Destacado",
-    tagColor: "bg-secondary text-dark"
-  },
-  {
-    id: 2,
-    title: "Residencia Familiar Arquitectónica",
-    location: "La Molina",
-    price: "$275,000",
-    sqm: "220 m²",
-    dorms: "4 Dorm",
-    baths: "3 Baños",
-    image: "/imagenes/IMG-20250117-WA01012.jpg",
-    tag: "Premium",
-    tagColor: "bg-primary text-white"
-  }
-];
+import PropertyCard from '@/components/PropertyCard';
+import type { Property } from '@/data/properties';
 
 const MotionLink = motion.create(Link);
 
-const FeaturedProperties = () => {
+const FeaturedProperties = ({ properties }: { properties: Property[] }) => {
   return (
     <section id="comprar" className="py-24 bg-gray-50">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
@@ -70,34 +45,8 @@ const FeaturedProperties = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group relative bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-700"
             >
-              <div className="relative h-[450px] overflow-hidden">
-                <img 
-                  src={prop.image} 
-                  alt={prop.title}
-                  className="w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-dark/90 via-dark/20 to-transparent"></div>
-                
-                <div className="absolute top-6 left-6">
-                  <span className={`${prop.tagColor} text-[9px] font-black uppercase tracking-widest px-3 py-1.5 rounded-sm`}>
-                    {prop.tag}
-                  </span>
-                </div>
-
-                <div className="absolute bottom-8 left-8 right-8 text-white">
-                  <p className="text-[10px] font-bold text-secondary uppercase tracking-[0.2em] mb-2">{prop.location}</p>
-                  <h3 className="text-2xl font-serif font-bold mb-4 leading-tight">{prop.title}</h3>
-                  <p className="text-2xl font-black text-white">{prop.price}</p>
-                </div>
-              </div>
-              
-              <div className="p-8 border-t border-gray-100 flex justify-between text-[10px] font-black text-gray-400 uppercase tracking-widest">
-                <span className="flex items-center"><Maximize className="w-3 h-3 mr-2 text-primary" /> {prop.sqm}</span>
-                <span className="flex items-center"><BedDouble className="w-3 h-3 mr-2 text-primary" /> {prop.dorms}</span>
-                <span className="flex items-center"><Bath className="w-3 h-3 mr-2 text-primary" /> {prop.baths}</span>
-              </div>
+              <PropertyCard property={prop} />
             </motion.div>
           ))}
 
@@ -109,7 +58,7 @@ const FeaturedProperties = () => {
             transition={{ duration: 0.5, delay: properties.length * 0.1 }}
             className="relative bg-white rounded-lg overflow-hidden shadow-sm border border-gray-100 flex flex-col"
           >
-            <div className="h-[450px] bg-dark text-white flex flex-col items-center justify-center text-center px-8">
+            <div className="flex-1 min-h-[360px] bg-dark text-white flex flex-col items-center justify-center text-center px-8">
               <span className="bg-white/10 text-white text-xs font-black uppercase tracking-widest px-3 py-1.5 rounded-sm mb-6">
                 Próximamente
               </span>

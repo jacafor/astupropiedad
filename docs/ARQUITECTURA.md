@@ -6,7 +6,7 @@ Estado actual del código (oct 2026) y arquitectura objetivo. Las referencias `C
 
 - **Sitio 100 % estático:** `next build` genera las 7 páginas más el 404 como `○ Static`. No hay Route Handlers, Server Actions, `proxy.ts`, base de datos ni variables de entorno en uso.
 - **Páginas = Server Components** (sesión 04): cada `page.tsx` exporta su `metadata` y renderiza un `*Client.tsx` con lo interactivo (la home compone directamente sus secciones, que ya son cliente). SEO técnico en [SEO.md](SEO.md).
-- **Todo está escrito a mano en el código:** propiedades (en dos archivos distintos), cifras, textos, contacto.
+- **Todo está escrito a mano en el código:** propiedades ya en `src/data/properties.ts` (sesión 07); cifras, textos, contacto.
 - **`Navbar`, `Footer` y `FloatingWhatsApp` viven en `src/app/layout.tsx`** (Server Component) junto con el único `<main id="contenido">` y el enlace "Saltar al contenido" (sesión 01, 2026-10-05). Las páginas ya no los importan ni llevan `<main>`.
 
 ## 2. Mapa de rutas
@@ -16,13 +16,14 @@ Estado actual del código (oct 2026) y arquitectura objetivo. Las referencias `C
 | `/` | `src/app/page.tsx` | `Hero`, `InvestmentSmarter`, `FeaturedProperties`, `PersonalShopper`, `PropertyZones`, `MortgageBasic`, `PhilosophyAndTeam` | solo los de cada componente |
 | `/nosotros` | `src/app/nosotros/NosotrosClient.tsx` | hero, cultura, 4 estadísticas, 3 "especialistas" | ninguno |
 | `/servicios` | `src/app/servicios/ServiciosClient.tsx` | hero + 4 tarjetas de servicio | ninguno |
-| `/propiedades` | `src/app/propiedades/PropiedadesClient.tsx` | búsqueda, chips de tipo, cuadrícula | `activeType`, `searchDistrict`, `viewMode` (sin efecto) |
+| `/propiedades` | `src/app/propiedades/page.tsx` (servidor) + `PropiedadesClient.tsx` | búsqueda por distrito, chips de operación (solo las que tienen propiedades), tarjetas `PropertyCard`, estados vacíos con acción | `operacion`, `distrito` |
+| `/propiedades/[slug]` | `src/app/propiedades/[slug]/page.tsx` | ficha: galería, datos clave, WhatsApp prellenado, JSON-LD `RealEstateListing`, similares; `generateStaticParams` + `dynamicParams = false` (slug falso → 404) | — |
 | `/vender` | `src/app/vender/VenderClient.tsx` | hero + asistente de 3 pasos + 3 ventajas | `step`, `propertyType`, `district` |
 | `/simulador-hipotecario` | `src/app/simulador-hipotecario/SimuladorHipotecarioClient.tsx` | formulario + 4 resultados + CTA | `loanAmount`, `years`, `rate` + 2 derivados |
 | `/simulador-inversion` | `src/app/simulador-inversion/SimuladorInversionClient.tsx` | sliders + KPIs + proyección 5 años | 6 inputs + 4 derivados |
 | `/_not-found` | automático | 404 por defecto de Next (en inglés) | — |
 
-No existen: `/propiedades/[slug]`, `/contacto`, `/agendar`, `/privacidad`, `/terminos`, `/unete`.
+No existen: `/contacto`, `/agendar`, `/privacidad`, `/terminos`, `/unete`.
 
 ## 3. Componentes (`src/components/`)
 
@@ -31,7 +32,8 @@ No existen: `/propiedades/[slug]`, `/contacto`, `/agendar`, `/privacidad`, `/ter
 | `Navbar` | sí | Barra fija en el layout; transparente con texto blanco solo en las rutas con hero oscuro (lista `RUTAS_CON_HERO_OSCURO`) y sólida en las demás (p. ej. `/propiedades`); también se vuelve sólida al hacer scroll > 50 px. Menú móvil con `aria-label`/`aria-expanded`, se cierra al cambiar de ruta | **Ruta nueva con hero oscuro → añádela a `RUTAS_CON_HERO_OSCURO`**; si no, la barra será sólida desde el inicio (el fallo seguro) |
 | `Hero` | sí | Portada con fondo `portada.jpg` (es un banner con el logo) y 2 CTAs | `#vender` no existe; animación infinita |
 | `InvestmentSmarter` | sí | Calculadora "Cap Rate" (en realidad rentabilidad bruta) | `useEffect`+`setState` (lint) |
-| `FeaturedProperties` | sí | 2 propiedades destacadas fijas + tarjeta "Próximamente" | Los datos de las 2 fichas contradicen sus fotos (ver informe de la sesión 02); enlaces a `/propiedades` |
+| `FeaturedProperties` | sí | Recibe las propiedades destacadas por props (la home las lee de `src/data/properties.ts`) + tarjeta "Próximamente" | Sin destacadas, solo se ve la tarjeta "Próximamente" |
+| `PropertyCard` | no | Tarjeta de propiedad compartida por catálogo, home y similares; enlace a la ficha + botón de WhatsApp | — |
 | `PersonalShopper` | sí | Sección de servicio + imagen | CTA a `#contacto` |
 | `PropertyZones` | sí | Miraflores / San Isidro / Surco | Solo texto |
 | `MortgageBasic` | sí | Calculadora hipotecaria rápida + formulario "Habla con un asesor" (`LeadForm`, origen `home-hipoteca:cta`) | `$∞` con plazo 0 (sesión 06) |
@@ -46,8 +48,7 @@ No existen: `/propiedades/[slug]`, `/contacto`, `/agendar`, `/privacidad`, `/ter
 
 | Dato / cálculo | Ubicación | Problema |
 |---|---|---|
-| Propiedades del catálogo (6) | `propiedades/PropiedadesClient.tsx` líneas 10-17 | Contradice al flyer de cada imagen |
-| Propiedades destacadas (3) | `FeaturedProperties.tsx` líneas 7-44 | Duplicada y distinta del catálogo |
+| Propiedades (catálogo, home, fichas, sitemap) | `src/data/properties.ts` (tipo `Property`; D-11) | ✔ Resuelto (sesión 07): una sola fuente; hoy sin propiedades reales (ver P-13) |
 | Cifras corporativas | `nosotros`, `vender`, `InvestmentSmarter`, `PropertyZones` | Sin respaldo |
 | Contacto | `Navbar`, `Footer`, `FloatingWhatsApp` | 3 teléfonos y 3 dominios distintos |
 | Cuota hipotecaria | `src/lib/finance.ts` (`cuotaFrancesa`, `cronogramaFrances`) | ✔ Resuelto (sesión 06): una sola fórmula, TEA convertida con (1+TEA)^(1/12)−1 |

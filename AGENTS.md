@@ -28,7 +28,7 @@ Sitio web de **AS Tupropiedad**, boutique inmobiliaria de Lima (Perú): compra, 
 npm run dev            # servidor de desarrollo, http://localhost:3000
 npm run build          # build de producción (debe terminar sin errores)
 npm run start          # sirve el build (usa otro puerto con: npx next start -p 3055)
-npm run lint           # eslint (línea base actual: 0 errores, 7 advertencias — no añadas más)
+npm run lint           # eslint (línea base actual: 0 errores, 2 advertencias — no añadas más)
 npm test               # vitest run: pruebas de src/lib/finance.test.ts
 npx tsc --noEmit       # chequeo de tipos (línea base: limpio)
 ```
@@ -40,7 +40,8 @@ npx tsc --noEmit       # chequeo de tipos (línea base: limpio)
 ```
 src/app/                  rutas (App Router): /, /nosotros, /servicios, /propiedades, /vender,
                           /simulador-inversion, /simulador-hipotecario
-src/components/           Navbar, Hero, Footer, FloatingWhatsApp, LeadForm (formulario de leads), simuladores.tsx (campo numérico, moneda, aviso), GHLForm (sin uso) y secciones de la home
+src/data/properties.ts      inventario de propiedades (tipo Property; única fuente del catálogo, home, fichas y sitemap)
+src/components/           PropertyCard, Navbar, Hero, Footer, FloatingWhatsApp, LeadForm (formulario de leads), simuladores.tsx (campo numérico, moneda, aviso), GHLForm (sin uso) y secciones de la home
 src/lib/finance.ts        matemática financiera pura (cuota, cronograma, cap rate…) con pruebas en finance.test.ts; formato.ts = presentación
 src/app/actions/lead.ts   Server Action enviarLead (valida, honeypot, POST a GHL); esquema en src/lib/leads.ts
 public/imagenes/          fotos y flyers (nombres con espacios: usar URL-encoding o renombrar)
