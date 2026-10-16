@@ -102,7 +102,7 @@ Cada entrada lleva `estado`, `fecha` y `responsable` (quien debe validarla). Par
 - **Estado:** **Propuesta** · **Fecha:** 2026-10-05 · **Responsable:** jforero (la tomó Claude aplicando el valor por defecto de P-5; reversible)
 - **Decisión propuesta:** los formularios envían por Server Action (`enviarLead`) a un **webhook** de GHL (`GHL_WEBHOOK_URL`, solo servidor), no por la API. Si el webhook no está configurado o falla, se muestra un error honesto y un botón de WhatsApp con los datos ya escritos; nunca un "Enviado" falso. Se instaló `zod` (autorizado por jforero). Detalle y mapeo de campos en [INTEGRACIONES.md](INTEGRACIONES.md) §2.
 - **Decidido sin consultar:** celular en E.164 sin espacios (`+51987654321`); correo opcional en todos los formularios; se quitó la promesa "en los próximos 10 minutos" del asistente de `/vender` (P-9); el "Contactar a un Broker" es el CTA de la calculadora de la home (`home-hipoteca:cta`); los formularios de asesor privado y reclutamiento quedaron visibles en la página (no tras un botón); un honeypot relleno responde "OK" sin enviar nada.
-- **Sigue abierto en P-5:** URL del webhook de prueba, pipeline, campos y etiquetas. El envío **no se ha probado contra GHL real**. La casilla de consentimiento enlaza a `/privacidad`, que da 404 hasta la sesión 09.
+- **Sigue abierto en P-5:** URL del webhook de prueba, pipeline, campos y etiquetas. El envío **no se ha probado contra GHL real**. La casilla de consentimiento enlaza a `/privacidad` (existe desde la sesión 09, D-22).
 
 ### D-19 · Simuladores sin valores inventados; matemática en `lib/finance.ts` (sesión 06)
 - **Estado:** **Propuesta** · **Fecha:** 2026-10-07 · **Responsable:** jforero (la tomó Claude; reversible)
@@ -121,6 +121,12 @@ Cada entrada lleva `estado`, `fecha` y `responsable` (quien debe validarla). Par
 - **Decisión propuesta:** tokens `secondary-dark` y `muted` para texto sobre fondo claro; ningún texto bajo 12 px; foco global (contorno azul + halo blanco); `<MotionConfig reducedMotion="user">` (`Providers`); encabezados sin saltos; `<nav aria-label>`, `<aside>` para el botón de WhatsApp; Esc cierra el menú móvil; conteo de resultados del catálogo y "Paso N de 3" de `/vender` en regiones `aria-live`.
 - **Decidido sin consultar:** se **quitó el modo oscuro automático** de `globals.css` (`prefers-color-scheme: dark`): el sitio solo está diseñado en claro y con un sistema en modo oscuro `/propiedades` mostraba texto azul sobre negro (contraste 1.2:1); eyebrows verdes sobre fondos `primary` pasaron a blanco (3.98:1 no alcanza); el icono del botón de WhatsApp pasó de blanco a `dark` (blanco sobre #25D366 = 1.98:1); el pie usa `h2` en lugar de `h4`.
 - **Sin verificar:** lector de pantalla real y `prefers-reduced-motion` en navegador (solo configuración en código).
+
+### D-22 · Páginas legales en borrador, `noindex` y fuera del sitemap (sesión 09)
+- **Estado:** **Propuesta** · **Fecha:** 2026-10-16 · **Responsable:** jforero + asesoría legal (el texto lo redactó Claude; no es asesoría legal)
+- **Decisión propuesta:** `/privacidad` y `/terminos` existen como borrador con aviso visible, `robots: noindex` y fuera de `sitemap.xml`. El interruptor es **uno solo**: `LEGALES_EN_BORRADOR` en `src/lib/legal.ts` (lo leen `rutaMetadata` y `sitemap.ts`; las rutas llevan `legal: true` en `rutas.ts`). Todo dato no entregado es un `[PENDIENTE: …]` visible (razón social, RUC, domicilio, plazo de conservación, proveedores y transferencias, cookies, Libro de Reclamaciones, ley aplicable). La casilla pasó a `ConsentCheckbox`.
+- **Decidido sin consultar:** no se nombra a GoHighLevel como hecho (solo "CRM, hoy previsto GoHighLevel" como pendiente); se menciona que WhatsApp y el alojamiento intervienen; el borrador no afirma "no usamos cookies".
+- **Consecuencias:** al aprobar el texto, rellenar los pendientes y poner `LEGALES_EN_BORRADOR = false`.
 
 ## Pendientes (necesitan respuesta del cliente o del equipo)
 

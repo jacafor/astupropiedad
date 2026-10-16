@@ -2,7 +2,7 @@
 
 import React, { startTransition, useActionState, useEffect, useId, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
-import Link from "next/link";
+import ConsentCheckbox from "@/components/ConsentCheckbox";
 import { ArrowLeft, CheckCircle2, Loader2, MessageCircle } from "lucide-react";
 import { enviarLead } from "@/app/actions/lead";
 import { waLink } from "@/lib/contact";
@@ -37,7 +37,6 @@ const ESTILOS = {
       "bg-gray-50 border-gray-200 text-dark placeholder:text-gray-500 focus-visible:ring-primary",
     error: "text-red-700",
     alerta: "bg-red-50 border-red-200 text-red-800",
-    enlace: "text-primary hover:text-dark",
     atras: "text-gray-700 hover:text-dark border-gray-200",
     exito: "text-dark",
     exitoTexto: "text-gray-700",
@@ -49,7 +48,6 @@ const ESTILOS = {
       "bg-white/10 border-white/30 text-white placeholder:text-gray-300 focus-visible:ring-secondary",
     error: "text-red-300",
     alerta: "bg-red-500/15 border-red-300/40 text-red-100",
-    enlace: "text-white hover:text-secondary",
     atras: "text-gray-200 hover:text-white border-white/30",
     exito: "text-white",
     exitoTexto: "text-gray-200",
@@ -127,7 +125,7 @@ const LeadForm = ({
 
   const campoClase = `w-full border p-4 rounded-xl text-base font-medium outline-none focus-visible:ring-2 ${e.input}`;
   const idDe = (campo: string) => `${uid}-${campo}`;
-  const propsError = (campo: "nombre" | "celular" | "correo" | "consentimiento") =>
+  const propsError = (campo: "nombre" | "celular" | "correo") =>
     errores[campo]
       ? { "aria-invalid": true, "aria-describedby": idDe(`${campo}-error`) }
       : undefined;
@@ -224,30 +222,13 @@ const LeadForm = ({
         )}
       </div>
 
-      <div className="space-y-2">
-        <div className="flex items-start gap-3">
-          <input
-            id={idDe("consentimiento")}
-            name="consentimiento"
-            type="checkbox"
-            checked={acepta}
-            onChange={(ev) => setAcepta(ev.target.checked)}
-            aria-required="true"
-            className="mt-1 h-5 w-5 shrink-0 accent-secondary focus-visible:ring-2 focus-visible:ring-secondary"
-            {...propsError("consentimiento")}
-          />
-          <label htmlFor={idDe("consentimiento")} className={`text-sm leading-relaxed ${e.ayuda}`}>
-            Acepto que AS Tupropiedad use mis datos para contactarme sobre mi consulta, según la{" "}
-            <Link href="/privacidad" target="_blank" className={`underline underline-offset-4 font-bold ${e.enlace}`}>
-              política de privacidad
-            </Link>
-            .
-          </label>
-        </div>
-        {errores.consentimiento && (
-          <p id={idDe("consentimiento-error")} className={`text-sm ${e.error}`}>{errores.consentimiento}</p>
-        )}
-      </div>
+      <ConsentCheckbox
+        id={idDe("consentimiento")}
+        checked={acepta}
+        onChange={setAcepta}
+        error={errores.consentimiento}
+        variante={variante}
+      />
 
       <div className="flex flex-col-reverse sm:flex-row gap-3">
         {onAtras && (

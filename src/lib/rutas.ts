@@ -10,6 +10,8 @@ export interface Ruta {
   title: string;
   description: string;
   priority: number;
+  /** Página legal: en borrador (ver `LEGALES_EN_BORRADOR`) va `noindex` y fuera del sitemap. */
+  legal?: boolean;
 }
 
 export const RUTAS: Ruta[] = [
@@ -61,5 +63,21 @@ export const RUTAS: Ruta[] = [
     description:
       "Conoce AS Tupropiedad, boutique inmobiliaria de Lima: nuestra forma de trabajar y los valores con los que te acompañamos a comprar, vender e invertir.",
     priority: 0.6,
+  },
+  {
+    path: "/privacidad",
+    title: "Política de privacidad",
+    description:
+      "Cómo AS Tupropiedad trata tus datos personales: qué datos recogemos, para qué los usamos y cómo ejercer tus derechos de acceso, rectificación, cancelación y oposición.",
+    priority: 0.3,
+    legal: true,
+  },
+  {
+    path: "/terminos",
+    title: "Términos y condiciones",
+    description:
+      "Condiciones de uso del sitio web de AS Tupropiedad: alcance de la información, carácter referencial de los simuladores y canales de contacto.",
+    priority: 0.3,
+    legal: true,
   },
 ];
