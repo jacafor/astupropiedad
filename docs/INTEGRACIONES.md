@@ -137,7 +137,7 @@ Usar un webhook/pipeline de **prueba** y datos ficticios. No enviar datos reales
 - La CLI de Vercel está instalada en el equipo de jforero (`vercel login` lo hace él, nunca se guardan tokens). Variables de entorno: se crean en el panel de Vercel; en el chat solo se mencionan sus nombres.
 - **Desplegar solo con confirmación del dueño.** Antes: `/revisar-deploy`.
 - Pendiente: dominio de producción, redirecciones de dominios alternativos, cabeceras de seguridad (`next.config.ts` → `headers()`), `poweredByHeader: false`.
-- Subir `next` a `16.3.8` (aviso crítico en 16.2.0) antes del próximo despliegue.
+- ~~Subir `next`~~ hecho: `16.4.2` (2026-10-16, D-23). Al incrustar el calendario o formulario de GHL, revisar la futura CSP (`script-src`, `frame-src`, `connect-src`); hoy no hay CSP.
 
 ## 6. Supabase (opcional, para inventario)
 

@@ -92,7 +92,7 @@ Funciones puras; cada una valida y devuelve `{ ok: true, valor }` o `{ ok: false
 | ~~Páginas `"use client"` sin `metadata`~~ (resuelto en la sesión 04, 2026-10-05) | C4 |
 | ~~Sin `robots`/`sitemap`/OG/JSON-LD~~ (resuelto en la sesión 04; faltan `FAQPage`/`Offer` con las fichas) | C4 |
 | ~~Navbar invisible en `/propiedades`~~ (resuelto en la sesión 01, 2026-10-05) | C5 |
-| `next@16.2.0` con avisos críticos (`npm audit`) → `16.3.8` | C6 |
+| ~~`next@16.2.0` con avisos críticos~~ → resuelto: `16.4.2` (2026-10-16, D-23) | C6 |
 | Simuladores con valores imposibles y duplicados | C7 |
 | 4 errores `react-hooks/set-state-in-effect`, 2 `react/no-unescaped-entities` | lint |
 | `<img>` crudos en 5 sitios; PNG de ~1 MB | AUDITORIA-WEB §Rendimiento |

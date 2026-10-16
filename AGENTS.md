@@ -14,7 +14,7 @@ Sitio web de **AS Tupropiedad**, boutique inmobiliaria de Lima (Perú): compra, 
 
 | | |
 |---|---|
-| Framework | **Next.js 16.2.0** (App Router, Turbopack por defecto) |
+| Framework | **Next.js 16.4.2** (App Router, Turbopack por defecto) |
 | UI | React 19.2, **Tailwind CSS 4** (`@theme inline` en `globals.css`, sin `tailwind.config`), `framer-motion`, `lucide-react` |
 | Lenguaje | TypeScript estricto (`strict: true`), alias `@/*` → `src/*` |
 | Fuentes | `next/font`: Geist (sans), Playfair Display (serif), Geist Mono (sin uso) |
@@ -92,6 +92,10 @@ Mapa completo de rutas, componentes y deuda técnica: [docs/ARQUITECTURA.md](doc
 - **Imágenes:** `next/image` con `sizes`; fotos limpias (sin teléfonos ni precios incrustados); nombres en minúsculas con guiones.
 - **Voz del sitio:** español natural de Perú, tratamiento "tú" (D-10), sin anglicismos innecesarios ni afirmaciones absolutas.
 
+## Seguridad de la configuración
+
+`next.config.ts` fija `poweredByHeader: false` y las cabeceras `X-Content-Type-Options`, `Referrer-Policy`, `X-Frame-Options: DENY` y `Permissions-Policy` en todas las rutas. **No hay Content-Security-Policy** (ver `docs/DECISIONES.md` D-23): no la añadas sin probarla antes como `Content-Security-Policy-Report-Only`. Si integras el calendario/formulario de GHL o un script externo, revisa estas cabeceras y la futura CSP. `npm audit --omit=dev` debe seguir en 0; el `npm audit` completo tiene avisos de herramientas de desarrollo (ver ROADMAP).
+
 ## Reglas de Next 16 que más se rompen (verificadas en `node_modules/next/dist/docs/01-app/02-guides/upgrading/version-16.md`)
 
 - **APIs de petición asíncronas:** `params`, `searchParams`, `cookies()`, `headers()`, `draftMode()` solo se acceden con `await`. El acceso síncrono fue eliminado.
@@ -129,7 +133,7 @@ Mapa completo de rutas, componentes y deuda técnica: [docs/ARQUITECTURA.md](doc
 ```bash
 npx tsc --noEmit && npm run lint && npm run build
 ```
-- Reporta el resultado **real**, aunque falle. Si el lint empeora respecto a la línea base (0 errores / 7 advertencias) y corre `npm test`, arréglalo.
+- Reporta el resultado **real**, aunque falle. Si el lint empeora respecto a la línea base (0 errores / 2 advertencias) y corre `npm test`, arréglalo.
 - Para cambios de UI: abre la página en el navegador a 390 px y pruébala (menú, CTAs, formularios). No declares "funciona" sin haberlo probado.
 - Si tocaste un formulario o CTA: pruébalo de punta a punta y confirma que el dato llega (o que el enlace abre el destino correcto).
 

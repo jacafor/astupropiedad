@@ -26,7 +26,7 @@ Detalle en [NEGOCIO-Y-CONTENIDO.md](NEGOCIO-Y-CONTENIDO.md) §7 y [DECISIONES.md
 - [x] **Quitar contenido falso:** propiedad de Unsplash, fotos de "equipo" que son edificios, afirmaciones "garantizado" *(C3)* — 2026-10-05, sesión 02. Quedan **pendientes del cliente** las contradicciones entre el catálogo/destacadas y los flyers (ver P-13 en DECISIONES y NEGOCIO-Y-CONTENIDO §4)
   - Hecho cuando: ninguna imagen engañosa; marcadores honestos donde falte dato.
 - [x] **Tono "tú" y español natural en todo el sitio** (D-10, cierra P-6 con D-16) — 2026-10-05, sesión [03](prompts/03-tono-tu.md). Guía de voz en [NEGOCIO-Y-CONTENIDO.md](NEGOCIO-Y-CONTENIDO.md) §3. Quedan anotados (sin tocar): "3.5x" fijo en `/simulador-hipotecario`, promesas absolutas de `/vender` y botón "Enviar datos" sin acción
-- [ ] **Actualizar `next` a `16.3.8`** y `eslint-config-next` *(C6)*
+- [x] **Actualizar `next` y `eslint-config-next`** *(C6)* — 2026-10-16, sesión 10: `16.2.0` → `16.4.2` (la `16.3.8` de la auditoría no era la última parcheada; `latest` del registro y `npm audit` apuntan a `16.4.2`). `npm audit --omit=dev`: 0 avisos (D-23)
   - Hecho cuando: `npm audit --omit=dev` sin críticas; build y lint igual o mejor que la línea base.
 - [x] `.gitignore` completo, `.env.example`, documentación del proyecto (esta carpeta)
 
@@ -61,7 +61,7 @@ Detalle en [NEGOCIO-Y-CONTENIDO.md](NEGOCIO-Y-CONTENIDO.md) §7 y [DECISIONES.md
 - [ ] Calendario GHL en `/agendar` y asistente de valoración v2 (Atrás, borrador, validación) *(Bloque E)*
 - [ ] `next/image`, WebP/AVIF, Server Components para contenido estático, lint a cero *(Rendimiento)*
 - [ ] Pruebas: ~~Vitest para `finance.ts`~~ *(hecho 2026-10-07, sesión 06)*, Playwright para flujos críticos; CI con `tsc` + `eslint` + `build` *(Bloque H)*
-- [ ] Cabeceras de seguridad y `poweredByHeader: false`; `not-found.tsx`/`error.tsx` en español
+- [x] Cabeceras de seguridad y `poweredByHeader: false` — 2026-10-16, sesión 10 (D-23). **Pendiente:** CSP en modo Report-Only; `not-found.tsx`/`error.tsx` en español
 - [x] `git init` (rama `main`) y limpieza de duplicados — 2026-10-05, 3 commits *(D-12)*
 - [x] Conectar el repo con Vercel (previews por rama; producción solo desde `main`, sin asignar dominio todavía) — 2026-10-05, sesión [14](prompts/14-conectar-vercel.md), ver [DESPLIEGUE.md](DESPLIEGUE.md). Preview de `prueba/vercel-preview` en Ready. Pendiente de decidir: P-12 (protección de `main`, dominio, `www`)
 - [x] Añadir `<main>` a las 6 páginas internas — resuelto con el `<main id="contenido">` único del layout, 2026-10-05 (sesión 01)
@@ -87,10 +87,11 @@ Detalle en [NEGOCIO-Y-CONTENIDO.md](NEGOCIO-Y-CONTENIDO.md) §7 y [DECISIONES.md
 
 ## Línea base de calidad (no empeorar)
 
-| Chequeo | Línea base (3 oct 2026) | Meta |
+| Chequeo | Línea base (16 oct 2026) | Meta |
 |---|---|---|
 | `npx tsc --noEmit` | limpio | limpio |
-| `npm run lint` | 6 errores · 17 advertencias | 0 / 0 |
-| `npm run build` | OK (7 páginas + 404, todas estáticas) | OK |
-| `npm audit --omit=dev` | 1 crítica · 3 altas · 1 moderada | 0 críticas/altas |
+| `npm run lint` | 0 errores · 2 advertencias (`<img>` en Footer y PersonalShopper) | 0 / 0 |
+| `npm run build` | OK (next 16.4.2; rutas estáticas + `/propiedades/[slug]` SSG) | OK |
+| `npm audit --omit=dev` | **0 avisos** (antes: 1 crítica · 2 altas · 1 moderada). `npm audit` completo: 8 (1 moderada, 7 altas), solo en herramientas de desarrollo (cadena de `eslint-config-next`: `fast-glob`/`micromatch`/`braces`, `brace-expansion`, `js-yaml`, `@humanfs/node`); no llegan al sitio | 0 |
+| `npm test` | 51 pruebas OK | OK |
 | SEO / UX / Accesibilidad | 32 · 36 · ~35 | ≥ 75 · ≥ 70 · ≥ 80 |
