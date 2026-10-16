@@ -15,7 +15,7 @@ Cada entrada lleva `estado`, `fecha` y `responsable` (quien debe validarla). Par
 - **Estado:** Heredada · **Fecha:** 2026-10-04 (registrada) · **Responsable:** equipo técnico
 - **Contexto:** sitio de marketing con simuladores; despliegue en Vercel.
 - **Decisión:** Next.js 16.2.0 (Turbopack por defecto), React 19.2, App Router.
-- **Consecuencias:** APIs de petición asíncronas, `proxy` en lugar de `middleware`, `metadata` solo en Server Components. Antes de escribir código leer `node_modules/next/dist/docs/` (regla de `AGENTS.md`). Pendiente subir a `16.3.8` por avisos de seguridad (instalar dependencias requiere confirmación, ver `AGENTS.md`).
+- **Consecuencias:** APIs de petición asíncronas, `proxy` en lugar de `middleware`, `metadata` solo en Server Components. Antes de escribir código leer `node_modules/next/dist/docs/` (regla de `AGENTS.md`). Actualizado a `16.4.2` el 2026-10-16 por avisos de seguridad (D-23).
 
 ### D-2 · Tailwind CSS 4 con tokens en CSS
 - **Estado:** Heredada · **Fecha:** 2026-10-04 (registrada) · **Responsable:** equipo técnico
@@ -127,6 +127,12 @@ Cada entrada lleva `estado`, `fecha` y `responsable` (quien debe validarla). Par
 - **Decisión propuesta:** `/privacidad` y `/terminos` existen como borrador con aviso visible, `robots: noindex` y fuera de `sitemap.xml`. El interruptor es **uno solo**: `LEGALES_EN_BORRADOR` en `src/lib/legal.ts` (lo leen `rutaMetadata` y `sitemap.ts`; las rutas llevan `legal: true` en `rutas.ts`). Todo dato no entregado es un `[PENDIENTE: …]` visible (razón social, RUC, domicilio, plazo de conservación, proveedores y transferencias, cookies, Libro de Reclamaciones, ley aplicable). La casilla pasó a `ConsentCheckbox`.
 - **Decidido sin consultar:** no se nombra a GoHighLevel como hecho (solo "CRM, hoy previsto GoHighLevel" como pendiente); se menciona que WhatsApp y el alojamiento intervienen; el borrador no afirma "no usamos cookies".
 - **Consecuencias:** al aprobar el texto, rellenar los pendientes y poner `LEGALES_EN_BORRADOR = false`.
+
+### D-23 · next 16.4.2 y cabeceras de seguridad, sin CSP todavía (sesión 10)
+- **Estado:** **Propuesta** · **Fecha:** 2026-10-16 · **Responsable:** jforero (la tomó Claude; reversible)
+- **Decisión propuesta:** `next` y `eslint-config-next` pasaron de 16.2.0 a **16.4.2** (autorizado por jforero; sin otras dependencias). La auditoría decía 16.3.8, pero `npm audit` y el dist-tag `latest` del registro indican 16.4.2 como la versión parcheada. `next.config.ts` añade `poweredByHeader: false` y las cabeceras `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, `X-Frame-Options: DENY` y `Permissions-Policy` (cámara, micrófono, geolocalización, pago y USB desactivados).
+- **Decidido sin consultar:** `X-Frame-Options: DENY` (nada incrusta este sitio hoy). **No se añadió CSP**: una política estricta sin probar puede romper el widget/calendario de GHL (`script-src`, `frame-src`, `connect-src`) y los estilos/scripts en línea de Next y framer-motion (obligan a `'unsafe-inline'` o a nonces, que además vuelven dinámicas las páginas). Las fuentes de `next/font` se sirven desde el propio dominio, así que no son el riesgo principal. Al integrar GHL, proponerla primero como `Content-Security-Policy-Report-Only` y leer los informes antes de aplicarla.
+- **Consecuencias:** quedan 8 avisos del `npm audit` completo, todos en dependencias de desarrollo; no se tocaron por no estar autorizados.
 
 ## Pendientes (necesitan respuesta del cliente o del equipo)
 
