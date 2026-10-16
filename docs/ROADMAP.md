@@ -11,7 +11,7 @@ Leyenda de referencias: `C1…C7` = hallazgos críticos de la auditoría web · 
 - [ ] Inventario real de propiedades (datos + fotos limpias)
 - [ ] Fotos y datos del equipo real
 - [ ] Cifras verificables / convenios bancarios autorizados
-- [ ] Textos legales (privacidad, términos) y Libro de Reclamaciones
+- [ ] Textos legales revisados (privacidad y términos ya existen como borrador) y Libro de Reclamaciones
 
 Detalle en [NEGOCIO-Y-CONTENIDO.md](NEGOCIO-Y-CONTENIDO.md) §7 y [DECISIONES.md](DECISIONES.md).
 
@@ -35,7 +35,7 @@ Detalle en [NEGOCIO-Y-CONTENIDO.md](NEGOCIO-Y-CONTENIDO.md) §7 y [DECISIONES.md
 - [x] *(hecho 2026-10-05, sesión 05; honeypot sí, Turnstile no; envío a GHL probado solo contra un receptor local, no contra GHL real)* Server Action `enviarLead` + validación (zod) + honeypot/Turnstile + envío a GHL
 - [x] *(hecho 2026-10-05, sesión 05; el "Broker" es el CTA de `MortgageBasic`)* Conectar: asistente de `/vender`, CTA del simulador hipotecario, CTA del simulador de inversión, "Contactar a un Broker", "Solicitar asesor privado", reclutamiento
 - [x] *(hecho 2026-10-05, sesión 05)* Botón de WhatsApp con mensaje prellenado como plan B (`waLink` en `src/lib/contact.ts`, ya existe)
-- [ ] Páginas `/privacidad` y `/terminos` *(la casilla de consentimiento ya está en cada formulario desde la sesión 05; su enlace a `/privacidad` da 404 hasta la sesión 09)*
+- [x] Páginas `/privacidad` y `/terminos` — **borrador**, 2026-10-16, sesión [09](prompts/09-legal.md). `noindex` y fuera del sitemap hasta poner `LEGALES_EN_BORRADOR = false` en `src/lib/legal.ts`. **Pendiente:** revisión legal y los `[PENDIENTE]` (ver D-22). Casilla extraída a `ConsentCheckbox`
   - Hecho cuando: un lead de prueba llega a GHL con origen, página y consentimiento; el usuario ve confirmación real y error entendible.
 - [ ] **Pendiente tras la sesión 05:** definir `GHL_WEBHOOK_URL` (local y Vercel) con un webhook de **prueba** de GHL, mapear los campos de [INTEGRACIONES.md](INTEGRACIONES.md) §2 y repetir la prueba contra GHL real; sin ella, en producción los formularios muestran el error controlado y ofrecen WhatsApp. Anti-spam adicional (Turnstile, límite por IP) y deduplicación en el servidor siguen sin hacer.
 
@@ -75,7 +75,7 @@ Detalle en [NEGOCIO-Y-CONTENIDO.md](NEGOCIO-Y-CONTENIDO.md) §7 y [DECISIONES.md
 - [ ] Testimonios, casos reales, reseñas de Google, FAQ
 - [ ] Alertas de nuevas propiedades (WhatsApp/correo)
 - [ ] Supabase como panel de inventario *(si el equipo lo necesita)*
-- [ ] Libro de Reclamaciones y cumplimiento completo
+- [ ] Libro de Reclamaciones y cumplimiento completo. **Preguntar a la asesoría legal (anotado 2026-10-16, sin implementar):** ¿aplica el Libro de Reclamaciones virtual a una inmobiliaria que solo capta leads? ¿Qué formato, texto y datos exige (razón social, RUC, domicilio)? ¿Hay que registrarse como agente inmobiliario? ¿Plazos de conservación y de respuesta a derechos ARCO? ¿Hay que inscribir el banco de datos ante la autoridad? ¿Hay transferencia de datos al extranjero (CRM, alojamiento)? ¿Se enviará publicidad (consentimiento aparte)? ¿Texto de cookies cuando haya analítica?
 
 ## Definición de "sitio funcional mínimo" (MVP)
 

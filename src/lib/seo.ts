@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { BRAND_NAME } from "@/lib/contact";
+import { LEGALES_EN_BORRADOR } from "@/lib/legal";
 import { RUTAS } from "@/lib/rutas";
 
 export const OG_SIZE = { width: 1200, height: 630 };
@@ -21,6 +22,7 @@ export const rutaMetadata = (path: string): Metadata => {
     // La home usa el título por defecto del layout; el resto pasa por title.template.
     ...(esHome ? {} : { title: ruta.title }),
     description: ruta.description,
+    ...(ruta.legal && LEGALES_EN_BORRADOR ? { robots: { index: false, follow: false } } : {}),
     alternates: { canonical: path },
     openGraph: {
       type: "website",

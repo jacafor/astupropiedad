@@ -111,6 +111,16 @@ const Footer = () => {
 
         <div className="border-t border-white/10 pt-12 flex flex-col md:flex-row justify-between items-center text-xs font-black uppercase tracking-widest text-gray-400">
           <p>© 2026 AS Tupropiedad. Todos los derechos reservados.</p>
+          <nav aria-label="Legal" className="mt-6 md:mt-0">
+            <ul className="flex gap-8">
+              <li>
+                <Link href="/privacidad" className="hover:text-white transition-colors">Privacidad</Link>
+              </li>
+              <li>
+                <Link href="/terminos" className="hover:text-white transition-colors">Términos</Link>
+              </li>
+            </ul>
+          </nav>
         </div>
       </div>
     </footer>

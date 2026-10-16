@@ -93,7 +93,7 @@ Para probar un build de producción con la ficha de ejemplo: `MOSTRAR_EJEMPLO=1 
 
 ## 5. Cumplimiento (Perú) — checklist a validar con asesoría legal
 
-- [ ] **Política de privacidad** y **términos** publicados (`/privacidad`, `/terminos`).
+- [ ] **Política de privacidad** y **términos** publicados (`/privacidad`, `/terminos`) *(borrador `noindex` desde 2026-10-16; falta revisión legal y quitar `LEGALES_EN_BORRADOR`)*.
 - [ ] **Consentimiento expreso** de tratamiento de datos personales en cada formulario (casilla sin premarcar) — Ley 29733 y su reglamento.
 - [ ] **Libro de Reclamaciones virtual** accesible desde el sitio.
 - [ ] **Razón social, RUC y domicilio** visibles.

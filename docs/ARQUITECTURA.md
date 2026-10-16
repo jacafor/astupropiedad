@@ -23,7 +23,7 @@ Estado actual del código (oct 2026) y arquitectura objetivo. Las referencias `C
 | `/simulador-inversion` | `src/app/simulador-inversion/SimuladorInversionClient.tsx` | sliders + KPIs + proyección 5 años | 6 inputs + 4 derivados |
 | `/_not-found` | automático | 404 por defecto de Next (en inglés) | — |
 
-No existen: `/contacto`, `/agendar`, `/privacidad`, `/terminos`, `/unete`.
+Existen `/privacidad` y `/terminos` (borrador, `noindex`, ver `src/lib/legal.ts`). No existen: `/contacto`, `/agendar`, `/unete`.
 
 ## 3. Componentes (`src/components/`)
 
@@ -38,10 +38,12 @@ No existen: `/contacto`, `/agendar`, `/privacidad`, `/terminos`, `/unete`.
 | `PropertyZones` | sí | Miraflores / San Isidro / Surco | Solo texto |
 | `MortgageBasic` | sí | Calculadora hipotecaria rápida + formulario "Habla con un asesor" (`LeadForm`, origen `home-hipoteca:cta`) | `$∞` con plazo 0 (sesión 06) |
 | `PhilosophyAndTeam` | sí | Filosofía + formulario de reclutamiento (`LeadForm`, origen `home:reclutamiento`) | — |
-| `Footer` | no declarado | Marca, enlaces, contacto, "calendario GHL", legal | En el layout; enlaces internos con `next/link`; sin redes sociales ni Privacidad/Términos (ocultos hasta tener URL y páginas); CTA de videollamada por WhatsApp; `<img>` crudo para el logo |
+| `Footer` | no declarado | Marca, enlaces, contacto, "calendario GHL", legal | En el layout; enlaces internos con `next/link`; sin redes sociales (ocultas hasta tener URL); enlaces Privacidad y Términos en la barra inferior; CTA de videollamada por WhatsApp; `<img>` crudo para el logo |
 | `Providers` | sí | `<MotionConfig reducedMotion="user">` que envuelve Navbar, páginas y footer en el layout | Un componente de animación nuevo lo hereda solo |
 | `FloatingWhatsApp` | sí | Botón flotante en el layout (todas las rutas); 56 px en móvil y 64 px desde `md`; `aria-label` | Número desde `contact.ts` |
-| `LeadForm` | sí | Formulario reutilizable de leads (`useActionState` + `enviarLead`): etiquetas, errores por campo, estado "enviando", consentimiento, éxito real y plan B de WhatsApp. Props: `interes`, `origen`, `contexto`, `mensajeWhatsApp`, `variante` (`claro`/`oscuro`), `onAtras` | Enlaza a `/privacidad`, que aún no existe (sesión 09) |
+| `LeadForm` | sí | Formulario reutilizable de leads (`useActionState` + `enviarLead`): etiquetas, errores por campo, estado "enviando", consentimiento, éxito real y plan B de WhatsApp. Props: `interes`, `origen`, `contexto`, `mensajeWhatsApp`, `variante` (`claro`/`oscuro`), `onAtras` | Usa `ConsentCheckbox` |
+| `ConsentCheckbox` | no | Casilla de consentimiento reutilizable (label asociada, obligatoria, error, enlace a `/privacidad`). Props: `id`, `checked`, `onChange`, `error`, `variante` | Úsala en todo formulario que recoja datos |
+| `LegalPage` / `Pendiente` | no | Plantilla de `/privacidad` y `/terminos` con aviso de borrador; `Pendiente` pinta `[PENDIENTE: dato]` visible | Estado del borrador: `LEGALES_EN_BORRADOR` en `src/lib/legal.ts` |
 | `simuladores` (`CampoNumerico`, `SelectorMoneda`, `AvisoSimulacion`) | sí | Piezas compartidas de los simuladores: campo numérico con `<label>`, error en español (`role="alert"`) y variante `claro`/`oscuro`; selector USD/PEN + tipo de cambio escrito por la persona; aviso "Simulación referencial" | Sin estado propio; los valores viven en el simulador |
 | `GHLForm` | sí | Iframe de formulario GHL | **No se usa en ninguna parte**; `DEFAULT_FORM_ID` y dominio sin confirmar |
 
