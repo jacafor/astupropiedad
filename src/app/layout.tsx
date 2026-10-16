@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import FloatingWhatsApp from "@/components/FloatingWhatsApp";
 import JsonLd from "@/components/JsonLd";
+import Providers from "@/components/Providers";
 import { BRAND_NAME, SITE_URL } from "@/lib/contact";
 import { RUTAS } from "@/lib/rutas";
 
@@ -57,12 +58,16 @@ export default function RootLayout({
         >
           Saltar al contenido
         </a>
-        <Navbar />
-        <main id="contenido" className="flex-1">
-          {children}
-        </main>
-        <Footer />
-        <FloatingWhatsApp />
+        <Providers>
+          <Navbar />
+          <main id="contenido" className="flex-1">
+            {children}
+          </main>
+          <Footer />
+          <aside aria-label="Contacto por WhatsApp">
+            <FloatingWhatsApp />
+          </aside>
+        </Providers>
       </body>
     </html>
   );

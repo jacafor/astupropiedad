@@ -39,6 +39,7 @@ No existen: `/contacto`, `/agendar`, `/privacidad`, `/terminos`, `/unete`.
 | `MortgageBasic` | sí | Calculadora hipotecaria rápida + formulario "Habla con un asesor" (`LeadForm`, origen `home-hipoteca:cta`) | `$∞` con plazo 0 (sesión 06) |
 | `PhilosophyAndTeam` | sí | Filosofía + formulario de reclutamiento (`LeadForm`, origen `home:reclutamiento`) | — |
 | `Footer` | no declarado | Marca, enlaces, contacto, "calendario GHL", legal | En el layout; enlaces internos con `next/link`; sin redes sociales ni Privacidad/Términos (ocultos hasta tener URL y páginas); CTA de videollamada por WhatsApp; `<img>` crudo para el logo |
+| `Providers` | sí | `<MotionConfig reducedMotion="user">` que envuelve Navbar, páginas y footer en el layout | Un componente de animación nuevo lo hereda solo |
 | `FloatingWhatsApp` | sí | Botón flotante en el layout (todas las rutas); 56 px en móvil y 64 px desde `md`; `aria-label` | Número desde `contact.ts` |
 | `LeadForm` | sí | Formulario reutilizable de leads (`useActionState` + `enviarLead`): etiquetas, errores por campo, estado "enviando", consentimiento, éxito real y plan B de WhatsApp. Props: `interes`, `origen`, `contexto`, `mensajeWhatsApp`, `variante` (`claro`/`oscuro`), `onAtras` | Enlaza a `/privacidad`, que aún no existe (sesión 09) |
 | `simuladores` (`CampoNumerico`, `SelectorMoneda`, `AvisoSimulacion`) | sí | Piezas compartidas de los simuladores: campo numérico con `<label>`, error en español (`role="alert"`) y variante `claro`/`oscuro`; selector USD/PEN + tipo de cambio escrito por la persona; aviso "Simulación referencial" | Sin estado propio; los valores viven en el simulador |
@@ -93,7 +94,7 @@ Funciones puras; cada una valida y devuelve `{ ok: true, valor }` o `{ ok: false
 | Simuladores con valores imposibles y duplicados | C7 |
 | 4 errores `react-hooks/set-state-in-effect`, 2 `react/no-unescaped-entities` | lint |
 | `<img>` crudos en 5 sitios; PNG de ~1 MB | AUDITORIA-WEB §Rendimiento |
-| Cero `aria-*`; contrastes bajos; texto de 9-10 px | AUDITORIA-WEB §Accesibilidad |
+| ~~Cero `aria-*`; contrastes bajos; texto de 9-10 px~~ resuelto en la sesión 08 (D-21); falta prueba con lector de pantalla | AUDITORIA-WEB §Accesibilidad |
 | Sin pruebas ni CI | Bloque H |
 
 ## 7. Arquitectura objetivo

@@ -27,7 +27,7 @@ const InvestmentSmarter = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                 <div>
                     <span className="text-primary font-black tracking-widest uppercase text-xs mb-4 block">Inteligencia de inversión</span>
-                    <h2 className="text-5xl md:text-6xl font-serif font-black text-dark mb-8 leading-tight">Tu dinero merece <br/><span className="italic text-secondary font-normal">volver a casa.</span></h2>
+                    <h2 className="text-5xl md:text-6xl font-serif font-black text-dark mb-8 leading-tight">Tu dinero merece <br/><span className="italic text-secondary-dark font-normal">volver a casa.</span></h2>
                     <p className="text-gray-600 text-lg mb-8 font-light leading-relaxed">
                         Evaluamos propiedades en Lima con indicadores de rentabilidad como el cap rate (lo que rinde la propiedad al año respecto de su precio). No compres solo metros cuadrados: mira también el flujo de caja y el potencial de plusvalía.
                     </p>
@@ -40,10 +40,10 @@ const InvestmentSmarter = () => {
                     viewport={{ once: true }}
                     className="bg-light p-10 rounded-2xl border-b-8 border-primary shadow-2xl"
                 >
-                    <h4 className="text-sm font-black text-dark uppercase tracking-[0.3em] mb-8 text-center flex items-center justify-center">
-                        <TrendingUp className="w-4 h-4 mr-2 text-secondary" />
+                    <h3 className="text-sm font-black text-dark uppercase tracking-[0.3em] mb-8 text-center flex items-center justify-center">
+                        <TrendingUp aria-hidden="true" className="w-4 h-4 mr-2 text-secondary-dark" />
                         Calculadora de Retorno
-                    </h4>
+                    </h3>
                     <div className="space-y-6">
                         <CampoNumerico
                             etiqueta="Inversión estimada (US$)" prefijo="US$"

@@ -34,6 +34,18 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Esc cierra el menú móvil y devuelve el foco al botón que lo abrió.
+  useEffect(() => {
+    if (!isMobileMenuOpen) return;
+    const alPulsar = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      setMenuOpenAt(null);
+      document.getElementById("boton-menu-movil")?.focus();
+    };
+    document.addEventListener("keydown", alPulsar);
+    return () => document.removeEventListener("keydown", alPulsar);
+  }, [isMobileMenuOpen]);
+
   const navLinks = [
     { name: "Nosotros", href: "/nosotros" },
     { name: "Servicios", href: "/servicios" },
@@ -45,6 +57,7 @@ const Navbar = () => {
 
   return (
     <nav
+      aria-label="Principal"
       className={`fixed w-full z-50 transition-all duration-500 ${
         isScrolled
           ? "bg-white/90 backdrop-blur-md py-4 shadow-xl"
@@ -53,17 +66,17 @@ const Navbar = () => {
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-12 flex justify-between items-center">
         {/* LOGO */}
-        <Link href="/" className="flex flex-col group">
+        <Link href="/" aria-label="AS Tupropiedad, inicio" className="flex flex-col group focus-visible:ring-2 focus-visible:ring-secondary">
           <span
             className={`text-2xl font-serif font-black tracking-tighter transition-colors duration-500 ${
               isScrolled ? "text-primary" : "text-white"
             }`}
           >
-            AS <span className="text-secondary group-hover:text-primary transition-colors">TUPROPIEDAD</span>
+            AS <span className={`${isScrolled ? "text-secondary-dark" : "text-secondary"} group-hover:text-primary transition-colors`}>TUPROPIEDAD</span>
           </span>
           <span
-            className={`text-[9px] font-black uppercase tracking-[0.4em] transition-colors duration-500 ${
-              isScrolled ? "text-gray-400" : "text-white/60"
+            className={`text-xs font-black uppercase tracking-[0.3em] transition-colors duration-500 ${
+              isScrolled ? "text-muted" : "text-white/80"
             }`}
           >
             Boutique Inmobiliaria
@@ -76,7 +89,7 @@ const Navbar = () => {
             <Link
               key={link.name}
               href={link.href}
-              className={`text-[11px] font-black uppercase tracking-widest hover:text-secondary transition-all ${
+              className={`text-xs font-black uppercase tracking-widest hover:text-secondary-dark focus-visible:ring-2 focus-visible:ring-primary transition-all ${
                 isScrolled ? "text-dark" : "text-white"
               }`}
             >
@@ -86,13 +99,13 @@ const Navbar = () => {
           <Link
             href={waLink()}
             target="_blank"
-            className={`flex items-center space-x-3 px-6 py-3 rounded-sm text-[11px] font-black uppercase tracking-widest transition-all ${
+            className={`flex items-center space-x-3 px-6 py-3 rounded-sm text-xs font-black focus-visible:ring-2 focus-visible:ring-secondary uppercase tracking-widest transition-all ${
               isScrolled
                 ? "bg-primary text-white hover:bg-dark shadow-lg shadow-primary/20"
                 : "bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm border border-white/30"
             }`}
           >
-            <Phone className="w-3.5 h-3.5 text-secondary" />
+            <Phone className="w-3.5 h-3.5 text-secondary" aria-hidden="true" />
             <span>Contacto Directo</span>
           </Link>
         </div>
@@ -100,6 +113,7 @@ const Navbar = () => {
         {/* MOBILE TOGGLE */}
         <button
           type="button"
+          id="boton-menu-movil"
           className="lg:hidden p-2 -mr-2 focus-visible:ring-2 focus-visible:ring-secondary"
           aria-label={isMobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
           aria-expanded={isMobileMenuOpen}
@@ -107,9 +121,9 @@ const Navbar = () => {
           onClick={() => setMenuOpenAt(isMobileMenuOpen ? null : pathname)}
         >
           {isMobileMenuOpen ? (
-            <X className={isScrolled ? "text-dark" : "text-white"} />
+            <X aria-hidden="true" className={isScrolled ? "text-dark" : "text-white"} />
           ) : (
-            <Menu className={isScrolled ? "text-dark" : "text-white"} />
+            <Menu aria-hidden="true" className={isScrolled ? "text-dark" : "text-white"} />
           )}
         </button>
       </div>

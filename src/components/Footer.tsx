@@ -13,7 +13,7 @@ const Footer = () => {
           <div className="lg:col-span-4">
             <img 
               src="/imagenes/logo AS Tupropiedad.png" 
-              alt="AS Logo" 
+              alt="AS Tupropiedad" 
               className="h-14 w-auto mb-10 bg-white p-3 rounded-sm shadow-xl"
             />
             <p className="text-gray-400 mb-10 leading-relaxed font-light text-lg">
@@ -22,66 +22,66 @@ const Footer = () => {
           </div>
 
           {/* Links */}
-          <div className="lg:col-span-2">
-            <h4 className="text-[10px] font-black uppercase tracking-[0.3em] mb-10 text-secondary">Explorar</h4>
+          <nav aria-label="Pie de página" className="lg:col-span-2">
+            <h2 className="text-xs font-black uppercase tracking-[0.3em] mb-10 text-secondary">Explorar</h2>
             <ul className="space-y-5">
               <li>
                 <Link href="/nosotros" className="text-gray-400 hover:text-white transition-colors flex items-center group">
-                  <ArrowUpRight className="w-3 h-3 mr-3 opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
+                  <ArrowUpRight aria-hidden="true" className="w-3 h-3 mr-3 opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
                   Nosotros
                 </Link>
               </li>
               <li>
                 <Link href="/servicios" className="text-gray-400 hover:text-white transition-colors flex items-center group">
-                  <ArrowUpRight className="w-3 h-3 mr-3 opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
+                  <ArrowUpRight aria-hidden="true" className="w-3 h-3 mr-3 opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
                   Servicios Exclusivos
                 </Link>
               </li>
               <li>
                 <Link href="/propiedades" className="text-gray-400 hover:text-white transition-colors flex items-center group">
-                  <ArrowUpRight className="w-3 h-3 mr-3 opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
+                  <ArrowUpRight aria-hidden="true" className="w-3 h-3 mr-3 opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
                   Catálogo
                 </Link>
               </li>
               <li>
                 <Link href="/vender" className="text-gray-400 hover:text-white transition-colors flex items-center group">
-                  <ArrowUpRight className="w-3 h-3 mr-3 opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
+                  <ArrowUpRight aria-hidden="true" className="w-3 h-3 mr-3 opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
                   Vender Propiedad
                 </Link>
               </li>
               <li>
                 <Link href="/simulador-inversion" className="text-gray-400 hover:text-white transition-colors flex items-center group">
-                  <ArrowUpRight className="w-3 h-3 mr-3 opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
+                  <ArrowUpRight aria-hidden="true" className="w-3 h-3 mr-3 opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
                   Simulador de Inversión
                 </Link>
               </li>
               <li>
                 <Link href="/simulador-hipotecario" className="text-gray-400 hover:text-white transition-colors flex items-center group">
-                  <ArrowUpRight className="w-3 h-3 mr-3 opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
+                  <ArrowUpRight aria-hidden="true" className="w-3 h-3 mr-3 opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
                   Simulador Hipotecario
                 </Link>
               </li>
             </ul>
-          </div>
+          </nav>
 
           {/* Contact */}
           <div className="lg:col-span-3">
-            <h4 className="text-[10px] font-black uppercase tracking-[0.3em] mb-10 text-secondary">Contacto Directo</h4>
+            <h2 className="text-xs font-black uppercase tracking-[0.3em] mb-10 text-secondary">Contacto Directo</h2>
             <ul className="space-y-6">
               <li>
                 <a href={mailLink} className="flex items-start text-gray-400 hover:text-white transition-colors">
-                  <Mail className="w-5 h-5 mr-4 text-secondary flex-shrink-0" />
+                  <Mail className="w-5 h-5 mr-4 text-secondary flex-shrink-0" aria-hidden="true" />
                   <span className="text-sm">{EMAIL}</span>
                 </a>
               </li>
               <li>
                 <a href={telLink} className="flex items-start text-gray-400 hover:text-white transition-colors">
-                  <Phone className="w-5 h-5 mr-4 text-secondary flex-shrink-0" />
+                  <Phone className="w-5 h-5 mr-4 text-secondary flex-shrink-0" aria-hidden="true" />
                   <span className="text-sm">{PHONE_DISPLAY}</span>
                 </a>
               </li>
-              <li className="flex items-start text-gray-400 group cursor-pointer hover:text-white transition-colors">
-                <MapPin className="w-5 h-5 mr-4 text-secondary flex-shrink-0" />
+              <li className="flex items-start text-gray-400">
+                <MapPin className="w-5 h-5 mr-4 text-secondary flex-shrink-0" aria-hidden="true" />
                 <span className="text-sm">San Isidro, Lima - Perú</span>
               </li>
             </ul>
@@ -90,16 +90,16 @@ const Footer = () => {
           {/* CTA de videollamada (por WhatsApp hasta tener calendario) */}
           <div className="lg:col-span-3 bg-white/5 border border-white/10 p-10 rounded-2xl relative overflow-hidden group">
             <div className="relative z-10">
-              <h4 className="text-xl font-serif font-bold mb-4">¿Hablamos de negocios?</h4>
+              <h2 className="text-xl font-serif font-bold mb-4">¿Hablamos de negocios?</h2>
               <p className="text-gray-400 text-sm mb-8 font-light">Escríbenos por WhatsApp y coordinamos una videollamada.</p>
               
               <div className="border border-dashed border-white/20 bg-dark/50 p-6 text-center rounded-lg group-hover:border-secondary/50 transition-colors">
-                <CalendarDays className="w-10 h-10 text-secondary mb-4 mx-auto" />
+                <CalendarDays className="w-10 h-10 text-secondary mb-4 mx-auto" aria-hidden="true" />
                 <a
                   href={waLink("Hola, quisiera coordinar una videollamada con un asesor de AS Tupropiedad")}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[10px] font-black uppercase tracking-widest text-white hover:text-secondary transition-colors underline decoration-secondary underline-offset-8 decoration-2"
+                  className="text-xs font-black uppercase tracking-widest text-white hover:text-secondary transition-colors underline decoration-secondary underline-offset-8 decoration-2"
                 >
                   Coordinar por WhatsApp
                 </a>
@@ -109,7 +109,7 @@ const Footer = () => {
 
         </div>
 
-        <div className="border-t border-white/10 pt-12 flex flex-col md:flex-row justify-between items-center text-[10px] font-black uppercase tracking-widest text-gray-500">
+        <div className="border-t border-white/10 pt-12 flex flex-col md:flex-row justify-between items-center text-xs font-black uppercase tracking-widest text-gray-400">
           <p>© 2026 AS Tupropiedad. Todos los derechos reservados.</p>
         </div>
       </div>

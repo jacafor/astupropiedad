@@ -56,9 +56,10 @@ const VenderPage = () => {
                 ))}
               </div>
 
-              <h3 className="text-2xl font-serif font-black mb-2">Valoración Gratuita</h3>
+              <h2 className="text-2xl font-serif font-black mb-2">Valoración Gratuita</h2>
               <p className="text-gray-700 text-sm mb-8">Cuéntanos de tu inmueble y un asesor te contactará.</p>
 
+              <p className="sr-only" role="status" aria-live="polite">Paso {step} de 3</p>
               <AnimatePresence mode="wait">
                 {step === 1 && (
                   <motion.div key="step1" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-6">
@@ -141,7 +142,7 @@ const VenderPage = () => {
 
                 {step === 3 && (
                   <motion.div key="step3" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-4">
-                    <h4 className="font-serif font-black text-2xl">Casi listo</h4>
+                    <h3 className="font-serif font-black text-2xl">Casi listo</h3>
                     <p className="text-gray-700 text-sm leading-relaxed">
                       Déjanos tus datos y un asesor revisará tu {propertyType.toLowerCase()} en {district.trim()}.
                     </p>
@@ -198,7 +199,7 @@ const VenderPage = () => {
                 <div className="w-14 h-14 bg-primary/5 rounded-2xl flex items-center justify-center mb-6">
                   <feature.icon className="text-primary w-6 h-6" />
                 </div>
-                <h4 className="text-xl font-bold text-dark mb-3">{feature.title}</h4>
+                <h3 className="text-xl font-bold text-dark mb-3">{feature.title}</h3>
                 <p className="text-gray-500 font-light leading-relaxed">{feature.desc}</p>
               </div>
             ))}

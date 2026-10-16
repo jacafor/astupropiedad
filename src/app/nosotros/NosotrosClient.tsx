@@ -59,7 +59,7 @@ const NosotrosPage = () => {
               ].map((value, i) => (
                 <div key={i} className="bg-gray-50 p-8 rounded-3xl border border-gray-100 text-center">
                   <value.icon className="w-8 h-8 text-primary mx-auto mb-4" />
-                  <h4 className="font-bold text-dark">{value.title}</h4>
+                  <h3 className="font-bold text-dark">{value.title}</h3>
                 </div>
               ))}
             </div>

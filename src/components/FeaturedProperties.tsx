@@ -21,7 +21,7 @@ const FeaturedProperties = ({ properties }: { properties: Property[] }) => {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <span className="text-secondary font-black tracking-widest uppercase text-xs mb-4 block">Selección destacada</span>
+            <span className="text-secondary-dark font-black tracking-widest uppercase text-xs mb-4 block">Selección destacada</span>
             <h2 className="text-5xl md:text-6xl font-serif font-black text-dark">Colección Exclusiva</h2>
           </motion.div>
           <MotionLink
@@ -30,7 +30,7 @@ const FeaturedProperties = ({ properties }: { properties: Property[] }) => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="hidden md:flex items-center text-primary font-black text-xs uppercase tracking-widest hover:text-secondary transition-all mt-6 md:mt-0 group"
+            className="hidden md:flex items-center text-primary font-black text-xs uppercase tracking-widest hover:text-secondary-dark transition-all mt-6 md:mt-0 group"
           >
             Ver catálogo privado
             <ArrowRight className="w-4 h-4 ml-4 transform group-hover:translate-x-2 transition-transform" />

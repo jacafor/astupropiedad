@@ -32,7 +32,7 @@ const ServiciosPage = () => {
       {/* Hero */}
       <section className="pt-40 pb-20 bg-primary text-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 text-center">
-          <span className="text-secondary font-black tracking-widest uppercase text-xs mb-6 block">Soluciones 360°</span>
+          <span className="text-white font-black tracking-widest uppercase text-xs mb-6 block">Soluciones 360°</span>
           <h1 className="text-5xl md:text-7xl font-serif font-black mb-8 leading-tight">
             Servicios <span className="text-secondary italic font-normal">Exclusivos.</span>
           </h1>
@@ -51,7 +51,7 @@ const ServiciosPage = () => {
                 <div className="w-16 h-16 bg-primary/5 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-primary transition-colors">
                   <s.icon className="w-8 h-8 text-primary group-hover:text-white transition-colors" />
                 </div>
-                <h3 className="text-2xl font-serif font-black text-dark mb-4">{s.title}</h3>
+                <h2 className="text-2xl font-serif font-black text-dark mb-4">{s.title}</h2>
                 <p className="text-gray-500 font-light leading-relaxed mb-8">{s.desc}</p>
                 <div className="w-12 h-1 bg-gray-100 group-hover:bg-secondary transition-colors"></div>
               </div>

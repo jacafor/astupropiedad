@@ -86,6 +86,19 @@ const CatalogPage = ({ propiedades }: { propiedades: Property[] }) => {
             </div>
           )}
 
+          {propiedades.length > 0 && (
+            <>
+              <h2 className="sr-only">Resultados</h2>
+              <p role="status" aria-live="polite" className="text-sm text-muted font-bold mb-6">
+                {filtradas.length === 0
+                  ? "No hay propiedades con esos filtros"
+                  : filtradas.length === 1
+                    ? "1 propiedad encontrada"
+                    : `${filtradas.length} propiedades encontradas`}
+              </p>
+            </>
+          )}
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <AnimatePresence mode="popLayout">
               {filtradas.map((p, i) => (
@@ -120,7 +133,7 @@ const CatalogPage = ({ propiedades }: { propiedades: Property[] }) => {
           )}
 
           {propiedades.length > 0 && filtradas.length === 0 && (
-            <div className="py-20 text-center max-w-xl mx-auto" role="status">
+            <div className="py-20 text-center max-w-xl mx-auto">
               <Search className="w-12 h-12 mx-auto mb-4 text-gray-500" aria-hidden="true" />
               <h2 className="font-serif font-black text-2xl text-dark mb-3">No hay propiedades con esos filtros</h2>
               <div className="flex flex-col sm:flex-row gap-4 justify-center mt-6">

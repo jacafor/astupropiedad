@@ -49,7 +49,7 @@ const ESTILOS = {
       "bg-white/10 border-white/30 text-white placeholder:text-gray-300 focus-visible:ring-secondary",
     error: "text-red-300",
     alerta: "bg-red-500/15 border-red-300/40 text-red-100",
-    enlace: "text-secondary hover:text-white",
+    enlace: "text-white hover:text-secondary",
     atras: "text-gray-200 hover:text-white border-white/30",
     exito: "text-white",
     exitoTexto: "text-gray-200",
