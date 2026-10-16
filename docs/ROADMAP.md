@@ -52,7 +52,7 @@ Detalle en [NEGOCIO-Y-CONTENIDO.md](NEGOCIO-Y-CONTENIDO.md) §7 y [DECISIONES.md
 - [x] **Fichas** `/propiedades/[slug]` con galería, WhatsApp prellenado, JSON-LD, similares *(Bloque C)* — 2026-10-14, sesión 07. Falta: mapa de zona, formulario "Agendar visita", compartir, zoom de galería
 - [x] **Simuladores v2** *(hecho 2026-10-07, sesión 06)*: `src/lib/finance.ts` con pruebas, TEA→TEM, validación de entradas, cronograma, capacidad de pago, alcabala/plusvalía/notariales/IR editables sin valor inicial, USD/PEN con tipo de cambio escrito por la persona, aviso de simulación referencial *(C7, Bloque D)*. El resultado ya viajaba como lead (sesión 05). **Pendiente:** TCEA, seguros/comisiones, y contrastar con un simulador bancario real
 - [ ] **Analítica + eventos + banner de cookies** *(Bloque G)*
-- [ ] **Accesibilidad:** labels, `aria-label`, contraste, texto ≥ 12 px, `reducedMotion`, foco visible *(AUDITORIA-WEB §Accesibilidad)*
+- [x] **Accesibilidad:** labels, `aria-label`, contraste, texto ≥ 12 px, `reducedMotion`, foco visible *(AUDITORIA-WEB §Accesibilidad)* — 2026-10-16, sesión 08 (D-21). axe-core: 0 violaciones en las 8 rutas a 390 y 1280 px. **Pendiente:** lector de pantalla real (NVDA/VoiceOver) y `prefers-reduced-motion` probado en navegador; `<img>` crudos del footer y PersonalShopper (lint)
   - Hecho cuando: `design:accessibility-review` sin críticos; cero `<div onClick>`.
 
 ## P2 — mes 2

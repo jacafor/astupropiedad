@@ -89,7 +89,7 @@ const MortgageSimulator = () => {
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
           <motion.span
             initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-            className="text-secondary font-black tracking-widest uppercase text-xs mb-6 block"
+            className="text-white font-black tracking-widest uppercase text-xs mb-6 block"
           >
             Asesoría de crédito
           </motion.span>
@@ -198,7 +198,7 @@ const MortgageSimulator = () => {
             {/* Sidebar CTA */}
             <div className="lg:col-span-12 xl:col-span-4 space-y-8">
               <div className="bg-dark text-white p-8 sm:p-12 rounded-3xl shadow-2xl relative overflow-hidden">
-                <h3 className="text-2xl font-serif font-black mb-6">Orientación para tu crédito</h3>
+                <h2 className="text-2xl font-serif font-black mb-6">Orientación para tu crédito</h2>
                 <p className="text-gray-300 text-sm mb-10 font-light leading-relaxed">
                   Un asesor puede revisar contigo esta simulación y orientarte sobre los siguientes pasos. La cuota es referencial y depende de la evaluación de cada banco.
                 </p>
@@ -227,7 +227,7 @@ const MortgageSimulator = () => {
                   <div className="p-3 bg-primary/10 rounded-full">
                     <Table className="text-primary w-6 h-6" aria-hidden="true" />
                   </div>
-                  <h4 className="font-bold">Cronograma de pagos</h4>
+                  <h3 className="font-bold">Cronograma de pagos</h3>
                 </div>
                 {cron ? (
                   <details className="mb-6">

@@ -59,7 +59,7 @@ const MortgageBasic = () => {
             
             <motion.a 
               href="/simulador-hipotecario"
-              className="inline-flex items-center mt-12 text-primary font-black text-[10px] uppercase tracking-[0.3em] hover:text-secondary transition-all group"
+              className="inline-flex items-center mt-12 text-primary font-black text-xs uppercase tracking-[0.3em] hover:text-secondary-dark transition-all group"
             >
               Simulador Avanzado
               <div className="ml-4 p-2 border border-primary group-hover:border-secondary rounded-full transition-all">

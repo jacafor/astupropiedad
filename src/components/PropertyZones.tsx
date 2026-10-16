@@ -36,9 +36,9 @@ const PropertyZones = () => {
             className="p-12 hover:bg-gray-50 transition-all group flex flex-col justify-between"
           >
             <div>
-              <h4 className="text-3xl font-serif font-black text-dark mb-2 group-hover:text-primary transition-colors">{zone.title}</h4>
-              <p className="text-[10px] font-bold text-secondary uppercase tracking-widest mb-6">{zone.tag}</p>
-              <p className="text-gray-500 text-sm font-light leading-relaxed">{zone.desc}</p>
+              <h2 className="text-3xl font-serif font-black text-dark mb-2 group-hover:text-primary transition-colors">{zone.title}</h2>
+              <p className="text-xs font-bold text-secondary-dark uppercase tracking-widest mb-6">{zone.tag}</p>
+              <p className="text-muted text-sm font-light leading-relaxed">{zone.desc}</p>
             </div>
           </motion.div>
         ))}
@@ -51,9 +51,9 @@ const PropertyZones = () => {
           className="p-12 bg-primary text-white flex flex-col justify-center items-center text-center group"
         >
           <div className="p-4 bg-white/10 rounded-full mb-6 group-hover:scale-110 transition-transform">
-            <MapPin className="w-8 h-8 text-secondary" />
+            <MapPin aria-hidden="true" className="w-8 h-8 text-secondary" />
           </div>
-          <h4 className="text-xl font-bold mb-3">Cobertura en Lima</h4>
+          <h2 className="text-xl font-bold mb-3">Cobertura en Lima</h2>
           <p className="text-white/70 text-sm font-light leading-relaxed">Trabajamos en distintos distritos de Lima Metropolitana.</p>
         </motion.div>
       </div>

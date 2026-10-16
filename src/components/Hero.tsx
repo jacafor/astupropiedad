@@ -80,8 +80,8 @@ const Hero = () => {
         className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center space-y-4 cursor-pointer"
         onClick={() => window.scrollTo({ top: window.innerHeight, behavior: "smooth" })}
       >
-        <span className="text-[9px] font-black text-white/40 uppercase tracking-[0.5em] vertical-text">Desliza</span>
-        <ArrowDown className="text-secondary w-5 h-5" />
+        <span className="text-xs font-black text-white/80 uppercase tracking-[0.5em] vertical-text">Desliza</span>
+        <ArrowDown aria-hidden="true" className="text-secondary w-5 h-5" />
       </motion.button>
     </section>
   );

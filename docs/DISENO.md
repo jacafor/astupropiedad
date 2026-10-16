@@ -9,6 +9,8 @@ Lo que ya usa el sitio (extraído del código) más las reglas para que los camb
 | `primary` | `#014898` (azul) | Fondos de sección, CTAs secundarios, enlaces |
 | `secondary` | `#7CC04B` (verde) | CTA principal, acentos, eyebrows sobre fondo oscuro |
 | `accent` | `#41AEE5` | Reservado (casi sin uso) |
+| `secondary-dark` | `#3F7A19` | Verde para **texto** sobre fondo claro (5.2:1 sobre blanco) |
+| `muted` | `#4a5565` | Gris de texto secundario sobre fondo claro (7.6:1 sobre blanco) |
 | `dark` | `#122137` | Texto principal, fondos oscuros |
 | `light` | `#f8fafc` | Fondo del `<body>` |
 | `font-sans` | Geist | Texto general |
@@ -43,18 +45,18 @@ Lo que ya usa el sitio (extraído del código) más las reglas para que los camb
 
 | Regla | Detalle |
 |---|---|
-| Texto mínimo | **12 px** (hoy hay 59 usos de `text-[9px]`/`text-[10px]`: no añadir más) |
+| Texto mínimo | **12 px** (desde la sesión 08 no queda ninguno: no añadir) |
 | Contraste | ≥ 4.5:1 en texto normal, ≥ 3:1 en texto grande (≥ 24 px, o ≥ 18.66 px en negrita) |
 | Campos | `<label htmlFor>` + `id` (o `useId`); nunca solo `placeholder` |
 | Botones de icono | `aria-label` obligatorio (hamburguesa, vista cuadrícula/lista, búsqueda…) |
-| Foco | `focus-visible:ring-2 ring-primary`; no uses `outline-none` sin reemplazo |
+| Foco | `globals.css` ya dibuja un contorno azul con halo blanco en `a`, `button`, `summary` y `[role=button]`; los campos usan `focus-visible:ring-2`. No uses `outline-none` sin reemplazo |
 | Estructura | Un `<main>` y un `<h1>` por página; sin saltos de nivel; los números no son encabezados |
 | Movimiento | Respetar `prefers-reduced-motion` (`<MotionConfig reducedMotion="user">`); sin animaciones infinitas |
 | Objetivos táctiles | Recomendado ≥ 44 × 44 px (mínimo 24 × 24) |
 | Controles | Si se hace clic, es `<button>` o `<a>`, nunca `<div onClick>` |
 | Imágenes | `alt` descriptivo (qué muestra y dónde); decorativas con `alt=""` |
 
-### Combinaciones de color (razones calculadas, aproximadas)
+### Combinaciones de color (razones **medidas** con la fórmula WCAG en la sesión 08)
 
 | Texto sobre fondo | Razón | Veredicto |
 |---|---|---|
@@ -66,7 +68,9 @@ Lo que ya usa el sitio (extraído del código) más las reglas para que los camb
 | `secondary` sobre `dark` | ≈ 7.1:1 | ✅ (eyebrows sobre oscuro) |
 | `gray-400` sobre `dark` | ≈ 6.4:1 | ✅ |
 | **`gray-400` sobre blanco** | ≈ 2.5:1 | ❌ no usar para texto |
-| **`secondary` sobre blanco/`gray-50`** | ≈ 2.2:1 | ❌ no usar para texto (usar un verde oscuro, p. ej. token `secondary-dark ≈ #3F7A19`, ≈ 5.2:1, verificar visualmente) |
+| **`secondary` sobre blanco/`gray-50`** | 2.21 / 2.12 | ❌ no usar para texto: usa `text-secondary-dark` (5.24 / 5.01) |
+| **`secondary` sobre `primary`** | 3.98 | ❌ para texto < 24 px (usa `text-white`) |
+| **`white` sobre `#25D366`** (botón WhatsApp) | 1.98 | ❌ el icono usa `text-dark` |
 | **`white/50` sobre `primary`** | ≈ 3.4:1 | ❌ para texto < 24 px |
 | **`gray-500` sobre `dark`** | ≈ 3.3:1 | ❌ (usar `gray-300`/`gray-400`) |
 | Texto blanco sobre imagen | depende | ❌ si la imagen es clara: poner degradado que cubra todo el ancho en móvil |

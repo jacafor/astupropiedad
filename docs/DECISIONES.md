@@ -116,6 +116,12 @@ Cada entrada lleva `estado`, `fecha` y `responsable` (quien debe validarla). Par
 - **Decidido sin consultar:** el chip "Inversión" se quitó (no es una operación y no había datos) y los chips muestran solo operaciones con propiedades; el botón cuadrícula/lista, que no hacía nada, se quitó; el catálogo lista solo `disponible` (las `reservado`/`vendido` conservan su ficha); `dynamicParams = false` en la ficha.
 - **Consecuencias:** sin propiedades reales la web no muestra ninguna. Ver el paso a paso en [NEGOCIO-Y-CONTENIDO.md](NEGOCIO-Y-CONTENIDO.md).
 
+### D-21 · Accesibilidad mínima WCAG 2.1 AA (sesión 08)
+- **Estado:** **Propuesta** · **Fecha:** 2026-10-16 · **Responsable:** jforero (la tomó Claude; reversible)
+- **Decisión propuesta:** tokens `secondary-dark` y `muted` para texto sobre fondo claro; ningún texto bajo 12 px; foco global (contorno azul + halo blanco); `<MotionConfig reducedMotion="user">` (`Providers`); encabezados sin saltos; `<nav aria-label>`, `<aside>` para el botón de WhatsApp; Esc cierra el menú móvil; conteo de resultados del catálogo y "Paso N de 3" de `/vender` en regiones `aria-live`.
+- **Decidido sin consultar:** se **quitó el modo oscuro automático** de `globals.css` (`prefers-color-scheme: dark`): el sitio solo está diseñado en claro y con un sistema en modo oscuro `/propiedades` mostraba texto azul sobre negro (contraste 1.2:1); eyebrows verdes sobre fondos `primary` pasaron a blanco (3.98:1 no alcanza); el icono del botón de WhatsApp pasó de blanco a `dark` (blanco sobre #25D366 = 1.98:1); el pie usa `h2` en lugar de `h4`.
+- **Sin verificar:** lector de pantalla real y `prefers-reduced-motion` en navegador (solo configuración en código).
+
 ## Pendientes (necesitan respuesta del cliente o del equipo)
 
 P-1, P-2 y P-3 se cerraron el 2026-10-04 (ver D-9, D-10, D-11); P-7 y P-8 el 2026-10-05 (ver D-12); P-6 el 2026-10-05 (ver D-16). Cada pendiente indica **quién decide**, **qué hay que entregar para cerrarlo** y **qué se hará por defecto** si no hay respuesta (el valor por defecto es provisional y nunca toca datos del cliente).
@@ -142,5 +148,5 @@ No los trates como hechos. Antes de publicar algo basado en ellos, confírmalos 
 | Normativa peruana aplicable: Ley 29733 (datos personales), Libro de Reclamaciones, publicidad ante INDECOPI, registro de agentes inmobiliarios | [NEGOCIO-Y-CONTENIDO.md](NEGOCIO-Y-CONTENIDO.md), auditorías | Asesoría legal |
 | Tratamiento de la alcabala (tramo inafecto) y de la plusvalía en los simuladores | Auditoría de funcionalidades (Bloque D) | Contador / notario |
 | Fórmula de tasa mensual `(1+TEA)^(1/12)−1` (ya implementada, D-19) y TCEA (sin implementar) | Auditoría web C7 | Revisar con un simulador bancario real |
-| Ratios de contraste de color | Auditoría web, accesibilidad | Medir con herramienta (son aproximados) |
+| ~~Ratios de contraste de color~~ | Medidos en la sesión 08 (ver `DISENO.md` §4) | — |
 | Puntaje de accesibilidad ≈ 35 | Auditoría web | Es estimación, no medición con herramienta automática |
