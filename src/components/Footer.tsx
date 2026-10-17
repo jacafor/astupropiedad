@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Mail, Phone, MapPin, CalendarDays, ArrowUpRight } from 'lucide-react';
 import { EMAIL, PHONE_DISPLAY, mailLink, telLink, waLink } from '@/lib/contact';
 
@@ -11,9 +12,12 @@ const Footer = () => {
 
           {/* Branding (redes sociales ocultas hasta tener las URL oficiales) */}
           <div className="lg:col-span-4">
-            <img 
-              src="/imagenes/logo AS Tupropiedad.png" 
-              alt="AS Tupropiedad" 
+            <Image
+              src="/imagenes/logo-as-tupropiedad.png"
+              alt="AS Tupropiedad Inmobiliaria"
+              width={410}
+              height={410}
+              sizes="56px"
               className="h-14 w-auto mb-10 bg-white p-3 rounded-sm shadow-xl"
             />
             <p className="text-gray-400 mb-10 leading-relaxed font-light text-lg">

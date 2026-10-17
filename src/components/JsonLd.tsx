@@ -12,7 +12,7 @@ export const jsonLdAgente = {
   url: SITE_URL,
   telephone: `+${WHATSAPP_NUMBER}`,
   email: EMAIL,
-  logo: `${SITE_URL}/imagenes/${encodeURIComponent("logo AS Tupropiedad.png")}`,
+  logo: `${SITE_URL}/imagenes/logo-as-tupropiedad.png`,
 };
 
 const JsonLd = () => (

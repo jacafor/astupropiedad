@@ -3,6 +3,7 @@
 import React from 'react';
 import { Award, Target, Shield, Users } from 'lucide-react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import { waLink } from '@/lib/contact';
 
 const NosotrosPage = () => {
@@ -10,7 +11,10 @@ const NosotrosPage = () => {
     <div className="min-h-screen bg-white">
       {/* Hero */}
       <section className="pt-40 pb-20 bg-dark text-white relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/imagenes/PORTADA%20DPTO%20JESUS%20MARIA%20V2.jpeg')] bg-cover bg-center opacity-10"></div>
+        <div className="absolute inset-0 opacity-10">
+          {/* Decorativa: el texto de la página ya describe el contenido */}
+          <Image src="/imagenes/flyer-talara-jesus-maria.webp" alt="" fill priority sizes="100vw" className="object-cover object-center" />
+        </div>
         <div className="absolute inset-0 bg-gradient-to-t from-dark to-transparent"></div>
         
         <div className="max-w-7xl mx-auto px-6 lg:px-12 relative z-10 text-center max-w-4xl">

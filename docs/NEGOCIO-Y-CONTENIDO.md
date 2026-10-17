@@ -68,15 +68,15 @@ Ningún flyer muestra precio: **todos los precios del sitio carecen de respaldo.
 
 | Dónde | Dice el sitio | Dice el flyer / la foto |
 |---|---|---|
-| Home, destacada 1 (`IMG-20250117-WA0101.jpg`) | "Flat Moderno con Vista Panorámica", Jesús María, $155,000, 85 m², 2 dorm, 2 baños | La foto es un edificio en **Miraflores** (cartel: "Último depa de 3 dorm – 100 m²") |
-| Home, destacada 2 (`IMG-20250117-WA01012.jpg`) | "Residencia Familiar", La Molina, $275,000, 220 m², 4 dorm, 3 baños | Misma foto del edificio de **Miraflores**; no es una residencia |
+| Home, destacada 1 (`foto-edificio-miraflores-1.jpg`) | "Flat Moderno con Vista Panorámica", Jesús María, $155,000, 85 m², 2 dorm, 2 baños | La foto es un edificio en **Miraflores** (cartel: "Último depa de 3 dorm – 100 m²") |
+| Home, destacada 2 (`foto-edificio-miraflores-2.jpg`) | "Residencia Familiar", La Molina, $275,000, 220 m², 4 dorm, 3 baños | Misma foto del edificio de **Miraflores**; no es una residencia |
 | Catálogo 1 | Jesús María, $165,000, 3 dorm, 2 baños, **95 m²** (la home dice $155,000 · 85 m² · 2 dorm para "Jesús María") | Calle Talara, Jesús María: **77 m²**, 3 dorm, 2 baños, 1 cochera, ascensor; sin precio |
 | Catálogo 2 | "Hermoso Depa en La Molina", $250,000, **4 dorm, 4 baños, 320 m²** | Santa Patricia, La Molina: **113 m²**, 3 dorm, 2 baños |
 | Catálogo 3 | "**Casa** en Urb. Alpamayo", distrito **Ate**, $420,000, 3 dorm, 3 baños, **180 m²** | **Departamento**, Calle El Banco – Urb. Alpamayo: **94 m²**, 3 dorm, 2 baños; el flyer no indica distrito |
 | Catálogo 4 | "Departamento Amplio Callao", $85,000, **0 dorm**, 2 baños, **85 m²** | Ciudad del Pescador, Bellavista – Callao: **94 m²**, **3 dorm**, **3 baños**, ascensor |
-| Catálogo 5 (`6137335_…jpg`) | "Proyecto Inversión", Lima, $110,000, 1 dorm, 1 baño, 45 m² | Es el flyer del departamento de **Av. Hipólito Unanue, Miraflores** (el edificio rotula 3 dorm – 100 m²) |
-| Catálogo 6 (`6449363_…jpg`) | "Casa Exclusiva", La Molina, $550,000, 5 dorm, 4 baños, 400 m² | La foto es un **edificio de departamentos**; sin ubicación ni datos |
-| Sin uso en el catálogo | — | Pueblo Libre, Calle Coraceros: 86 m², 3 dorm, 2 baños (`Imagen de WhatsApp … 16.44.00…jpg`); `6601394_…jpg` y `PORTADA CORDILLERA CONDOR…png` no se revisaron |
+| Catálogo 5 (`flyer-miraflores-hipolito-unanue.jpg`) | "Proyecto Inversión", Lima, $110,000, 1 dorm, 1 baño, 45 m² | Es el flyer del departamento de **Av. Hipólito Unanue, Miraflores** (el edificio rotula 3 dorm – 100 m²) |
+| Catálogo 6 (`foto-edificio-amarillo.jpg`) | "Casa Exclusiva", La Molina, $550,000, 5 dorm, 4 baños, 400 m² | La foto es un **edificio de departamentos**; sin ubicación ni datos |
+| Sin uso en el catálogo | — | Pueblo Libre, Calle Coraceros: 86 m², 3 dorm, 2 baños (`flyer-pueblo-libre-coraceros.jpg`); `foto-edificio-rojo-blanco.jpg` y `flyer-cordillera-condor-ate.webp` no se revisaron |
 | `/propiedades` filtro "Alquiler" | Existe la pestaña | No hay ninguna propiedad en alquiler |
 
 ### Cómo agregar una propiedad (5 pasos)

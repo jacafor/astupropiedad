@@ -2,6 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowDown } from "lucide-react";
 
@@ -13,8 +14,17 @@ const Hero = () => {
         <motion.div
           animate={{ scale: [1, 1.1] }}
           transition={{ duration: 20, repeat: Infinity, repeatType: "reverse" }}
-          className="h-full w-full bg-[url('/imagenes/portada.jpg')] bg-cover bg-center grayscale-[0.3]"
-        />
+          className="relative h-full w-full grayscale-[0.3]"
+        >
+          <Image
+            src="/imagenes/portada.jpg"
+            alt="AS Tupropiedad Inmobiliaria: casa en miniatura y llaves en manos de un asesor"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-center"
+          />
+        </motion.div>
         <div className="absolute inset-0 bg-gradient-to-r from-dark/95 via-dark/70 to-transparent"></div>
       </div>
 

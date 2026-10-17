@@ -38,7 +38,7 @@ Existen `/privacidad` y `/terminos` (borrador, `noindex`, ver `src/lib/legal.ts`
 | `PropertyZones` | sí | Miraflores / San Isidro / Surco | Solo texto |
 | `MortgageBasic` | sí | Calculadora hipotecaria rápida + formulario "Habla con un asesor" (`LeadForm`, origen `home-hipoteca:cta`) | `$∞` con plazo 0 (sesión 06) |
 | `PhilosophyAndTeam` | sí | Filosofía + formulario de reclutamiento (`LeadForm`, origen `home:reclutamiento`) | — |
-| `Footer` | no declarado | Marca, enlaces, contacto, "calendario GHL", legal | En el layout; enlaces internos con `next/link`; sin redes sociales (ocultas hasta tener URL); enlaces Privacidad y Términos en la barra inferior; CTA de videollamada por WhatsApp; `<img>` crudo para el logo |
+| `Footer` | no declarado | Marca, enlaces, contacto, "calendario GHL", legal | En el layout; enlaces internos con `next/link`; sin redes sociales (ocultas hasta tener URL); enlaces Privacidad y Términos en la barra inferior; CTA de videollamada por WhatsApp; logo con `next/image` |
 | `Providers` | sí | `<MotionConfig reducedMotion="user">` que envuelve Navbar, páginas y footer en el layout | Un componente de animación nuevo lo hereda solo |
 | `FloatingWhatsApp` | sí | Botón flotante en el layout (todas las rutas); 56 px en móvil y 64 px desde `md`; `aria-label` | Número desde `contact.ts` |
 | `LeadForm` | sí | Formulario reutilizable de leads (`useActionState` + `enviarLead`): etiquetas, errores por campo, estado "enviando", consentimiento, éxito real y plan B de WhatsApp. Props: `interes`, `origen`, `contexto`, `mensajeWhatsApp`, `variante` (`claro`/`oscuro`), `onAtras` | Usa `ConsentCheckbox` |
@@ -95,7 +95,7 @@ Funciones puras; cada una valida y devuelve `{ ok: true, valor }` o `{ ok: false
 | ~~`next@16.2.0` con avisos críticos~~ → resuelto: `16.4.2` (2026-10-16, D-23) | C6 |
 | Simuladores con valores imposibles y duplicados | C7 |
 | 4 errores `react-hooks/set-state-in-effect`, 2 `react/no-unescaped-entities` | lint |
-| `<img>` crudos en 5 sitios; PNG de ~1 MB | AUDITORIA-WEB §Rendimiento |
+| ~~`<img>` crudos y PNG de ~1 MB~~ (resuelto en la sesión 11, D-24; queda el `<img>` de `og-image.tsx`, obligatorio en `ImageResponse`) | AUDITORIA-WEB §Rendimiento |
 | ~~Cero `aria-*`; contrastes bajos; texto de 9-10 px~~ resuelto en la sesión 08 (D-21); falta prueba con lector de pantalla | AUDITORIA-WEB §Accesibilidad |
 | Sin pruebas ni CI | Bloque H |
 
