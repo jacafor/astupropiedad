@@ -60,4 +60,4 @@ Los metadatos están comprobados en el HTML, pero cómo se ve la tarjeta en What
 
 - Sin `FAQPage`, `Offer`/`Residence` ni `BreadcrumbList` (llegan con las fichas, sesión 07).
 - Falta `not-found.tsx` en español (hoy el 404 es el de Next).
-- Los logos y flyers conservan nombres con espacios (`logo AS Tupropiedad.png`); la URL del logo en el JSON-LD va codificada. Renombrar requiere permiso (AGENTS.md).
+- Todas las imágenes de `public/imagenes/` usan nombres en minúsculas con guiones (sesión 11); el logo del JSON-LD es `/imagenes/logo-as-tupropiedad.png`.

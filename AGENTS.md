@@ -28,7 +28,7 @@ Sitio web de **AS Tupropiedad**, boutique inmobiliaria de Lima (Perú): compra, 
 npm run dev            # servidor de desarrollo, http://localhost:3000
 npm run build          # build de producción (debe terminar sin errores)
 npm run start          # sirve el build (usa otro puerto con: npx next start -p 3055)
-npm run lint           # eslint (línea base actual: 0 errores, 2 advertencias — no añadas más)
+npm run lint           # eslint (línea base actual: 0 errores, 0 advertencias — no añadas ninguna)
 npm test               # vitest run: pruebas de src/lib/finance.test.ts
 npx tsc --noEmit       # chequeo de tipos (línea base: limpio)
 ```
@@ -44,7 +44,7 @@ src/data/properties.ts      inventario de propiedades (tipo Property; única fue
 src/components/           PropertyCard, Navbar, Hero, Footer, FloatingWhatsApp, LeadForm (formulario de leads), simuladores.tsx (campo numérico, moneda, aviso), GHLForm (sin uso) y secciones de la home
 src/lib/finance.ts        matemática financiera pura (cuota, cronograma, cap rate…) con pruebas en finance.test.ts; formato.ts = presentación
 src/app/actions/lead.ts   Server Action enviarLead (valida, honeypot, POST a GHL); esquema en src/lib/leads.ts
-public/imagenes/          fotos y flyers (nombres con espacios: usar URL-encoding o renombrar)
+public/imagenes/          fotos y flyers (nombres en minúsculas con guiones)
 docs/                     documentación del proyecto (ver índice abajo)
 .claude/commands/         comandos de barra del proyecto (/nueva-pagina, /auditar, …)
 ```
@@ -133,7 +133,7 @@ Mapa completo de rutas, componentes y deuda técnica: [docs/ARQUITECTURA.md](doc
 ```bash
 npx tsc --noEmit && npm run lint && npm run build
 ```
-- Reporta el resultado **real**, aunque falle. Si el lint empeora respecto a la línea base (0 errores / 2 advertencias) y corre `npm test`, arréglalo.
+- Reporta el resultado **real**, aunque falle. Si el lint empeora respecto a la línea base (0 errores / 0 advertencias) y corre `npm test`, arréglalo.
 - Para cambios de UI: abre la página en el navegador a 390 px y pruébala (menú, CTAs, formularios). No declares "funciona" sin haberlo probado.
 - Si tocaste un formulario o CTA: pruébalo de punta a punta y confirma que el dato llega (o que el enlace abre el destino correcto).
 

@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import { ShieldCheck } from 'lucide-react';
 import LeadForm from '@/components/LeadForm';
 
@@ -23,10 +24,13 @@ const PersonalShopper = () => {
             className="relative"
           >
             <div className="absolute -inset-4 border border-secondary/30 rounded-lg transform -rotate-3 z-0"></div>
-            <img 
-              src="/imagenes/Imagen%20de%20WhatsApp%202025-05-06%20a%20las%2011.16.34_42668c22.jpg"
-              alt="Asesoría Inmobiliaria AS"
-              className="relative z-10 w-full rounded-lg shadow-2xl filter contrast-110 brightness-90 group-hover:brightness-100 transition-all duration-700"
+            <Image
+              src="/imagenes/foto-edificio-jesus-maria.webp"
+              alt="Fachada de un edificio de departamentos moderno con balcones de vidrio"
+              width={954}
+              height={986}
+              sizes="(min-width: 1024px) 560px, 100vw"
+              className="relative z-10 w-full h-auto rounded-lg shadow-2xl filter contrast-110 brightness-90 group-hover:brightness-100 transition-all duration-700"
             />
 
           </motion.div>

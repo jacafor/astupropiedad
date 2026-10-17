@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { Camera, Bot, Users, ArrowRight, ArrowLeft, Home, MapPin, Ruler } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
 import LeadForm from '@/components/LeadForm';
 import { numeroValido } from '@/lib/lead-tipos';
 
@@ -22,7 +23,10 @@ const VenderPage = () => {
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
       <section className="pt-40 pb-20 bg-dark text-white relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/imagenes/PORTADA%20CORDILLERA%20CONDOR%202DO%20PISO.png')] bg-cover bg-center opacity-20"></div>
+        <div className="absolute inset-0 opacity-20">
+          {/* Decorativa: el texto de la página ya describe el contenido */}
+          <Image src="/imagenes/flyer-cordillera-condor-ate.webp" alt="" fill priority sizes="100vw" className="object-cover object-center" />
+        </div>
         <div className="absolute inset-0 bg-gradient-to-t from-dark via-dark/80 to-transparent"></div>
 
         <div className="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">

@@ -80,7 +80,7 @@ Lo que ya usa el sitio (extraído del código) más las reglas para que los camb
 - **Código nuevo: `next/image`** con `sizes`; `priority` solo en la imagen del hero.
 - Fotos de propiedad **limpias** (sin texto incrustado, sin teléfonos ni rótulos), relación 4:3 o 3:2, WebP/AVIF ≤ 150 KB por vista.
 - Los flyers de `public/imagenes/` mezclan precio, m² y teléfono dentro de la imagen: no son aptos para el catálogo (datos duplicados que se contradicen con la tarjeta).
-- Nombres de archivo: minúsculas con guiones, sin espacios ni tildes (`jesus-maria-talara-01.webp`). Los actuales tienen espacios y requieren `%20`.
+- Nombres de archivo: minúsculas con guiones, sin espacios ni tildes (`jesus-maria-talara-01.webp`). Desde la sesión 11 todos los archivos de `public/imagenes/` cumplen esta regla.
 - `images.remotePatterns` si se usan hosts remotos (el `domains` está deprecado en Next 16).
 
 ## 6. Tono visual

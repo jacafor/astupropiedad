@@ -12,7 +12,7 @@ const SECONDARY = "#7CC04B";
 /** Imagen para compartir el enlace (Open Graph y Twitter). Sin cifras ni promesas. */
 export const generarImagenOg = async () => {
   const logo = await readFile(
-    path.join(process.cwd(), "public", "imagenes", "logo AS Tupropiedad.png")
+    path.join(process.cwd(), "public", "imagenes", "logo-as-tupropiedad.png")
   );
   const logoSrc = `data:image/png;base64,${logo.toString("base64")}`;
 

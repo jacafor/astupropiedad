@@ -52,14 +52,14 @@ Detalle en [NEGOCIO-Y-CONTENIDO.md](NEGOCIO-Y-CONTENIDO.md) §7 y [DECISIONES.md
 - [x] **Fichas** `/propiedades/[slug]` con galería, WhatsApp prellenado, JSON-LD, similares *(Bloque C)* — 2026-10-14, sesión 07. Falta: mapa de zona, formulario "Agendar visita", compartir, zoom de galería
 - [x] **Simuladores v2** *(hecho 2026-10-07, sesión 06)*: `src/lib/finance.ts` con pruebas, TEA→TEM, validación de entradas, cronograma, capacidad de pago, alcabala/plusvalía/notariales/IR editables sin valor inicial, USD/PEN con tipo de cambio escrito por la persona, aviso de simulación referencial *(C7, Bloque D)*. El resultado ya viajaba como lead (sesión 05). **Pendiente:** TCEA, seguros/comisiones, y contrastar con un simulador bancario real
 - [ ] **Analítica + eventos + banner de cookies** *(Bloque G)*
-- [x] **Accesibilidad:** labels, `aria-label`, contraste, texto ≥ 12 px, `reducedMotion`, foco visible *(AUDITORIA-WEB §Accesibilidad)* — 2026-10-16, sesión 08 (D-21). axe-core: 0 violaciones en las 8 rutas a 390 y 1280 px. **Pendiente:** lector de pantalla real (NVDA/VoiceOver) y `prefers-reduced-motion` probado en navegador; `<img>` crudos del footer y PersonalShopper (lint)
+- [x] **Accesibilidad:** labels, `aria-label`, contraste, texto ≥ 12 px, `reducedMotion`, foco visible *(AUDITORIA-WEB §Accesibilidad)* — 2026-10-16, sesión 08 (D-21). axe-core: 0 violaciones en las 8 rutas a 390 y 1280 px. **Pendiente:** lector de pantalla real (NVDA/VoiceOver) y `prefers-reduced-motion` probado en navegador
   - Hecho cuando: `design:accessibility-review` sin críticos; cero `<div onClick>`.
 
 ## P2 — mes 2
 
 - [ ] Catálogo avanzado: filtros de precio/dormitorios/m², orden, estado en la URL, vista lista real, favoritos, estado vacío con acción *(Bloque C)*
 - [ ] Calendario GHL en `/agendar` y asistente de valoración v2 (Atrás, borrador, validación) *(Bloque E)*
-- [ ] `next/image`, WebP/AVIF, Server Components para contenido estático, lint a cero *(Rendimiento)*
+- [x] `next/image` y WebP *(Rendimiento)* — 2026-10-16, sesión 11 (D-24): 5 `<img>`/fondos CSS migrados, PNG de ~1 MB a WebP, imágenes renombradas, lint en 0 advertencias. **Pendiente:** Server Components para contenido estático (Hero, Nosotros y Vender siguen siendo cliente)
 - [ ] Pruebas: ~~Vitest para `finance.ts`~~ *(hecho 2026-10-07, sesión 06)*, Playwright para flujos críticos; CI con `tsc` + `eslint` + `build` *(Bloque H)*
 - [x] Cabeceras de seguridad y `poweredByHeader: false` — 2026-10-16, sesión 10 (D-23). **Pendiente:** CSP en modo Report-Only; `not-found.tsx`/`error.tsx` en español
 - [x] `git init` (rama `main`) y limpieza de duplicados — 2026-10-05, 3 commits *(D-12)*
@@ -90,7 +90,7 @@ Detalle en [NEGOCIO-Y-CONTENIDO.md](NEGOCIO-Y-CONTENIDO.md) §7 y [DECISIONES.md
 | Chequeo | Línea base (16 oct 2026) | Meta |
 |---|---|---|
 | `npx tsc --noEmit` | limpio | limpio |
-| `npm run lint` | 0 errores · 2 advertencias (`<img>` en Footer y PersonalShopper) | 0 / 0 |
+| `npm run lint` | 0 errores · 0 advertencias (sesión 11) | 0 / 0 |
 | `npm run build` | OK (next 16.4.2; rutas estáticas + `/propiedades/[slug]` SSG) | OK |
 | `npm audit --omit=dev` | **0 avisos** (antes: 1 crítica · 2 altas · 1 moderada). `npm audit` completo: 8 (1 moderada, 7 altas), solo en herramientas de desarrollo (cadena de `eslint-config-next`: `fast-glob`/`micromatch`/`braces`, `brace-expansion`, `js-yaml`, `@humanfs/node`); no llegan al sitio | 0 |
 | `npm test` | 51 pruebas OK | OK |
