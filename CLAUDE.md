@@ -24,6 +24,10 @@
 | `/probar-movil [ruta]` | Recorrido real a 390 px en el navegador integrado |
 | `/revisar-deploy` | Lista de verificación previa a desplegar (tipos, lint, build, contacto, enlaces) |
 
+## Permisos del proyecto (`.claude/settings.json`)
+
+Versionado y compartido (sesión 12, 2026-10-23). **Preaprueba** sin preguntar: `npm run typecheck`, `npm run lint`, `npm test`, `npm run test:e2e`, `npm run build` y `npx tsc --noEmit` (en Bash y PowerShell). **Bloquea** la lectura de `.env`, `.env.local`, `.env.*.local`, `.env.development`, `.env.production`, `.env.test` y `.vercel/**` (donde `vercel env pull` deja secretos). `.env.example` sigue legible porque no lleva secretos. Las preferencias personales van en `.claude/settings.local.json` (ignorado por git).
+
 ## Navegador y servidor de desarrollo
 
 `.claude/launch.json` define el servidor `web` (`npm run dev`, puerto 3000) para abrirlo en el navegador integrado. Para probar el build de producción: `npm run build` y `npx next start -p 3055`; **apaga el servidor al terminar**.
