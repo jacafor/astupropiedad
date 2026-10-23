@@ -19,7 +19,7 @@ Sitio web de **AS Tupropiedad**, boutique inmobiliaria de Lima (Perú): compra, 
 | Lenguaje | TypeScript estricto (`strict: true`), alias `@/*` → `src/*` |
 | Fuentes | `next/font`: Geist (sans), Playfair Display (serif), Geist Mono (sin uso) |
 | Hosting | Vercel (proyecto `web-as-tupropiedad`, framework `nextjs`). Conectado a GitHub (2026-10-05): **un `push` a `main` despliega a producción**; las demás ramas generan *previews*. Trabaja en ramas; flujo y rollback en [docs/DESPLIEGUE.md](docs/DESPLIEGUE.md). |
-| Calidad | ESLint 9 flat config (`eslint-config-next`), `tsc --noEmit`, **Vitest** (solo `src/lib/finance.test.ts` por ahora; sin Playwright todavía). |
+| Calidad | ESLint 9 flat config (`eslint-config-next`), `tsc --noEmit`, **Vitest** (`src/lib/finance.test.ts`), **Playwright** (`e2e/`, contra el build de producción) y **CI** en GitHub Actions (`.github/workflows/ci.yml`: typecheck, lint, test, build). Detalle: [docs/PRUEBAS.md](docs/PRUEBAS.md). |
 | Entorno | Node ≥ 20.9 (probado con 24), npm. Windows + PowerShell/Git Bash. **Repositorio git** (rama `main`, iniciado el 2026-10-05; remoto `origin` = https://github.com/jacafor/astupropiedad, ver D-12). |
 
 ## Comandos
@@ -29,8 +29,10 @@ npm run dev            # servidor de desarrollo, http://localhost:3000
 npm run build          # build de producción (debe terminar sin errores)
 npm run start          # sirve el build (usa otro puerto con: npx next start -p 3055)
 npm run lint           # eslint (línea base actual: 0 errores, 0 advertencias — no añadas ninguna)
-npm test               # vitest run: pruebas de src/lib/finance.test.ts
-npx tsc --noEmit       # chequeo de tipos (línea base: limpio)
+npm run typecheck      # tsc --noEmit (línea base: limpio)
+npm test               # vitest run: pruebas unitarias de src/lib/finance.test.ts
+npm run test:e2e       # playwright: hace su propio build y prueba en Chromium (puertos 3100 y 3101)
+                       # primera vez: npx playwright install chromium
 ```
 
 `next lint` ya no existe en Next 16: se usa `eslint` directamente (ya configurado así).
@@ -46,6 +48,8 @@ src/lib/finance.ts        matemática financiera pura (cuota, cronograma, cap ra
 src/app/actions/lead.ts   Server Action enviarLead (valida, honeypot, POST a GHL); esquema en src/lib/leads.ts
 public/imagenes/          fotos y flyers (nombres en minúsculas con guiones)
 docs/                     documentación del proyecto (ver índice abajo)
+e2e/                      pruebas Playwright (*.spec.ts) y webhook-falso.mjs (GHL simulado en local)
+.github/workflows/ci.yml  CI: typecheck, lint, test y build en cada push y pull request
 .claude/commands/         comandos de barra del proyecto (/nueva-pagina, /auditar, …)
 ```
 
@@ -60,6 +64,9 @@ Mapa completo de rutas, componentes y deuda técnica: [docs/ARQUITECTURA.md](doc
 | Escribir textos, cifras, datos de contacto o temas legales | [docs/NEGOCIO-Y-CONTENIDO.md](docs/NEGOCIO-Y-CONTENIDO.md) |
 | Conectar GoHighLevel, WhatsApp, analítica, variables de entorno | [docs/INTEGRACIONES.md](docs/INTEGRACIONES.md) |
 | Metadata, sitemap, Open Graph, JSON-LD | [docs/SEO.md](docs/SEO.md) |
+| Correr o escribir pruebas, entender el CI | [docs/PRUEBAS.md](docs/PRUEBAS.md) |
+| Desplegar, variables por entorno, volver a la versión anterior | [docs/DESPLIEGUE.md](docs/DESPLIEGUE.md) |
+| Ver qué cambió en cada sesión | [CHANGELOG.md](CHANGELOG.md) |
 | Decidir qué construir ahora | [docs/ROADMAP.md](docs/ROADMAP.md) |
 | Ver por qué se decidió algo / qué está pendiente de decidir | [docs/DECISIONES.md](docs/DECISIONES.md) |
 | Abrir una sesión nueva por tarea (prompts listos, orden y datos que necesita cada uno) | [docs/prompts/README.md](docs/prompts/README.md) |
@@ -75,7 +82,7 @@ Mapa completo de rutas, componentes y deuda técnica: [docs/ARQUITECTURA.md](doc
 **Mientras trabajas:** un cambio verificable por vez; sin datos de negocio inventados; contacto solo desde `src/lib/contact.ts`; sin dependencias nuevas, borrados, despliegues ni envío de datos reales sin permiso (lista "Pregunta primero").
 
 **Al terminar:**
-1. `npx tsc --noEmit && npm run lint && npm run build`, con el resultado **real**.
+1. `npm run typecheck && npm run lint && npm test && npm run test:e2e && npm run build`, con el resultado **real** (ver [docs/PRUEBAS.md](docs/PRUEBAS.md)).
 2. Si cambió la interfaz: pruebas en el navegador a 390 px y 1280 px; apaga el servidor; borra temporales propios (`tsconfig.tsbuildinfo`, capturas).
 3. Actualiza en el mismo cambio: la casilla de `docs/ROADMAP.md` (con fecha), `docs/DECISIONES.md` (decisiones nuevas con estado, fecha y responsable; pendientes cerrados), y el `.md` afectado (`ARQUITECTURA`, `DISENO`, `INTEGRACIONES`, `NEGOCIO-Y-CONTENIDO`, esta guía si cambian comandos, estructura o línea base).
 4. Un commit por tarea, en español, sin `--no-verify` (el remoto es `origin`; ver D-12). **Durante el desarrollo (decisión de jforero, 2026-10-05, vigente hasta que él diga que terminó):** al cerrar la sesión haz `push` de **tu rama** (nunca de `main`) y abre el pull request hacia `main` con `gh pr create` (descripción: qué cambia, qué verificaste, qué no). **Después fusiona el PR tú** (`gh pr merge <n> --merge --delete-branch`), solo si: `tsc`, lint (sin empeorar) y build locales pasaron y el preview de Vercel de la rama está en *Ready*. Si algo falla, **no fusiones**: avisa. Nunca empujes directamente a `main`. Ojo: el merge despliega a producción (URL `*.vercel.app`; el dominio no está asignado). **Tras el merge, verifica lo implementado en la URL pública de producción `https://web-as-tupropiedad.vercel.app`** (no basta con que el despliegue figure como *success*; las URLs por despliegue piden login de Vercel): espera a que termine y comprueba con `curl` lo que cambió la sesión, más una prueba funcional si tocaste la interfaz. Termina entregando el enlace del PR, el del preview, el estado del despliegue y el resultado de esa verificación.
@@ -131,11 +138,11 @@ Mapa completo de rutas, componentes y deuda técnica: [docs/ARQUITECTURA.md](doc
 ## Antes de dar algo por terminado
 
 ```bash
-npx tsc --noEmit && npm run lint && npm run build
+npm run typecheck && npm run lint && npm test && npm run test:e2e && npm run build
 ```
-- Reporta el resultado **real**, aunque falle. Si el lint empeora respecto a la línea base (0 errores / 0 advertencias) y corre `npm test`, arréglalo.
+- Reporta el resultado **real**, aunque falle. Lint: línea base 0 errores / 0 advertencias; si empeora, arréglalo. Si cambias rutas, simuladores o formularios, actualiza las pruebas de `e2e/`. El CI repite typecheck, lint, test y build en cada push.
 - Para cambios de UI: abre la página en el navegador a 390 px y pruébala (menú, CTAs, formularios). No declares "funciona" sin haberlo probado.
-- Si tocaste un formulario o CTA: pruébalo de punta a punta y confirma que el dato llega (o que el enlace abre el destino correcto).
+- Si tocaste un formulario o CTA: pruébalo de punta a punta y confirma que el dato llega (o que el enlace abre el destino correcto). `e2e/vender.spec.ts` es el modelo: webhook falso local, nunca datos reales.
 
 ## Pregunta primero (no lo hagas por tu cuenta)
 

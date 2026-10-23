@@ -35,7 +35,7 @@ Creados el 2026-10-04 a partir de [ROADMAP.md](../ROADMAP.md) y [DECISIONES.md](
 
 | # | Sesión |
 |---|---|
-| 12 | [Pruebas, CI y documentación de operación](12-pruebas-ci-docs.md) |
+| 12 ✅ | [Pruebas, CI y documentación de operación](12-pruebas-ci-docs.md) (hecha 2026-10-23; ver [PRUEBAS.md](../PRUEBAS.md)) |
 | 14 | [Conectar GitHub con Vercel (previews por rama)](14-conectar-vercel.md) — puede hacerse antes; ojo: con la conexión, `push` a `main` = producción |
 
 ## Reglas comunes a todas las sesiones
@@ -46,7 +46,7 @@ Fuente de verdad: `AGENTS.md` (reglas 1-9, Protocolo de sesión, Diseño — res
 - Un solo objetivo por sesión. Si aparece otro problema, anotarlo en `docs/ROADMAP.md` y seguir.
 - No inventar datos de negocio (cifras, precios, teléfonos, nombres, bancos).
 - Contacto solo desde `src/lib/contact.ts`.
-- Antes de dar algo por terminado: `npx tsc --noEmit && npm run lint && npm run build`, y reportar el resultado **real**. Lint no puede empeorar (línea base: 6 errores / 17 advertencias).
+- Antes de dar algo por terminado: `npx tsc --noEmit && npm run lint && npm run build`, y reportar el resultado **real**. Lint no puede empeorar (línea base: 0 errores / 0 advertencias).
 - Cambios de interfaz: probar en el navegador a 390 px y 1280 px.
 - No desplegar. Apagar cualquier servidor que se levante. Borrar los archivos temporales propios (p. ej. `tsconfig.tsbuildinfo`).
 - Cambios visuales: tokens de marca y patrones de `docs/DISENO.md`; sin hex sueltos; contraste, texto ≥ 12 px y foco visible.

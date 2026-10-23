@@ -23,7 +23,9 @@ npm run dev        # http://localhost:3000
 | `npm run build` | Build de producción |
 | `npm run start` | Sirve el build |
 | `npm run lint` | ESLint |
-| `npx tsc --noEmit` | Chequeo de tipos |
+| `npm run typecheck` | Chequeo de tipos (`tsc --noEmit`) |
+| `npm test` | Pruebas unitarias (Vitest) |
+| `npm run test:e2e` | Pruebas de navegador (Playwright) contra el build; ver [docs/PRUEBAS.md](docs/PRUEBAS.md) |
 
 Variables de entorno: copia `.env.example` a `.env.local` y completa lo que necesites (todas son opcionales hoy; las integraciones aún no están conectadas). Detalle en [docs/INTEGRACIONES.md](docs/INTEGRACIONES.md).
 
@@ -47,6 +49,9 @@ Variables de entorno: copia `.env.example` a `.env.local` y completa lo que nece
 | [docs/DISENO.md](docs/DISENO.md) | Sistema de diseño y reglas de accesibilidad |
 | [docs/NEGOCIO-Y-CONTENIDO.md](docs/NEGOCIO-Y-CONTENIDO.md) | Marca, tono, política de afirmaciones, datos de contacto, legal |
 | [docs/INTEGRACIONES.md](docs/INTEGRACIONES.md) | GoHighLevel, WhatsApp, analítica, variables de entorno |
+| [docs/PRUEBAS.md](docs/PRUEBAS.md) | Cómo correr las pruebas y el CI, y qué cubren |
+| [docs/DESPLIEGUE.md](docs/DESPLIEGUE.md) | Flujo a Vercel, variables por entorno, volver atrás |
+| [CHANGELOG.md](CHANGELOG.md) | Cambios por sesión |
 | [docs/ROADMAP.md](docs/ROADMAP.md) | Plan priorizado con casillas de avance |
 | [docs/DECISIONES.md](docs/DECISIONES.md) | Decisiones tomadas y pendientes |
 | [docs/prompts/](docs/prompts/README.md) | Un prompt por sesión de trabajo (orden y datos que necesita cada uno) |
@@ -55,7 +60,7 @@ Variables de entorno: copia `.env.example` a `.env.local` y completa lo que nece
 
 ## Despliegue
 
-Vercel (proyecto `web-as-tupropiedad`, configuración en `vercel.json`). Antes de desplegar: `/revisar-deploy` o la lista de [AGENTS.md](AGENTS.md#antes-de-dar-algo-por-terminado).
+Vercel (proyecto `web-as-tupropiedad`, configuración en `vercel.json`): merge a `main` = producción. Flujo, lista previa (`/revisar-deploy`) y vuelta atrás en [docs/DESPLIEGUE.md](docs/DESPLIEGUE.md).
 
 ## Archivo histórico
 
