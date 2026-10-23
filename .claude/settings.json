@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Bash(npm run typecheck)",
+      "Bash(npm run lint)",
+      "Bash(npm test)",
+      "Bash(npm run test)",
+      "Bash(npm run test:e2e)",
+      "Bash(npm run test:e2e *)",
+      "Bash(npm run build)",
+      "Bash(npx tsc --noEmit)",
+      "PowerShell(npm run typecheck)",
+      "PowerShell(npm run lint)",
+      "PowerShell(npm test)",
+      "PowerShell(npm run test)",
+      "PowerShell(npm run test:e2e)",
+      "PowerShell(npm run test:e2e *)",
+      "PowerShell(npm run build)",
+      "PowerShell(npx tsc --noEmit)"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.local)",
+      "Read(./.env.*.local)",
+      "Read(./.env.development)",
+      "Read(./.env.production)",
+      "Read(./.env.test)",
+      "Read(./.vercel/**)",
+      "Bash(cat .env*)",
+      "PowerShell(Get-Content .env*)"
+    ]
+  }
+}
