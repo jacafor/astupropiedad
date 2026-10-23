@@ -31,3 +31,9 @@ Thumbs.db
 
 # claude code: configuración personal (los comandos y launch.json del proyecto sí se versionan)
 .claude/settings.local.json
+
+# playwright (pruebas e2e)
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

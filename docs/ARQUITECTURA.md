@@ -94,10 +94,10 @@ Funciones puras; cada una valida y devuelve `{ ok: true, valor }` o `{ ok: false
 | ~~Navbar invisible en `/propiedades`~~ (resuelto en la sesión 01, 2026-10-05) | C5 |
 | ~~`next@16.2.0` con avisos críticos~~ → resuelto: `16.4.2` (2026-10-16, D-23) | C6 |
 | Simuladores con valores imposibles y duplicados | C7 |
-| 4 errores `react-hooks/set-state-in-effect`, 2 `react/no-unescaped-entities` | lint |
+| ~~4 errores `react-hooks/set-state-in-effect`, 2 `react/no-unescaped-entities`~~ (lint en 0 / 0 desde la sesión 11) | lint |
 | ~~`<img>` crudos y PNG de ~1 MB~~ (resuelto en la sesión 11, D-24; queda el `<img>` de `og-image.tsx`, obligatorio en `ImageResponse`) | AUDITORIA-WEB §Rendimiento |
 | ~~Cero `aria-*`; contrastes bajos; texto de 9-10 px~~ resuelto en la sesión 08 (D-21); falta prueba con lector de pantalla | AUDITORIA-WEB §Accesibilidad |
-| Sin pruebas ni CI | Bloque H |
+| ~~Sin pruebas ni CI~~ (sesión 12: Vitest + Playwright + GitHub Actions, ver [PRUEBAS.md](PRUEBAS.md)); falta e2e en CI, catálogo y otros navegadores | Bloque H |
 
 ## 7. Arquitectura objetivo
 

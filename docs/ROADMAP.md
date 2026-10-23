@@ -60,7 +60,7 @@ Detalle en [NEGOCIO-Y-CONTENIDO.md](NEGOCIO-Y-CONTENIDO.md) §7 y [DECISIONES.md
 - [ ] Catálogo avanzado: filtros de precio/dormitorios/m², orden, estado en la URL, vista lista real, favoritos, estado vacío con acción *(Bloque C)*
 - [ ] Calendario GHL en `/agendar` y asistente de valoración v2 (Atrás, borrador, validación) *(Bloque E)*
 - [x] `next/image` y WebP *(Rendimiento)* — 2026-10-16, sesión 11 (D-24): 5 `<img>`/fondos CSS migrados, PNG de ~1 MB a WebP, imágenes renombradas, lint en 0 advertencias. **Pendiente:** Server Components para contenido estático (Hero, Nosotros y Vender siguen siendo cliente)
-- [ ] Pruebas: ~~Vitest para `finance.ts`~~ *(hecho 2026-10-07, sesión 06)*, Playwright para flujos críticos; CI con `tsc` + `eslint` + `build` *(Bloque H)*
+- [x] Pruebas: ~~Vitest para `finance.ts`~~ *(hecho 2026-10-07, sesión 06)*, Playwright para flujos críticos; CI con `tsc` + `eslint` + `build` *(Bloque H)* — 2026-10-23, sesión 12 (D-25): 24 pruebas e2e (rutas, menú a 390 px, WhatsApp, simuladores con valores límite, `/vender` contra un webhook falso), GitHub Actions con typecheck + lint + test + build, [PRUEBAS.md](PRUEBAS.md), [DESPLIEGUE.md](DESPLIEGUE.md) y `CHANGELOG.md`. **Pendiente:** e2e en CI, catálogo y fichas (sin propiedades), Firefox/WebKit, axe automático
 - [x] Cabeceras de seguridad y `poweredByHeader: false` — 2026-10-16, sesión 10 (D-23). **Pendiente:** CSP en modo Report-Only; `not-found.tsx`/`error.tsx` en español
 - [x] `git init` (rama `main`) y limpieza de duplicados — 2026-10-05, 3 commits *(D-12)*
 - [x] Conectar el repo con Vercel (previews por rama; producción solo desde `main`, sin asignar dominio todavía) — 2026-10-05, sesión [14](prompts/14-conectar-vercel.md), ver [DESPLIEGUE.md](DESPLIEGUE.md). Preview de `prueba/vercel-preview` en Ready. Pendiente de decidir: P-12 (protección de `main`, dominio, `www`)
@@ -94,4 +94,6 @@ Detalle en [NEGOCIO-Y-CONTENIDO.md](NEGOCIO-Y-CONTENIDO.md) §7 y [DECISIONES.md
 | `npm run build` | OK (next 16.4.2; rutas estáticas + `/propiedades/[slug]` SSG) | OK |
 | `npm audit --omit=dev` | **0 avisos** (antes: 1 crítica · 2 altas · 1 moderada). `npm audit` completo: 8 (1 moderada, 7 altas), solo en herramientas de desarrollo (cadena de `eslint-config-next`: `fast-glob`/`micromatch`/`braces`, `brace-expansion`, `js-yaml`, `@humanfs/node`); no llegan al sitio | 0 |
 | `npm test` | 51 pruebas OK | OK |
+| `npm run test:e2e` | 24 pruebas OK (sesión 12) | OK |
+| CI (GitHub Actions) | typecheck + lint + test + build (sesión 12) | verde |
 | SEO / UX / Accesibilidad | 32 · 36 · ~35 | ≥ 75 · ≥ 70 · ≥ 80 |

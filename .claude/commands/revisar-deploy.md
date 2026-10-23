@@ -8,7 +8,7 @@ Ejecuta y reporta el resultado **real** de cada punto:
 
 **Calidad**
 1. `npx tsc --noEmit` → debe estar limpio.
-2. `npm run lint` → no empeorar la línea base de `docs/ROADMAP.md` (hoy 6 errores / 17 advertencias; meta 0 / 0).
+2. `npm run lint` → no empeorar la línea base de `docs/ROADMAP.md` (hoy 0 errores / 0 advertencias).
 3. `npm run build` → sin errores; revisa que las rutas esperadas aparezcan en el listado.
 4. `npm audit --omit=dev` → sin críticas ni altas.
 
