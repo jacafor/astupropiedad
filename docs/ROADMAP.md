@@ -65,7 +65,8 @@ Detalle en [NEGOCIO-Y-CONTENIDO.md](NEGOCIO-Y-CONTENIDO.md) §7 y [DECISIONES.md
 - [x] `git init` (rama `main`) y limpieza de duplicados — 2026-10-05, 3 commits *(D-12)*
 - [x] Conectar el repo con Vercel (previews por rama; producción solo desde `main`, sin asignar dominio todavía) — 2026-10-05, sesión [14](prompts/14-conectar-vercel.md), ver [DESPLIEGUE.md](DESPLIEGUE.md). Preview de `prueba/vercel-preview` en Ready. Pendiente de decidir: P-12 (protección de `main`, dominio, `www`)
 - [x] Añadir `<main>` a las 6 páginas internas — resuelto con el `<main id="contenido">` único del layout, 2026-10-05 (sesión 01)
-- [ ] Revisar a 390 px el preview de Vercel (menú móvil, botón flotante, simuladores): solo se vio a escritorio
+- [x] Revisar a 390 px el preview de Vercel (menú móvil, botón flotante, simuladores) — 2026-10-23, en producción (`web-as-tupropiedad.vercel.app`) a 390 y 1280 px: las 7 rutas sin desbordamiento horizontal, un `<main>`, menú móvil que abre, navega y se cierra, botón flotante y todos los enlaces a `wa.me/51977588905`, ambos simuladores recalculan sin `NaN` (campo vacío → "—" y error en el campo) y `/vender` avanza del paso 1 al 2 (no se envió nada)
+- [ ] Textos de `/vender` con afirmaciones sin respaldo ("inteligencia artificial", "marketing de ultra-lujo", "base de datos privada de inversores", "Valoración Gratuita", "inversores pre-aprobados", "tiempo récord"): reescribir según la regla 4 y [NEGOCIO-Y-CONTENIDO.md](NEGOCIO-Y-CONTENIDO.md) o confirmarlos con el cliente (visto el 2026-10-23)
 - [x] Remoto en GitHub (`jacafor/astupropiedad`) y primer `git push` — 2026-10-05 *(D-12)*. Pendiente: confirmar en GitHub que el repositorio es **privado**
 
 ## P3 — continuo

@@ -2,6 +2,9 @@
 
 Registro de cambios por sesión de trabajo, reconstruido a partir de `git log` para las sesiones 00 a 11. Las sesiones siguen los prompts de [docs/prompts/](docs/prompts/README.md); el porqué de cada decisión está en [docs/DECISIONES.md](docs/DECISIONES.md). Fechas en formato AAAA-MM-DD.
 
+## 2026-10-23 · Revisión móvil de producción
+- Recorrido manual de las 7 rutas en `web-as-tupropiedad.vercel.app` a 390 y 1280 px (menú, WhatsApp, simuladores, paso 1→2 de `/vender`): sin fallos. Casilla cerrada en `docs/ROADMAP.md`; anotados los textos sin respaldo de `/vender`. Solo documentación.
+
 ## 2026-10-23 · Sesión 13 — Analítica y cookies
 - Banner de cookies accesible (Aceptar/Rechazar con el mismo peso, decisión en `localStorage`) y "Preferencias de cookies" en el pie; sin IDs no aparece ni se carga nada (D-26).
 - GA4 y píxel de Meta con `next/script`, solo tras aceptar; `src/lib/analytics.ts` con `track()` y los eventos `cta_whatsapp_click`, `lead_enviado`, `formulario_error`, `simulador_calculado` y `propiedad_vista`, sin datos personales.
