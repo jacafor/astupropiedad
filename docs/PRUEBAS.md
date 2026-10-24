@@ -33,6 +33,7 @@ Contra el **build de producción**, en Chromium, a 1280 px salvo donde se indica
 | `rutas.spec.ts` | Cada ruta de `RUTAS` (`src/lib/rutas.ts`) responde 200, tiene `<title>` y un solo `<main>`; ningún título se repite; `/robots.txt` y `/sitemap.xml` responden 200; una ruta inexistente da 404 |
 | `navegacion.spec.ts` | **390 px:** el menú móvil abre, se cierra con el botón y con Esc, y se cierra solo al navegar. El botón flotante de WhatsApp apunta a `wa.me/51977588905` en 4 rutas; ningún enlace `wa.me` usa otro número; no aparece `51900000000` |
 | `simuladores.spec.ts` | Los dos simuladores con valores límite en **cada** campo (`0`, `-1`, vacío, `0.0001`, `999999999999999`, `1e308`) y TEA 0: nunca muestran `NaN`, `Infinity` ni `∞`; un valor inválido muestra un mensaje de error. También a 390 px |
+| `analitica.spec.ts` | Build con IDs **ficticios** y Google/Meta/`wa.me` interceptados (nada sale de la máquina): sin decisión no hay peticiones a Google ni Meta; el rechazo persiste al recargar; al aceptar se piden `gtag.js` y `fbevents.js`; un evento por acción (WhatsApp, simulador, error y envío de formulario) sin nombre/celular/correo; "Preferencias de cookies" reabre el banner y rechazar detiene los eventos; a 390 px los botones son iguales, ≥ 44 px y alcanzables con Tab |
 | `vender.spec.ts` | Asistente de `/vender` hasta el formulario: datos inválidos muestran errores por campo sin borrar lo escrito; sin consentimiento no se envía; datos válidos muestran la confirmación; si el webhook responde error, aparece el plan B de WhatsApp con el número oficial |
 
 ### Cómo se evita enviar datos reales
@@ -54,5 +55,6 @@ En cada `push` y pull request, GitHub Actions corre con Node 24 y caché de npm:
 ## Al añadir algo
 
 - Ruta nueva: basta con añadirla a `RUTAS`; `rutas.spec.ts` la recorre sola.
+- Banner de cookies: el build de e2e lleva IDs de analítica ficticios, así que el banner existe; `playwright.config.ts` arranca cada prueba con la decisión `rechazado` (`storageState`) para que no tape nada. Solo `analitica.spec.ts` la vacía.
 - Campo nuevo en un simulador: añade su etiqueta a la lista de `simuladores.spec.ts`.
 - Cálculo nuevo: función pura en `finance.ts` con su prueba en `finance.test.ts`.

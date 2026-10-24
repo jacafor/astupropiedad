@@ -12,8 +12,8 @@ Plantilla en [`.env.example`](../.env.example). Copiar a `.env.local` (ignorado 
 | `GHL_WEBHOOK_URL` | Webhook de entrada de leads en GoHighLevel (lo lee `src/app/actions/lead.ts`; si falta, los formularios muestran un error controlado y ofrecen WhatsApp) | **no** | **en uso (sesión 05)**; valor pendiente: falta el webhook de GHL |
 | `GHL_API_KEY` · `GHL_LOCATION_ID` | Alternativa vía API de GHL | **no** | pendiente |
 | `NEXT_PUBLIC_GHL_CALENDAR_URL` | Embed del calendario de videollamadas | sí | pendiente |
-| `NEXT_PUBLIC_GA_ID` / Vercel Analytics | Analítica | sí | pendiente |
-| `NEXT_PUBLIC_META_PIXEL_ID` | Píxel de Meta | sí | opcional |
+| `NEXT_PUBLIC_GA_ID` | Google Analytics 4 (`G-XXXXXXX`); solo se carga si el visitante acepta (§4) | sí | **en código (sesión 13)**; valor pendiente |
+| `NEXT_PUBLIC_META_PIXEL_ID` | Píxel de Meta (solo números); solo se carga si el visitante acepta (§4) | sí | **en código (sesión 13)**; valor pendiente |
 | `NEXT_PUBLIC_TURNSTILE_SITE_KEY` · `TURNSTILE_SECRET_KEY` | Anti-spam | sitio sí / secreto **no** | opcional |
 | `NEXT_PUBLIC_SUPABASE_URL` · `NEXT_PUBLIC_SUPABASE_ANON_KEY` · `SUPABASE_SERVICE_ROLE_KEY` | Inventario de propiedades (opcional) | URL/anon sí; service role **no** | opcional |
 
@@ -67,7 +67,7 @@ Comportamiento:
 - **Validación:** errores por campo en español ("tú"). El celular se normaliza a E.164 sin espacios (`+51987654321`); acepta `987654321`, `987 654 321`, `+51 987 654 321`, `0051…`. Solo móviles peruanos (9 dígitos que empiezan en 9).
 - **Motivos de fallo** (`motivo`): `validacion` (corregir campos), `no-configurado` (falta `GHL_WEBHOOK_URL`) y `servicio` (GHL no responde, responde con error o tarda más de 8 s). En los dos últimos el formulario muestra el mensaje y un botón de WhatsApp con el mensaje contextual **más el nombre y el celular escritos**. Lo escrito nunca se borra tras un fallo.
 - **Doble envío:** el botón se bloquea de inmediato (un `ref` evita el doble clic antes del primer render) y cada formulario manda un `id_envio` (UUID, el mismo en los reintentos) para que GHL pueda deduplicar. **No hay deduplicación en el servidor.**
-- **Logs:** solo `[metrica] lead_enviado|lead_error {origen, interes|motivo}` (con `after()`) y un aviso de error sin URL ni datos personales. La analítica real llega en la sesión 13.
+- **Logs:** solo `[metrica] lead_enviado|lead_error {origen, interes|motivo}` (con `after()`) y un aviso de error sin URL ni datos personales. En el navegador, `lead_enviado`/`formulario_error` van además a GA4/Meta si hay consentimiento (§4).
 - **UTM:** se leen de la URL en el momento del envío (`utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, `utm_content`); si la persona llegó a otra página antes, se pierden (captura en la primera visita: sesión 13).
 - **Pendiente:** Turnstile, límite por IP y deduplicación en servidor (ver §7).
 
@@ -111,24 +111,47 @@ Usar un webhook/pipeline de **prueba** y datos ficticios. No enviar datos reales
 | Simulador de inversión | "Hola, calculé una rentabilidad de {capRate} para un inmueble de {precio}. Quiero evaluar opciones." |
 | Vender | "Hola, quiero vender mi {tipo} en {distrito}. ¿Pueden valorarlo?" |
 
-- Registrar cada clic (`click_whatsapp` con página y contexto).
+- Cada clic se registra como `cta_whatsapp_click` (solo con consentimiento; ver §4). Todo enlace nuevo a WhatsApp lleva `data-origen`.
 
 ## 4. Analítica y consentimiento
 
-- Proveedor previsto: Vercel Analytics o GA4 (+ Meta Pixel y Conversions API si hay campañas). Guía: `node_modules/next/dist/docs/01-app/02-guides/analytics.md`.
-- **Banner de consentimiento** antes de cargar píxeles/analítica no esencial.
-- Capturar **UTM** en la primera visita y adjuntarlas al lead.
+**Implementado en la sesión 13 (2026-10-23, D-26).** GA4 y píxel de Meta con `next/script` (sin `@next/third-parties`, que no está instalado). **Sin IDs no se carga nada ni aparece el banner** (hoy Vercel no tiene ninguno: producción no mide).
 
-| Evento | Props |
+### Cómo funciona
+
+| Pieza | Archivo |
 |---|---|
-| `click_whatsapp` | `pagina`, `contexto` |
-| `lead_enviado` | `origen`, `interes` |
-| `lead_error` | `origen`, `motivo` |
-| `simulador_usado` | `tipo` (`hipotecario`/`inversion`) |
-| `simulador_cta` | `tipo` |
-| `vista_propiedad` | `id`, `distrito`, `precio` |
-| `filtro_usado` | `tipo`, `distrito`, `rango_precio` |
-| `agenda_abierta` | — |
+| IDs (validados: `G-XXXX`, píxel numérico), decisión en `localStorage` (`astp-consentimiento-cookies` = `aceptado`/`rechazado`, con `try/catch`) | `src/lib/consentimiento.ts` |
+| `track(evento, parámetros)`, `revocarAnalitica()`, `useEventoSimulador()` | `src/lib/analytics.ts` |
+| Carga de scripts tras aceptar + oyente global de clics a `wa.me` | `src/components/Analitica.tsx` (en `layout.tsx`) |
+| Banner (`<section>` con `aria-labelledby`, justo después de "Saltar al contenido"; Aceptar y Rechazar idénticos) | `src/components/BannerCookies.tsx` |
+| "Preferencias de cookies" en el pie (reabre el banner y devuelve el foco) | `src/components/PreferenciasCookies.tsx` |
+| Texto para la persona | `/privacidad#cookies` (borrador, D-22) |
+
+- **Antes de aceptar:** ninguna petición a Google ni a Meta (`gtag`/`fbq` ni existen). `track()` no hace nada.
+- **Al aceptar:** se cargan `gtag.js` (GA4 con *consent mode*: `analytics_storage` concedido, `ad_*` denegados) y `fbevents.js`. GA4 cuenta las navegaciones internas con su medición mejorada (activa por defecto en la propiedad); el píxel recibe `PageView` en cada cambio de ruta.
+- **Al rechazar después de aceptar:** `consent update` a denegado, `fbq('consent','revoke')` y se borran `_ga*`, `_gid`, `_fbp`, `_fbc`. Los scripts siguen en memoria hasta recargar, pero `track()` ya no envía nada.
+- **Datos personales:** los parámetros están tipados y además `track()` descarta claves como `nombre`/`celular`/`correo` y valores con `@` o 7+ dígitos seguidos.
+
+### Eventos
+
+| Evento (GA4) | Meta | Parámetros | Cuándo |
+|---|---|---|---|
+| `cta_whatsapp_click` | `Contact` | `origen`, `pagina` | Clic en cualquier enlace a `wa.me`. `origen` sale de `data-origen` del enlace (`boton-flotante`, `navbar`, `navbar-movil`, `footer:videollamada`, `home:avisame`, `catalogo:avisame`, `catalogo:no-encontre`, `nosotros:equipo`, `simulador-hipotecario:cronograma`, `propiedad:<id>`, `tarjeta:<id>`, `<origen del formulario>:plan-b`); sin atributo, `pagina:<ruta>` |
+| `lead_enviado` | `Lead` | `origen`, `interes` | El servidor confirmó el lead (una vez por respuesta) |
+| `formulario_error` | `formulario_error` (personalizado) | `origen`, `motivo` (`validacion`/`no-configurado`/`servicio`), `campos` (nombres, nunca valores) | El servidor devolvió error |
+| `simulador_calculado` | personalizado | `tipo` (`hipotecario`, `inversion`, `home-hipoteca`, `home-rentabilidad`) | La persona cambió algo, el resultado es válido y dejó de escribir 1,5 s. Los valores iniciales no cuentan |
+| `propiedad_vista` | personalizado | `id` | Al abrir una ficha |
+
+Al añadir un enlace de WhatsApp, ponle `data-origen`; al añadir un evento, decláralo en `EventosAnalitica`.
+
+### Cómo probarlo
+
+1. **Automático:** `npm run test:e2e` construye con IDs **ficticios** (`playwright.config.ts`) e intercepta Google, Meta y `wa.me` (nada sale de la máquina). `e2e/analitica.spec.ts` comprueba: sin decisión no hay peticiones; rechazo persistente al recargar; tras aceptar se piden `gtag.js` y `fbevents.js`; un evento por acción; sin nombre/celular/correo en los eventos; reapertura desde el pie; banner a 390 px y con teclado.
+2. **Manual con IDs reales:** pon `NEXT_PUBLIC_GA_ID`/`NEXT_PUBLIC_META_PIXEL_ID` en `.env.local` (o en Vercel → Preview), `npm run build && npx next start -p 3055`. En DevTools → Red filtra `google|facebook`: vacío hasta pulsar Aceptar. Tras aceptar, GA4 → Informes → **Tiempo real** (o DebugView con la extensión *Google Analytics Debugger*) y Meta → Administrador de eventos → **Probar eventos**. Para volver a ver el banner: `localStorage.removeItem("astp-consentimiento-cookies")` o "Preferencias de cookies".
+3. Las variables `NEXT_PUBLIC_*` se incrustan **al compilar**: tras cambiarlas en Vercel hay que volver a desplegar.
+
+**Sin hacer:** captura de UTM en la primera visita (hoy se leen al enviar, §2), `filtro_usado`, `simulador_cta` (el envío del formulario del simulador ya cuenta como `lead_enviado` con su `origen`), Conversions API de Meta, Vercel Analytics, y comprobar la recepción en GA4/Meta reales (no hay IDs).
 
 ## 5. Vercel
 

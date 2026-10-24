@@ -20,6 +20,17 @@ export default defineConfig({
   use: {
     baseURL: `http://127.0.0.1:${PUERTO}`,
     trace: "retain-on-failure",
+    // Con IDs de prueba el banner de cookies aparece; las pruebas arrancan con "rechazado"
+    // para que no tape nada. e2e/analitica.spec.ts lo vacía para probar el banner.
+    storageState: {
+      cookies: [],
+      origins: [
+        {
+          origin: `http://127.0.0.1:${PUERTO}`,
+          localStorage: [{ name: "astp-consentimiento-cookies", value: "rechazado" }],
+        },
+      ],
+    },
   },
   // Escritorio por defecto (1280 px); las pruebas móviles fijan 390 px con `test.use`.
   projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"], viewport: { width: 1280, height: 800 } } }],
@@ -34,7 +45,13 @@ export default defineConfig({
       url: `http://127.0.0.1:${PUERTO}`,
       timeout: 300_000,
       reuseExistingServer: false,
-      env: { GHL_WEBHOOK_URL: `http://127.0.0.1:${PUERTO_WEBHOOK}/webhook` },
+      // IDs de analítica FICTICIOS (formato válido, no existen): activan el banner y los scripts,
+      // cuyas peticiones intercepta e2e/analitica.spec.ts.
+      env: {
+        GHL_WEBHOOK_URL: `http://127.0.0.1:${PUERTO_WEBHOOK}/webhook`,
+        NEXT_PUBLIC_GA_ID: "G-PRUEBAE2E00",
+        NEXT_PUBLIC_META_PIXEL_ID: "100000000000000",
+      },
     },
   ],
 });

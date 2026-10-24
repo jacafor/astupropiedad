@@ -4,6 +4,7 @@ import React, { useMemo, useState } from 'react';
 import { Table } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { waLink } from '@/lib/contact';
+import { useEventoSimulador } from '@/lib/analytics';
 import LeadForm from '@/components/LeadForm';
 import { AvisoSimulacion, CampoNumerico, SelectorMoneda } from '@/components/simuladores';
 import { numeroValido } from '@/lib/lead-tipos';
@@ -76,6 +77,11 @@ const MortgageSimulator = () => {
   }, [monto, tea, anios, ingreso, tope, moneda, tipoCambio]);
 
   const { errores, cron, relacion, ingresoMinimo, equivalente, otra } = calculo;
+  useEventoSimulador(
+    'hipotecario',
+    JSON.stringify([monto, tea, anios, ingreso, tope, moneda, tipoCambio]),
+    errores.length === 0 && cron !== undefined
+  );
   const m = (v: number | undefined, d = 0) => formatearMoneda(v, moneda, d);
   const cuota = cron?.cuota;
   const resumen = cron
@@ -262,6 +268,7 @@ const MortgageSimulator = () => {
                   <p className="text-gray-600 text-sm mb-6">Completa los datos para ver el cronograma.</p>
                 )}
                 <a
+                  data-origen="simulador-hipotecario:cronograma"
                   href={waLink(
                     cron
                       ? `Hola, quisiera el cronograma de pagos completo de una simulación hipotecaria: ${resumen}.`

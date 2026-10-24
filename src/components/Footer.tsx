@@ -2,11 +2,13 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Mail, Phone, MapPin, CalendarDays, ArrowUpRight } from 'lucide-react';
+import PreferenciasCookies from '@/components/PreferenciasCookies';
 import { EMAIL, PHONE_DISPLAY, mailLink, telLink, waLink } from '@/lib/contact';
 
 const Footer = () => {
+  // pb-28/36: el botón flotante de WhatsApp no debe tapar los enlaces legales al final de la página.
   return (
-    <footer id="contacto" className="bg-dark text-white pt-24 pb-12 border-t-8 border-primary">
+    <footer id="contacto" className="bg-dark text-white pt-24 pb-28 md:pb-36 border-t-8 border-primary">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 mb-20">
 
@@ -100,6 +102,7 @@ const Footer = () => {
               <div className="border border-dashed border-white/20 bg-dark/50 p-6 text-center rounded-lg group-hover:border-secondary/50 transition-colors">
                 <CalendarDays className="w-10 h-10 text-secondary mb-4 mx-auto" aria-hidden="true" />
                 <a
+                  data-origen="footer:videollamada"
                   href={waLink("Hola, quisiera coordinar una videollamada con un asesor de AS Tupropiedad")}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -116,13 +119,14 @@ const Footer = () => {
         <div className="border-t border-white/10 pt-12 flex flex-col md:flex-row justify-between items-center text-xs font-black uppercase tracking-widest text-gray-400">
           <p>© 2026 AS Tupropiedad. Todos los derechos reservados.</p>
           <nav aria-label="Legal" className="mt-6 md:mt-0">
-            <ul className="flex gap-8">
+            <ul className="flex flex-wrap justify-center gap-x-8 gap-y-4">
               <li>
                 <Link href="/privacidad" className="hover:text-white transition-colors">Privacidad</Link>
               </li>
               <li>
                 <Link href="/terminos" className="hover:text-white transition-colors">Términos</Link>
               </li>
+              <PreferenciasCookies />
             </ul>
           </nav>
         </div>

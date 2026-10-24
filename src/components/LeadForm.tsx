@@ -6,6 +6,7 @@ import ConsentCheckbox from "@/components/ConsentCheckbox";
 import { ArrowLeft, CheckCircle2, Loader2, MessageCircle } from "lucide-react";
 import { enviarLead } from "@/app/actions/lead";
 import { waLink } from "@/lib/contact";
+import { track } from "@/lib/analytics";
 import {
   mensajeWhatsAppLead,
   type ContextoLead,
@@ -90,9 +91,18 @@ const LeadForm = ({
   const [resultado, accion, enviando] = useActionState<ResultadoLead | null, FormData>(enviarLead, null);
 
   // Cada respuesta del servidor es un objeto nuevo: libera el bloqueo del envío.
+  // También registra el evento de analítica: una vez por respuesta, sin nada de lo escrito.
   useEffect(() => {
     envioEnCurso.current = false;
-  }, [resultado]);
+    if (!resultado) return;
+    if (resultado.ok) track("lead_enviado", { origen, interes });
+    else
+      track("formulario_error", {
+        origen,
+        motivo: resultado.motivo,
+        campos: Object.keys(resultado.errores ?? {}).join(",") || undefined,
+      });
+  }, [resultado, origen, interes]);
 
   // onSubmit en vez de <form action>: así React no vacía los campos ni la casilla cuando el envío falla.
   const alEnviar = (ev: React.FormEvent<HTMLFormElement>) => {
@@ -147,6 +157,7 @@ const LeadForm = ({
           {resultado.mensaje}
           {fallo && (
             <a
+              data-origen={`${origen}:plan-b`}
               href={waLink(mensajeWhatsAppLead(mensajeWhatsApp, { nombre, celular }))}
               target="_blank"
               rel="noopener noreferrer"

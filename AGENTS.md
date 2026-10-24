@@ -43,8 +43,9 @@ npm run test:e2e       # playwright: hace su propio build y prueba en Chromium (
 src/app/                  rutas (App Router): /, /nosotros, /servicios, /propiedades, /vender,
                           /simulador-inversion, /simulador-hipotecario
 src/data/properties.ts      inventario de propiedades (tipo Property; única fuente del catálogo, home, fichas y sitemap)
-src/components/           PropertyCard, Navbar, Hero, Footer, FloatingWhatsApp, LeadForm (formulario de leads), simuladores.tsx (campo numérico, moneda, aviso), GHLForm (sin uso) y secciones de la home
+src/components/           PropertyCard, Navbar, Hero, Footer, FloatingWhatsApp, LeadForm (formulario de leads), simuladores.tsx (campo numérico, moneda, aviso), BannerCookies + Analitica (consentimiento y GA4/Meta), GHLForm (sin uso) y secciones de la home
 src/lib/finance.ts        matemática financiera pura (cuota, cronograma, cap rate…) con pruebas en finance.test.ts; formato.ts = presentación
+src/lib/analytics.ts      track(evento, parámetros): no hace nada sin consentimiento ni IDs; consentimiento.ts guarda la decisión (INTEGRACIONES §4)
 src/app/actions/lead.ts   Server Action enviarLead (valida, honeypot, POST a GHL); esquema en src/lib/leads.ts
 public/imagenes/          fotos y flyers (nombres en minúsculas con guiones)
 docs/                     documentación del proyecto (ver índice abajo)

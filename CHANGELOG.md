@@ -2,6 +2,11 @@
 
 Registro de cambios por sesión de trabajo, reconstruido a partir de `git log` para las sesiones 00 a 11. Las sesiones siguen los prompts de [docs/prompts/](docs/prompts/README.md); el porqué de cada decisión está en [docs/DECISIONES.md](docs/DECISIONES.md). Fechas en formato AAAA-MM-DD.
 
+## 2026-10-23 · Sesión 13 — Analítica y cookies
+- Banner de cookies accesible (Aceptar/Rechazar con el mismo peso, decisión en `localStorage`) y "Preferencias de cookies" en el pie; sin IDs no aparece ni se carga nada (D-26).
+- GA4 y píxel de Meta con `next/script`, solo tras aceptar; `src/lib/analytics.ts` con `track()` y los eventos `cta_whatsapp_click`, `lead_enviado`, `formulario_error`, `simulador_calculado` y `propiedad_vista`, sin datos personales.
+- Sección de cookies en `/privacidad` (borrador); 8 pruebas e2e nuevas (`e2e/analitica.spec.ts`); el pie gana margen inferior para que el botón de WhatsApp no tape los enlaces legales.
+
 ## 2026-10-23 · Sesión 12 — Pruebas, CI y documentación de operación
 - Playwright (`@playwright/test`) con 24 pruebas e2e contra el build de producción: rutas y títulos, menú móvil a 390 px, WhatsApp oficial, simuladores con valores límite y formulario de `/vender` contra un webhook falso local.
 - Scripts `test:e2e` y `typecheck` en `package.json`.

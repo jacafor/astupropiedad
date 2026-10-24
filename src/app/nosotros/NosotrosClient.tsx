@@ -80,6 +80,7 @@ const NosotrosPage = () => {
             Estamos preparando la presentación de las personas que te acompañarán en tu compra, venta o inversión. Mientras tanto, escríbenos y te atendemos directamente.
           </p>
           <a
+            data-origen="nosotros:equipo"
             href={waLink("Hola, quisiera conocer más sobre el equipo de AS Tupropiedad")}
             target="_blank"
             rel="noopener noreferrer"

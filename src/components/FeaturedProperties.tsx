@@ -69,6 +69,7 @@ const FeaturedProperties = ({ properties }: { properties: Property[] }) => {
             </div>
             <div className="p-8 border-t border-gray-100 text-center">
               <a
+                data-origen="home:avisame"
                 href={waLink("Hola, quisiera que me avisen cuando publiquen nuevas propiedades")}
                 target="_blank"
                 rel="noopener noreferrer"
