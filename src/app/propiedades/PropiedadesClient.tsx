@@ -122,6 +122,7 @@ const CatalogPage = ({ propiedades }: { propiedades: Property[] }) => {
               <h2 className="font-serif font-black text-2xl text-dark mb-3">Estamos preparando nuevas propiedades</h2>
               <p className="text-gray-600 mb-8">Escríbenos y te avisamos apenas publiquemos nuevas oportunidades.</p>
               <a
+                data-origen="catalogo:avisame"
                 href={waLink("Hola, quisiera que me avisen cuando publiquen nuevas propiedades")}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -145,6 +146,7 @@ const CatalogPage = ({ propiedades }: { propiedades: Property[] }) => {
                   Ver todas
                 </button>
                 <a
+                  data-origen="catalogo:no-encontre"
                   href={waLink("Hola, no encontré lo que busco en el catálogo. ¿Pueden ayudarme?")}
                   target="_blank"
                   rel="noopener noreferrer"

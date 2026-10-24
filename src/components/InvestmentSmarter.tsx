@@ -4,6 +4,7 @@ import React, { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { TrendingUp } from "lucide-react";
 import { CampoNumerico } from "@/components/simuladores";
+import { useEventoSimulador } from "@/lib/analytics";
 import { mensajeDe, rentabilidadBruta } from "@/lib/finance";
 import { formatearMoneda, formatearPorcentaje, leerNumero } from "@/lib/formato";
 
@@ -20,6 +21,7 @@ const InvestmentSmarter = () => {
   const errores = !vacio && !resultado.ok ? resultado.errores : [];
   const rentabilidad = resultado.ok ? resultado.valor : undefined;
   const ingresoAnual = resultado.ok ? leerNumero(monthlyRent) * 12 : undefined;
+  useEventoSimulador('home-rentabilidad', JSON.stringify([propertyValue, monthlyRent]), resultado.ok);
 
   return (
     <section id="inversores" className="py-24 bg-white relative">

@@ -10,6 +10,8 @@ export const Pendiente = ({ children }: { children: React.ReactNode }) => (
 
 export interface SeccionLegal {
   titulo: string;
+  /** Ancla para enlazar la sección (p. ej. /privacidad#cookies). */
+  id?: string;
   contenido: React.ReactNode;
 }
 
@@ -47,7 +49,7 @@ const LegalPage = ({ titulo, introduccion, secciones }: Props) => (
 
         <div className="space-y-12">
           {secciones.map((s) => (
-            <section key={s.titulo}>
+            <section key={s.titulo} id={s.id} className="scroll-mt-32">
               <h2 className="font-serif font-black text-2xl md:text-3xl text-dark mb-4">{s.titulo}</h2>
               <div className="space-y-4 text-base leading-relaxed text-gray-700">{s.contenido}</div>
             </section>

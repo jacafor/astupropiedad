@@ -4,6 +4,7 @@ import React, { useMemo, useState } from 'react';
 import { TrendingUp, PieChart, ShieldCheck, Download, Info, Wallet } from 'lucide-react';
 import { motion } from 'framer-motion';
 import LeadForm from '@/components/LeadForm';
+import { useEventoSimulador } from '@/lib/analytics';
 import { AvisoSimulacion, CampoNumerico, SelectorMoneda } from '@/components/simuladores';
 import { numeroValido } from '@/lib/lead-tipos';
 import {
@@ -72,6 +73,11 @@ const InvestmentSimulator = () => {
   }, [precio, alquiler, mantenimiento, arbitrios, impuestoRenta, alcabala, notariales, plusvalia, moneda, tipoCambio]);
 
   const { errores, renta, compra, proyeccion, plusvaliaNum, flujoOtra, otra } = calculo;
+  useEventoSimulador(
+    'inversion',
+    JSON.stringify([precio, alquiler, mantenimiento, arbitrios, impuestoRenta, alcabala, notariales, plusvalia, moneda, tipoCambio]),
+    errores.length === 0 && renta !== undefined
+  );
   const m = (v: number | undefined) => formatearMoneda(v, moneda);
   const simbolo = moneda === 'USD' ? 'US$' : 'S/';
 

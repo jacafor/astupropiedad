@@ -6,6 +6,8 @@ import Footer from "@/components/Footer";
 import FloatingWhatsApp from "@/components/FloatingWhatsApp";
 import JsonLd from "@/components/JsonLd";
 import Providers from "@/components/Providers";
+import Analitica from "@/components/Analitica";
+import BannerCookies from "@/components/BannerCookies";
 import { BRAND_NAME, SITE_URL } from "@/lib/contact";
 import { RUTAS } from "@/lib/rutas";
 
@@ -58,6 +60,7 @@ export default function RootLayout({
         >
           Saltar al contenido
         </a>
+        <BannerCookies />
         <Providers>
           <Navbar />
           <main id="contenido" className="flex-1">
@@ -68,6 +71,7 @@ export default function RootLayout({
             <FloatingWhatsApp />
           </aside>
         </Providers>
+        <Analitica />
       </body>
     </html>
   );

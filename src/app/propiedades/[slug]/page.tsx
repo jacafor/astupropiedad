@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Bath, BedDouble, Car, Check, MapPin, MessageCircle, Square } from "lucide-react";
 import PropertyCard from "@/components/PropertyCard";
+import VistaPropiedad from "@/components/VistaPropiedad";
 import { BRAND_NAME, SITE_URL } from "@/lib/contact";
 import { precioTexto, waPropiedad } from "@/lib/propiedades";
 import {
@@ -108,6 +109,7 @@ const Page = async ({ params }: Props) => {
 
   return (
     <div className="bg-gray-50 pt-32 pb-24">
+      <VistaPropiedad id={p.id} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdPropiedad(p)).replace(/</g, "\\u003c") }}
@@ -191,6 +193,7 @@ const Page = async ({ params }: Props) => {
             </div>
 
             <a
+              data-origen={`propiedad:${p.id}`}
               href={waPropiedad(p)}
               target="_blank"
               rel="noopener noreferrer"

@@ -58,6 +58,7 @@ const PropertyCard = ({ property: p, priority = false }: { property: Property; p
       </ul>
 
       <a
+        data-origen={`tarjeta:${p.id}`}
         href={waPropiedad(p)}
         target="_blank"
         rel="noopener noreferrer"

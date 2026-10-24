@@ -2,11 +2,16 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import LegalPage, { Pendiente } from "@/components/LegalPage";
 import { BRAND_NAME, EMAIL, mailLink } from "@/lib/contact";
+import { GA_ID, HAY_ANALITICA, META_PIXEL_ID } from "@/lib/consentimiento";
 import { rutaMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = rutaMetadata("/privacidad");
 
-const enlace = "underline underline-offset-4 font-bold text-primary hover:text-dark";
+const herramientas = [GA_ID && "Google Analytics", META_PIXEL_ID && "el píxel de Meta"].filter(
+  (h): h is string => Boolean(h)
+);
+
+const enlace ="underline underline-offset-4 font-bold text-primary hover:text-dark";
 
 const Page = () => (
   <LegalPage
@@ -63,6 +68,12 @@ const Page = () => (
               </li>
               <li>La fecha y hora en que aceptaste esta política.</li>
             </ul>
+            {HAY_ANALITICA && (
+              <p>
+                Además, solo si aceptas las cookies, datos de navegación sin tu nombre, celular ni correo (ver
+                «Cookies y analítica»).
+              </p>
+            )}
             <p>
               Si prefieres escribirnos por WhatsApp, los mensajes se rigen además por las condiciones de ese servicio.
             </p>
@@ -129,10 +140,49 @@ const Page = () => (
       },
       {
         titulo: "Cookies y analítica",
+        id: "cookies",
         contenido: (
-          <p>
-            <Pendiente>política de cookies; hoy el sitio no tiene analítica activada y se completará cuando se active</Pendiente>
-          </p>
+          <>
+            <p>
+              <strong>Siempre:</strong> guardamos en tu navegador (almacenamiento local, no es una cookie) si aceptaste o
+              rechazaste las cookies, para no volver a preguntarte. Ese dato no sale de tu equipo.
+            </p>
+            {HAY_ANALITICA ? (
+              <>
+                <p>
+                  <strong>Solo si aceptas:</strong> usamos {herramientas.join(" y ")} para saber cuántas personas visitan
+                  el sitio, qué páginas ven y qué acciones hacen (abrir WhatsApp, usar un simulador, enviar un formulario
+                  o ver una propiedad). A estas herramientas <strong>no</strong> les enviamos tu nombre, tu celular ni tu
+                  correo.
+                </p>
+                <ul className="list-disc pl-6 space-y-1">
+                  {GA_ID && (
+                    <li>
+                      Google Analytics (Google): cookies <code>_ga</code> y <code>_ga_…</code>, para medir visitas.
+                    </li>
+                  )}
+                  {META_PIXEL_ID && (
+                    <li>
+                      Píxel de Meta (Facebook e Instagram): cookie <code>_fbp</code>, para medir el resultado de nuestros
+                      anuncios.
+                    </li>
+                  )}
+                </ul>
+                <p>
+                  Si rechazas, no se cargan y el sitio funciona igual. Puedes cambiar tu decisión cuando quieras en
+                  «Preferencias de cookies», al final de cada página, o borrar las cookies desde tu navegador.
+                </p>
+                <p>
+                  <Pendiente>duración de cada cookie según la configuración final, transferencia de datos fuera del Perú (Google y Meta) y revisión legal de este texto y del aviso de cookies</Pendiente>
+                </p>
+              </>
+            ) : (
+              <p>
+                Hoy el sitio no tiene activada ninguna herramienta de analítica ni de publicidad, así que no usa cookies
+                de ese tipo. Si se activan, te pediremos permiso antes y actualizaremos esta sección.
+              </p>
+            )}
+          </>
         ),
       },
       {

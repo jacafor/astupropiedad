@@ -97,6 +97,7 @@ const Navbar = () => {
             </Link>
           ))}
           <Link
+            data-origen="navbar"
             href={waLink()}
             target="_blank"
             className={`flex items-center space-x-3 px-6 py-3 rounded-sm text-xs font-black focus-visible:ring-2 focus-visible:ring-secondary uppercase tracking-widest transition-all ${
@@ -150,6 +151,7 @@ const Navbar = () => {
                 </Link>
               ))}
               <Link
+                data-origen="navbar-movil"
                 href={waLink()}
                 className="bg-secondary text-dark p-4 text-center font-black uppercase text-xs tracking-widest"
               >

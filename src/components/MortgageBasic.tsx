@@ -4,6 +4,7 @@ import React, { useMemo, useState } from 'react';
 import { Calculator } from 'lucide-react';
 import { motion } from 'framer-motion';
 import LeadForm from '@/components/LeadForm';
+import { useEventoSimulador } from '@/lib/analytics';
 import { AvisoSimulacion, CampoNumerico } from '@/components/simuladores';
 import { numeroValido } from '@/lib/lead-tipos';
 import { cuotaFrancesa, mensajeDe, mesesDesdeAnios, montoFinanciado, type ErrorFinanza } from '@/lib/finance';
@@ -35,6 +36,11 @@ const MortgageBasic = () => {
   }, [price, downPayment, years, rate]);
 
   const { errores, capital, cuota: monthlyPayment } = calculo;
+  useEventoSimulador(
+    'home-hipoteca',
+    JSON.stringify([price, downPayment, years, rate]),
+    errores.length === 0 && monthlyPayment !== undefined
+  );
   const usd = (v: number | undefined) => formatearMoneda(v, 'USD');
 
   return (

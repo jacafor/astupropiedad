@@ -8,6 +8,7 @@ import { waLink } from '@/lib/contact';
 const FloatingWhatsApp = () => {
   return (
     <motion.a
+      data-origen="boton-flotante"
       href={waLink()}
       target="_blank"
       rel="noopener noreferrer"
