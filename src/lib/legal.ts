@@ -9,4 +9,4 @@
 export const LEGALES_EN_BORRADOR = true;
 
 /** Fecha del borrador actual (se actualiza al editar los textos). */
-export const LEGALES_FECHA = "16 de octubre de 2026";
+export const LEGALES_FECHA = "23 de octubre de 2026";
