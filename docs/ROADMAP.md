@@ -9,6 +9,7 @@ Leyenda de referencias: `C1…C7` = hallazgos críticos de la auditoría web · 
 - [ ] ~~WhatsApp, correo y dominio~~ (recibidos 2026-10-04) · ~~dirección, horario y redes~~ (recibidos 2026-10-29, D-28) · **faltan:** RUC y razón social, y confirmar TikTok
 - [ ] GoHighLevel **por API** (D-27, 2026-10-29): token e IDs en Vercel, pipeline, campos y calendario de llamadas; luego la sesión [15](prompts/15-ghl-api.md) (+ flujo de atención y SLA)
 - [ ] Inventario real de propiedades (datos + fotos limpias)
+- [ ] **Administrador de propiedades y publicación en Proppit y otros portales, para dejar Tokko** (D-29, 2026-10-29): primero la especificación técnica de Proppit y la lista de portales (P-15); luego la sesión [16](prompts/16-administrador-propiedades.md)
 - [ ] Fotos y datos del equipo real
 - [ ] Cifras verificables · convenios bancarios: nombres recibidos 2026-10-29 (BBVA, BCP, Scotiabank, Interbank; ya en `/simulador-hipotecario`), **falta archivar el respaldo escrito** (P-10)
 - [ ] Textos legales revisados (privacidad y términos ya existen como borrador) y Libro de Reclamaciones

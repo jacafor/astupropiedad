@@ -32,6 +32,12 @@ Creados el 2026-10-04 a partir de [ROADMAP.md](../ROADMAP.md) y [DECISIONES.md](
 | 13 | [Analítica y cookies](13-analitica-cookies.md) | ID de Google Analytics / Meta | Solo eventos internos, sin cargar scripts |
 | 15 | [Leads a GHL por API](15-ghl-api.md) (reemplaza el webhook de la 05, D-27) | Token e IDs de GHL en Vercel, pipeline, campos y calendario de llamadas | Webhook actual / WhatsApp |
 
+### Fase C — administrador de propiedades (reemplazo de Tokko, D-29)
+
+| # | Sesión | Necesita | Por defecto si no lo tienes |
+|---|---|---|---|
+| 16 | [Administrador de propiedades y portales](16-administrador-propiedades.md) — grande; se divide en fases | Especificación técnica de Proppit y de los demás portales, exportación de Tokko, tu OK para instalar y contratar (P-15); mejor después de la 15 | Inventario en `src/data/properties.ts`; Tokko sigue publicando |
+
 ### Cierre
 
 | # | Sesión |

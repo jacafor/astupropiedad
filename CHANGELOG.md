@@ -2,6 +2,9 @@
 
 Registro de cambios por sesión de trabajo, reconstruido a partir de `git log` para las sesiones 00 a 11. Las sesiones siguen los prompts de [docs/prompts/](docs/prompts/README.md); el porqué de cada decisión está en [docs/DECISIONES.md](docs/DECISIONES.md). Fechas en formato AAAA-MM-DD.
 
+## 2026-10-29 · Prompt del administrador de propiedades
+- Decisión D-29 (dejar Tokko, administrador propio con publicación en portales, GHL como CRM), pendiente P-15 y prompt [16](docs/prompts/16-administrador-propiedades.md). Solo documentación.
+
 ## 2026-10-29 · Datos de la empresa, convenios y monedas
 - Dirección (Calle San Juan 211, La Molina), horario (lunes a sábado, 8:00 a 20:00 h) y redes sociales en `src/lib/contact.ts`; el pie los muestra y el JSON-LD añade `address`, `openingHoursSpecification` y `sameAs` (D-28).
 - Convenios con BBVA, BCP, Scotiabank e Interbank, en texto, en `/simulador-hipotecario` (respaldo escrito pendiente, P-10).
