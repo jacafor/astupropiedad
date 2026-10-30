@@ -1,9 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Mail, Phone, MapPin, CalendarDays, ArrowUpRight } from 'lucide-react';
+import { Mail, Phone, MapPin, Clock, CalendarDays, ArrowUpRight } from 'lucide-react';
 import PreferenciasCookies from '@/components/PreferenciasCookies';
-import { EMAIL, PHONE_DISPLAY, mailLink, telLink, waLink } from '@/lib/contact';
+import { DIRECCION_TEXTO, EMAIL, HORARIO, PHONE_DISPLAY, REDES_SOCIALES, mailLink, telLink, waLink } from '@/lib/contact';
 
 const Footer = () => {
   // pb-28/36: el botón flotante de WhatsApp no debe tapar los enlaces legales al final de la página.
@@ -12,7 +12,7 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 mb-20">
 
-          {/* Branding (redes sociales ocultas hasta tener las URL oficiales) */}
+          {/* Branding y redes sociales (URL en contact.ts) */}
           <div className="lg:col-span-4">
             <Image
               src="/imagenes/logo-as-tupropiedad.png"
@@ -25,6 +25,23 @@ const Footer = () => {
             <p className="text-gray-400 mb-10 leading-relaxed font-light text-lg">
               Boutique inmobiliaria en Lima. Especializada en maximizar el valor patrimonial mediante asesoría de alto nivel y análisis de rentabilidad.
             </p>
+            <nav aria-label="Redes sociales">
+              <ul className="flex flex-wrap gap-x-6 gap-y-3">
+                {REDES_SOCIALES.map((red) => (
+                  <li key={red.nombre}>
+                    <a
+                      href={red.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs font-black uppercase tracking-widest text-gray-400 hover:text-white transition-colors underline decoration-secondary underline-offset-8 decoration-2"
+                    >
+                      {red.nombre}
+                      <span className="sr-only"> (se abre en una pestaña nueva)</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
           </div>
 
           {/* Links */}
@@ -88,7 +105,11 @@ const Footer = () => {
               </li>
               <li className="flex items-start text-gray-400">
                 <MapPin className="w-5 h-5 mr-4 text-secondary flex-shrink-0" aria-hidden="true" />
-                <span className="text-sm">San Isidro, Lima - Perú</span>
+                <span className="text-sm">{DIRECCION_TEXTO}</span>
+              </li>
+              <li className="flex items-start text-gray-400">
+                <Clock className="w-5 h-5 mr-4 text-secondary flex-shrink-0" aria-hidden="true" />
+                <span className="text-sm">{HORARIO.texto}</span>
               </li>
             </ul>
           </div>

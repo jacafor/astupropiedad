@@ -30,6 +30,7 @@ Creados el 2026-10-04 a partir de [ROADMAP.md](../ROADMAP.md) y [DECISIONES.md](
 | 07 | [Propiedades y fichas](07-propiedades-y-fichas.md) | Datos y fotos reales (D-11) | Marcador "Próximamente" |
 | 09 | [Privacidad y términos](09-legal.md) | Texto legal revisado, razón social, RUC | Borrador `noindex` marcado como pendiente |
 | 13 | [Analítica y cookies](13-analitica-cookies.md) | ID de Google Analytics / Meta | Solo eventos internos, sin cargar scripts |
+| 15 | [Leads a GHL por API](15-ghl-api.md) (reemplaza el webhook de la 05, D-27) | Token e IDs de GHL en Vercel, pipeline, campos y calendario de llamadas | Webhook actual / WhatsApp |
 
 ### Cierre
 

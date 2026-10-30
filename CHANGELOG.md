@@ -2,6 +2,12 @@
 
 Registro de cambios por sesión de trabajo, reconstruido a partir de `git log` para las sesiones 00 a 11. Las sesiones siguen los prompts de [docs/prompts/](docs/prompts/README.md); el porqué de cada decisión está en [docs/DECISIONES.md](docs/DECISIONES.md). Fechas en formato AAAA-MM-DD.
 
+## 2026-10-29 · Datos de la empresa, convenios y monedas
+- Dirección (Calle San Juan 211, La Molina), horario (lunes a sábado, 8:00 a 20:00 h) y redes sociales en `src/lib/contact.ts`; el pie los muestra y el JSON-LD añade `address`, `openingHoursSpecification` y `sameAs` (D-28).
+- Convenios con BBVA, BCP, Scotiabank e Interbank, en texto, en `/simulador-hipotecario` (respaldo escrito pendiente, P-10).
+- Venta en USD y alquiler en PEN: `MONEDA_POR_OPERACION` y `src/data/properties.test.ts` (cierra P-4).
+- Documentado: GHL por API en lugar de webhook (D-27, sin implementar; prompt [15](docs/prompts/15-ghl-api.md)) y el subdominio `web.astupropiedad.com` (P-12).
+
 ## 2026-10-23 · Revisión móvil de producción
 - Recorrido manual de las 7 rutas en `web-as-tupropiedad.vercel.app` a 390 y 1280 px (menú, WhatsApp, simuladores, paso 1→2 de `/vender`): sin fallos. Casilla cerrada en `docs/ROADMAP.md`; anotados los textos sin respaldo de `/vender`. Solo documentación.
 

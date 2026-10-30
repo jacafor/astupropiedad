@@ -4,7 +4,7 @@ Qué es AS Tupropiedad según el propio sitio, cómo debe sonar, qué se puede a
 
 ## 1. Quién es y qué ofrece (según el sitio)
 
-- **Marca:** AS Tupropiedad — "Boutique Inmobiliaria". Lima, Perú. Dirección declarada: *San Isidro, Lima* (sin calle).
+- **Marca:** AS Tupropiedad — "Boutique Inmobiliaria". Lima, Perú. Dirección: *Calle San Juan 211, La Molina* (confirmada 2026-10-29, D-28).
 - **Servicios** (`/servicios`): representación de comprador (*personal shopper*), marketing para vendedores, estructuración financiera con alianzas bancarias, auditoría legal inmobiliaria.
 - **Públicos:** compradores, vendedores, inversionistas y consultores/corredores que quieran unirse al equipo.
 - **Zonas mencionadas:** Miraflores, San Isidro, Surco (texto); inventario de muestra en Jesús María, La Molina, Ate, Callao y "Lima".
@@ -17,10 +17,12 @@ Qué es AS Tupropiedad según el propio sitio, cómo debe sonar, qué se puede a
 | WhatsApp / teléfono | `+51 940 428 352` (navbar) · `+51 900 000 000` (footer y botón flotante, **relleno**) · `940 215 027` (banner y el HTML anterior, ya archivado) · `994 741 703` y `977 588 905` (letreros dentro de flyers) | **Pendiente.** Elegir uno oficial |
 | Correo | `contacto@astupropiedad.pe` | Confirmar que existe y se lee |
 | Dominio | `astupropiedad.com` (flyers, banner) · `astupropiedad.pe` (correo y el HTML anterior, ya archivado) · `as-tupropiedad.pe` (enlace GHL) | **Pendiente.** Elegir dominio canónico y redirigir los demás |
-| Dirección | "San Isidro, Lima - Perú" | Falta calle y número |
-| Horario de atención | no existe | Necesario si se promete respuesta rápida |
+| Dirección | **Calle San Juan 211, La Molina** (jforero, 2026-10-29) | **Decidida (D-28).** En `contact.ts`; no es el domicilio fiscal |
+| Horario de atención | **Lunes a sábado, 8:00 a 20:00 h** (jforero, 2026-10-29) | **Decidido (D-28).** En `contact.ts` y en el pie |
 | Razón social / RUC | no existen | Necesario en el footer |
-| Redes sociales | enlaces `#` | Faltan las URL reales |
+| Redes sociales | Facebook, Instagram, LinkedIn y YouTube (tomadas de la web actual, 2026-10-29) | **Decididas (D-28).** TikTok sin confirmar |
+| Moneda de los precios | venta en USD, alquiler en PEN (jforero, 2026-10-29) | **Decidida (D-28).** `MONEDA_POR_OPERACION` en `properties.ts`, con prueba |
+| Convenios bancarios | BBVA, BCP, Scotiabank e Interbank (jforero, 2026-10-29) | Publicados solo en texto en `/simulador-hipotecario`; **falta archivar el respaldo escrito** (P-10) |
 
 Los datos de contacto confirmados van **solo** en `src/lib/contact.ts` y se importan desde el resto.
 
@@ -120,10 +122,10 @@ Para probar un build de producción con la ficha de ejemplo: `MOSTRAR_EJEMPLO=1 
 
 ## 7. Qué necesitamos del cliente (bloqueos de contenido)
 
-1. Teléfono/WhatsApp, correo, dominio, dirección, horario, RUC y redes oficiales.
+1. ~~Teléfono/WhatsApp, correo, dominio, dirección, horario y redes~~ (recibidos); **faltan** RUC y razón social, y confirmar TikTok.
 2. Inventario real: por propiedad → precio, moneda, m², dormitorios, baños, cocheras, distrito, dirección aproximada, estado y **fotos limpias**.
 3. Fotos, nombres y cargos del equipo real (y registro profesional si aplica).
 4. Cifras verificables o autorización para quitarlas.
-5. Convenios bancarios que se pueden nombrar.
+5. Respaldo escrito de los convenios bancarios (los nombres ya se publican, D-28).
 6. Textos legales (privacidad, términos) revisados.
-7. Acceso a GoHighLevel: formularios, calendario, webhook/API y flujo de atención.
+7. GoHighLevel por API (D-27): token e IDs en Vercel, pipeline, campos, calendario de llamadas y flujo de atención.

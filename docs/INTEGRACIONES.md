@@ -10,7 +10,7 @@ Plantilla en [`.env.example`](../.env.example). Copiar a `.env.local` (ignorado 
 |---|---|---|---|
 | `NEXT_PUBLIC_SITE_URL` | `metadataBase`, canonical, sitemap, OG (opcional: `contact.ts` ya trae `https://astupropiedad.com` por defecto) | sí | dominio dado por jforero 2026-10-04; confirmar `www` |
 | `GHL_WEBHOOK_URL` | Webhook de entrada de leads en GoHighLevel (lo lee `src/app/actions/lead.ts`; si falta, los formularios muestran un error controlado y ofrecen WhatsApp) | **no** | **en uso (sesión 05)**; valor pendiente: falta el webhook de GHL |
-| `GHL_API_KEY` · `GHL_LOCATION_ID` | Alternativa vía API de GHL | **no** | pendiente |
+| `GHL_API_TOKEN` · `GHL_LOCATION_ID` · `GHL_PIPELINE_ID` · `GHL_PIPELINE_STAGE_ID` · `GHL_CALENDAR_ID` | Método elegido el 2026-10-29 (D-27): API de GHL para crear contacto, oportunidad y cita. Los nombres son una propuesta; la sesión [15](prompts/15-ghl-api.md) los fija | **no** | **pendiente** (sin implementar; el valor lo carga jforero en Vercel) |
 | `NEXT_PUBLIC_GHL_CALENDAR_URL` | Embed del calendario de videollamadas | sí | pendiente |
 | `NEXT_PUBLIC_GA_ID` | Google Analytics 4 (`G-XXXXXXX`); solo se carga si el visitante acepta (§4) | sí | **en código (sesión 13)**; valor pendiente |
 | `NEXT_PUBLIC_META_PIXEL_ID` | Píxel de Meta (solo números); solo se carga si el visitante acepta (§4) | sí | **en código (sesión 13)**; valor pendiente |
@@ -20,6 +20,8 @@ Plantilla en [`.env.example`](../.env.example). Copiar a `.env.local` (ignorado 
 Reglas: lee los secretos solo en código de servidor (Server Actions, Route Handlers); valida su presencia al arrancar y falla con mensaje claro; no los imprimas en logs.
 
 ## 2. GoHighLevel (CRM)
+
+> **Cambio de método (2026-10-29, D-27):** jforero decidió no usar webhook sino la **API de GHL** (crear contacto, oportunidad y cita). Aún no está implementado; lo que sigue describe el webhook, que es lo que funciona hoy. El prompt de la migración es [15-ghl-api.md](prompts/15-ghl-api.md).
 
 **Lo que existe hoy (sesión 05, 2026-10-05):** formularios reales (`LeadForm`) en `/vender`, ambos simuladores y la home, que envían por la Server Action `enviarLead` al webhook de `GHL_WEBHOOK_URL`. `GHLForm.tsx` (iframe de `link.as-tupropiedad.pe`) sigue **sin uso**. **No se ha probado contra un GHL real**: solo contra un receptor local de prueba. El calendario del footer sigue siendo un enlace a WhatsApp.
 **Lo que se desconoce (pedir al cliente):** si usará webhook o API, formularios existentes, pipeline, calendario, flujos de autorespuesta, quién atiende y con qué SLA.

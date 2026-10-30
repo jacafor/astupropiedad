@@ -3,7 +3,7 @@
 import React, { useMemo, useState } from 'react';
 import { Table } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { waLink } from '@/lib/contact';
+import { BANCOS_CONVENIO_TEXTO, waLink } from '@/lib/contact';
 import { useEventoSimulador } from '@/lib/analytics';
 import LeadForm from '@/components/LeadForm';
 import { AvisoSimulacion, CampoNumerico, SelectorMoneda } from '@/components/simuladores';
@@ -205,8 +205,11 @@ const MortgageSimulator = () => {
             <div className="lg:col-span-12 xl:col-span-4 space-y-8">
               <div className="bg-dark text-white p-8 sm:p-12 rounded-3xl shadow-2xl relative overflow-hidden">
                 <h2 className="text-2xl font-serif font-black mb-6">Orientación para tu crédito</h2>
-                <p className="text-gray-300 text-sm mb-10 font-light leading-relaxed">
+                <p className="text-gray-300 text-sm mb-4 font-light leading-relaxed">
                   Un asesor puede revisar contigo esta simulación y orientarte sobre los siguientes pasos. La cuota es referencial y depende de la evaluación de cada banco.
+                </p>
+                <p className="text-gray-300 text-sm mb-10 font-light leading-relaxed">
+                  AS Tupropiedad tiene convenios con {BANCOS_CONVENIO_TEXTO}. La aprobación, la tasa y las condiciones las define cada banco.
                 </p>
 
                 <LeadForm
