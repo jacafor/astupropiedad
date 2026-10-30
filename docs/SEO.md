@@ -44,7 +44,7 @@ Las fichas `/propiedades/[slug]` (sesión 07) generan su `generateMetadata` (tí
 ## Reglas que no se rompen
 
 - **Una página que define su propio `openGraph` o `twitter` reemplaza al del layout** (no se fusionan): por eso `rutaMetadata` repite `siteName`, `locale` e `images`. No uses un `export const metadata` suelto en una página.
-- **JSON-LD:** solo datos confirmados de `contact.ts`. No añadir dirección, horario, valoraciones, reseñas ni redes sociales hasta que el cliente los confirme (D-9, P-10). El `<` se escapa como `<`.
+- **JSON-LD:** solo datos confirmados de `contact.ts`: nombre, URL, teléfono, correo, logo, dirección, horario y redes (D-9, D-28). No añadir valoraciones ni reseñas. El `<` se escapa como `<`.
 - El sitemap no lleva `lastModified`: no hay una fecha real de edición por página y no se inventa.
 
 ## Cómo probar el enlace compartido (no verificable sin dominio público)

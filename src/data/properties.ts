@@ -18,6 +18,12 @@ export interface FotoPropiedad {
   alt: string;
 }
 
+/**
+ * Moneda en que se publica cada operación (D-28, cierra P-4): venta en dólares, alquiler en soles.
+ * `Property.moneda` debe coincidir con esta tabla; `properties.test.ts` lo comprueba.
+ */
+export const MONEDA_POR_OPERACION: Record<Operacion, Moneda> = { venta: "USD", alquiler: "PEN" };
+
 export interface Property {
   /** Referencia corta y estable que se muestra y viaja en el mensaje de WhatsApp (ej. "JM-001"). */
   id: string;
@@ -28,6 +34,7 @@ export interface Property {
   tipo: TipoInmueble;
   distrito: string;
   precio: number;
+  /** Venta = "USD", alquiler = "PEN" (ver `MONEDA_POR_OPERACION`). */
   moneda: Moneda;
   /** Área construida / techada en m². */
   areaConstruidaM2: number;

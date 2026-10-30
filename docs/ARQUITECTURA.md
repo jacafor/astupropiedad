@@ -38,7 +38,7 @@ Existen `/privacidad` y `/terminos` (borrador, `noindex`, ver `src/lib/legal.ts`
 | `PropertyZones` | sí | Miraflores / San Isidro / Surco | Solo texto |
 | `MortgageBasic` | sí | Calculadora hipotecaria rápida + formulario "Habla con un asesor" (`LeadForm`, origen `home-hipoteca:cta`) | `$∞` con plazo 0 (sesión 06) |
 | `PhilosophyAndTeam` | sí | Filosofía + formulario de reclutamiento (`LeadForm`, origen `home:reclutamiento`) | — |
-| `Footer` | no declarado | Marca, enlaces, contacto, "calendario GHL", legal | En el layout; enlaces internos con `next/link`; sin redes sociales (ocultas hasta tener URL); enlaces Privacidad y Términos en la barra inferior; CTA de videollamada por WhatsApp; logo con `next/image` |
+| `Footer` | no declarado | Marca, redes, enlaces, contacto (correo, teléfono, dirección y horario de `contact.ts`), "calendario GHL", legal | En el layout; enlaces internos con `next/link`; redes sociales de `REDES_SOCIALES` (sin TikTok); enlaces Privacidad y Términos en la barra inferior; CTA de videollamada por WhatsApp; logo con `next/image` |
 | `Providers` | sí | `<MotionConfig reducedMotion="user">` que envuelve Navbar, páginas y footer en el layout | Un componente de animación nuevo lo hereda solo |
 | `FloatingWhatsApp` | sí | Botón flotante en el layout (todas las rutas); 56 px en móvil y 64 px desde `md`; `aria-label` | Número desde `contact.ts` |
 | `LeadForm` | sí | Formulario reutilizable de leads (`useActionState` + `enviarLead`): etiquetas, errores por campo, estado "enviando", consentimiento, éxito real y plan B de WhatsApp. Props: `interes`, `origen`, `contexto`, `mensajeWhatsApp`, `variante` (`claro`/`oscuro`), `onAtras` | Usa `ConsentCheckbox` |
