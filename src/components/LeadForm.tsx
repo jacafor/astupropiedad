@@ -3,6 +3,8 @@
 import React, { startTransition, useActionState, useEffect, useId, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import ConsentCheckbox from "@/components/ConsentCheckbox";
+import SelectorCita from "@/components/SelectorCita";
+import { etiquetaHorario } from "@/lib/horarios";
 import { ArrowLeft, CheckCircle2, Loader2, MessageCircle } from "lucide-react";
 import { enviarLead } from "@/app/actions/lead";
 import { waLink } from "@/lib/contact";
@@ -28,6 +30,8 @@ type Props = {
   onAtras?: () => void;
   /** Texto del mensaje de éxito después del saludo. */
   textoExito?: string;
+  /** Ofrece agendar una llamada (solo en los orígenes de ORIGENES_CON_CITA; D-27). */
+  permiteCita?: boolean;
 };
 
 const ESTILOS = {
@@ -74,6 +78,7 @@ const LeadForm = ({
   variante = "claro",
   onAtras,
   textoExito = "Un asesor se pondrá en contacto contigo al celular que dejaste.",
+  permiteCita = false,
 }: Props) => {
   const e = ESTILOS[variante];
   const uid = useId();
@@ -87,6 +92,8 @@ const LeadForm = ({
   const [celular, setCelular] = useState("");
   const [correo, setCorreo] = useState("");
   const [acepta, setAcepta] = useState(false);
+  const [quiereCita, setQuiereCita] = useState(false);
+  const [horario, setHorario] = useState("");
 
   const [resultado, accion, enviando] = useActionState<ResultadoLead | null, FormData>(enviarLead, null);
 
@@ -117,14 +124,46 @@ const LeadForm = ({
     startTransition(() => accion(formData));
   };
 
+  const enlacePlanB = waLink(mensajeWhatsAppLead(mensajeWhatsApp, { nombre, celular }));
+  const enlaceCita = waLink(
+    mensajeWhatsAppLead(
+      `${mensajeWhatsApp.trim()}${/[.?!]$/.test(mensajeWhatsApp.trim()) ? "" : "."} Quisiera agendar una llamada.`,
+      { nombre, celular }
+    )
+  );
+
   if (resultado?.ok) {
+    const cita = resultado.cita;
     return (
       <div role="status" className="text-center py-4">
         <CheckCircle2 className="w-14 h-14 text-secondary mx-auto mb-4" aria-hidden="true" />
         <p className={`font-serif font-black text-2xl mb-2 ${e.exito}`}>
           Gracias{nombre.trim() ? `, ${nombre.trim().split(/\s+/)[0]}` : ""}. Recibimos tu solicitud.
         </p>
-        <p className={`text-base leading-relaxed ${e.exitoTexto}`}>{textoExito}</p>
+        {cita?.estado === "reservada" ? (
+          <p className={`text-base leading-relaxed ${e.exitoTexto}`}>
+            Tu llamada quedó agendada para el <strong className={e.exito}>{etiquetaHorario(cita.horario)}</strong>.
+            Te llamaremos al celular que dejaste.
+          </p>
+        ) : (
+          <p className={`text-base leading-relaxed ${e.exitoTexto}`}>{textoExito}</p>
+        )}
+        {cita?.estado === "fallida" && (
+          <div className={`mt-6 border rounded-xl p-4 text-sm leading-relaxed text-left ${e.alerta}`}>
+            Tus datos quedaron registrados, pero no pudimos reservar la hora que elegiste (puede que se haya ocupado).
+            Escríbenos por WhatsApp y coordinamos la llamada.
+            <a
+              data-origen={`${origen}:cita-plan-b`}
+              href={enlaceCita}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-4 flex items-center justify-center gap-2 w-full py-4 bg-secondary text-dark font-black uppercase tracking-widest text-xs rounded-sm hover:bg-white transition-all"
+            >
+              <MessageCircle className="w-4 h-4" aria-hidden="true" />
+              Coordinar la llamada por WhatsApp
+            </a>
+          </div>
+        )}
       </div>
     );
   }
@@ -158,7 +197,7 @@ const LeadForm = ({
           {fallo && (
             <a
               data-origen={`${origen}:plan-b`}
-              href={waLink(mensajeWhatsAppLead(mensajeWhatsApp, { nombre, celular }))}
+              href={enlacePlanB}
               target="_blank"
               rel="noopener noreferrer"
               className="mt-4 flex items-center justify-center gap-2 w-full py-4 bg-secondary text-dark font-black uppercase tracking-widest text-xs rounded-sm hover:bg-white transition-all"
@@ -232,6 +271,20 @@ const LeadForm = ({
           <p id={idDe("correo-error")} className={`text-sm ${e.error}`}>{errores.correo}</p>
         )}
       </div>
+
+      {permiteCita && (
+        <SelectorCita
+          id={uid}
+          quiere={quiereCita}
+          onQuiere={setQuiereCita}
+          horario={horario}
+          onHorario={setHorario}
+          error={errores.horario}
+          enlaceWhatsApp={enlaceCita}
+          origen={origen}
+          variante={variante}
+        />
+      )}
 
       <ConsentCheckbox
         id={idDe("consentimiento")}

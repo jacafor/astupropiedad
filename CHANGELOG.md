@@ -2,6 +2,15 @@
 
 Registro de cambios por sesión de trabajo, reconstruido a partir de `git log` para las sesiones 00 a 11. Las sesiones siguen los prompts de [docs/prompts/](docs/prompts/README.md); el porqué de cada decisión está en [docs/DECISIONES.md](docs/DECISIONES.md). Fechas en formato AAAA-MM-DD.
 
+## 2026-10-30 · Sesión 15 — GoHighLevel por API
+- `enviarLead` crea en GHL el contacto (upsert), sus etiquetas y una nota, la oportunidad en "1. Propiedades Organico → Nuevo Lead" y, donde se ofrece, la cita en el calendario de llamadas (D-27). Sin las variables de la API sigue el webhook (respaldo) o el plan B de WhatsApp.
+- Selector de cita opcional y accesible en `/vender` y en el asesor privado de la home: días y horas libres en hora de Lima, con estados de carga, vacío y error que ofrecen WhatsApp. Si la cita falla, el lead queda y se dice tal cual.
+- `src/lib/ghl.ts` y `src/lib/horarios.ts` con pruebas Vitest sobre una API simulada; `e2e/ghl-falso.mjs` reemplaza al webhook falso y `vender.spec.ts` comprueba contacto, oportunidad y cita.
+- Variables `GHL_*` creadas en Vercel (token como *Sensitive*). Prueba con el GHL real superada el 2026-10-31 en el preview, con datos ficticios: contacto, oportunidad en "Agendo Llamada" y cita confirmados por jforero.
+
+## 2026-10-29 · Prompt del administrador de propiedades
+- Decisión D-29 (dejar Tokko, administrador propio con publicación en portales, GHL como CRM), pendiente P-15 y prompt [16](docs/prompts/16-administrador-propiedades.md). Solo documentación.
+
 ## 2026-10-29 · Datos de la empresa, convenios y monedas
 - Dirección (Calle San Juan 211, La Molina), horario (lunes a sábado, 8:00 a 20:00 h) y redes sociales en `src/lib/contact.ts`; el pie los muestra y el JSON-LD añade `address`, `openingHoursSpecification` y `sameAs` (D-28).
 - Convenios con BBVA, BCP, Scotiabank e Interbank, en texto, en `/simulador-hipotecario` (respaldo escrito pendiente, P-10).

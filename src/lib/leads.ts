@@ -79,7 +79,7 @@ export const leadSchema = z.object({
 
 export type Lead = z.output<typeof leadSchema>;
 
-const ETIQUETA_INTERES: Record<Lead["interes"], string> = {
+export const ETIQUETA_INTERES: Record<Lead["interes"], string> = {
   comprar: "Compra",
   vender: "Venta",
   invertir: "Inversión",
