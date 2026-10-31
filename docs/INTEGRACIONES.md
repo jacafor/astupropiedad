@@ -1,6 +1,6 @@
 # Integraciones
 
-Qué servicios externos usa (o usará) el sitio, cómo se conectan y qué contrato siguen. **Hoy ninguna integración está conectada**: este documento es el diseño objetivo; actualízalo cuando algo se implemente.
+Qué servicios externos usa (o usará) el sitio, cómo se conectan y qué contrato siguen. **GoHighLevel por API está en código desde el 2026-10-30 (§2)**; analítica espera sus IDs (§4). Actualízalo cuando algo se implemente.
 
 ## 1. Variables de entorno
 
@@ -9,9 +9,12 @@ Plantilla en [`.env.example`](../.env.example). Copiar a `.env.local` (ignorado 
 | Variable | Uso | Público | Estado |
 |---|---|---|---|
 | `NEXT_PUBLIC_SITE_URL` | `metadataBase`, canonical, sitemap, OG (opcional: `contact.ts` ya trae `https://astupropiedad.com` por defecto) | sí | dominio dado por jforero 2026-10-04; confirmar `www` |
-| `GHL_WEBHOOK_URL` | Webhook de entrada de leads en GoHighLevel (lo lee `src/app/actions/lead.ts`; si falta, los formularios muestran un error controlado y ofrecen WhatsApp) | **no** | **en uso (sesión 05)**; valor pendiente: falta el webhook de GHL |
-| `GHL_API_TOKEN` · `GHL_LOCATION_ID` · `GHL_PIPELINE_ID` · `GHL_PIPELINE_STAGE_ID` · `GHL_CALENDAR_ID` | Método elegido el 2026-10-29 (D-27): API de GHL para crear contacto, oportunidad y cita. Los nombres son una propuesta; la sesión [15](prompts/15-ghl-api.md) los fija | **no** | **pendiente** (sin implementar; el valor lo carga jforero en Vercel) |
-| `NEXT_PUBLIC_GHL_CALENDAR_URL` | Embed del calendario de videollamadas | sí | pendiente |
+| `GHL_API_TOKEN` | Token de la **integración privada** de GHL (Bearer). En Vercel como *Sensitive* (Production y Preview; no se puede leer de vuelta). Rotarlo cada ~90 días (§2) | **no** | **en uso (2026-10-30, D-27)**; cargado por jforero |
+| `GHL_LOCATION_ID` · `GHL_PIPELINE_ID` · `GHL_PIPELINE_STAGE_ID` · `GHL_CALENDAR_ID` | Subcuenta, pipeline "1. Propiedades Organico", etapa "Nuevo Lead" y "2. Calendario Llamadas AS Tupropiedad" (IDs en Vercel; no son secretos) | **no** | **en uso**; en Vercel (Production, Preview, Development) |
+| `GHL_PIPELINE_STAGE_CITA_ID` | Opcional: etapa a la que pasa la oportunidad si se agenda la llamada ("Agendo Llamada") | **no** | en uso |
+| `GHL_API_BASE_URL` | Solo pruebas: apunta la API a `e2e/ghl-falso.mjs`. No se define en Vercel | **no** | pruebas |
+| `GHL_WEBHOOK_URL` | **Respaldo** (D-18): solo se usa si falta alguna de las cinco variables de la API. Se quitará cuando jforero lo confirme | **no** | respaldo; sin valor en Vercel |
+| `NEXT_PUBLIC_GHL_CALENDAR_URL` | Embed del calendario de videollamadas | sí | sin uso (la cita se agenda por API) |
 | `NEXT_PUBLIC_GA_ID` | Google Analytics 4 (`G-XXXXXXX`); solo se carga si el visitante acepta (§4) | sí | **en código (sesión 13)**; valor pendiente |
 | `NEXT_PUBLIC_META_PIXEL_ID` | Píxel de Meta (solo números); solo se carga si el visitante acepta (§4) | sí | **en código (sesión 13)**; valor pendiente |
 | `NEXT_PUBLIC_TURNSTILE_SITE_KEY` · `TURNSTILE_SECRET_KEY` | Anti-spam | sitio sí / secreto **no** | opcional |
@@ -21,10 +24,55 @@ Reglas: lee los secretos solo en código de servidor (Server Actions, Route Hand
 
 ## 2. GoHighLevel (CRM)
 
-> **Cambio de método (2026-10-29, D-27):** jforero decidió no usar webhook sino la **API de GHL** (crear contacto, oportunidad y cita). Aún no está implementado; lo que sigue describe el webhook, que es lo que funciona hoy. El prompt de la migración es [15-ghl-api.md](prompts/15-ghl-api.md).
+> **Método vigente: API v2 de GHL (D-27, implementada el 2026-10-30, sesión 15).** El webhook de abajo queda como respaldo hasta que jforero confirme quitarlo.
 
-**Lo que existe hoy (sesión 05, 2026-10-05):** formularios reales (`LeadForm`) en `/vender`, ambos simuladores y la home, que envían por la Server Action `enviarLead` al webhook de `GHL_WEBHOOK_URL`. `GHLForm.tsx` (iframe de `link.as-tupropiedad.pe`) sigue **sin uso**. **No se ha probado contra un GHL real**: solo contra un receptor local de prueba. El calendario del footer sigue siendo un enlace a WhatsApp.
-**Lo que se desconoce (pedir al cliente):** si usará webhook o API, formularios existentes, pipeline, calendario, flujos de autorespuesta, quién atiende y con qué SLA.
+### API (D-27): contacto → oportunidad → cita
+
+| Pieza | Archivo |
+|---|---|
+| Cliente de la API (`fetch` inyectable), mapeo y `registrarLead` | `src/lib/ghl.ts` (pruebas: `ghl.test.ts`, API simulada) |
+| Horarios en hora de Lima (agrupar, validar, etiquetas) | `src/lib/horarios.ts` (pruebas: `horarios.test.ts`) |
+| Server Actions | `enviarLead` (`src/app/actions/lead.ts`) y `obtenerHorarios` (`src/app/actions/horarios.ts`) |
+| Selector de cita | `src/components/SelectorCita.tsx` dentro de `LeadForm` (`permiteCita`) |
+
+**Fuente verificada (2026-10-30):** especificación OpenAPI oficial, [GoHighLevel/highlevel-api-docs](https://github.com/GoHighLevel/highlevel-api-docs) (`apps/contacts.json`, `opportunities.json`, `calendars.json`), contrastada con [marketplace.gohighlevel.com/docs](https://marketplace.gohighlevel.com/docs/). Base `https://services.leadconnectorhq.com`, cabecera `Authorization: Bearer <token>`. La web del Marketplace muestra `Version: v3`, pero la especificación solo admite las fechadas: se usan esas (constantes en `ghl.ts`; **confirmar en la prueba real**).
+
+| Paso | Endpoint | `Version` | Si falla |
+|---|---|---|---|
+| 1. Contacto | `POST /contacts/upsert` (`firstName`, `lastName`, `phone`, `email` solo si lo dio, `source`, `customFields[{id, field_value}]`) | `2021-07-28` | error + WhatsApp |
+| 2. Etiquetas | `POST /contacts/{id}/tags` (el upsert **reemplazaría** las existentes) | `2021-07-28` | se registra, no bloquea |
+| 3. Nota | `POST /contacts/{id}/notes` con el resumen de la solicitud | `2021-07-28` | se registra, no bloquea |
+| 4. Oportunidad | `GET /opportunities/search` (abierta del contacto en el pipeline: se reutiliza) o `POST /opportunities/` en la etapa inicial, estado `open`, sin `monetaryValue` | `2021-07-28` | error + WhatsApp (el lead no está completo) |
+| 5. Horarios | `GET /calendars/{id}/free-slots` (`startDate`/`endDate` en ms, 14 días, `timezone=America/Lima`) | `2021-04-15` | estado de error + Reintentar + WhatsApp |
+| 6. Cita | `POST /calendars/events/appointments` (`startTime` ISO con desfase, `appointmentStatus: confirmed`). **Sin reintento** | `2021-04-15` | "Recibimos tus datos, pero no pudimos reservar la hora" + WhatsApp |
+| 7. Etapa | `PUT /opportunities/{id}` → `GHL_PIPELINE_STAGE_CITA_ID` y campo "Agendo Llamada" | `2021-07-28` | se registra, no bloquea |
+
+Permisos de la integración privada: `contacts.write`, `opportunities.readonly`, `opportunities.write`, `calendars.readonly`, `calendars/events.write` (y, para revisar la estructura, lectura de campos personalizados de la ubicación).
+
+**Qué formularios hacen qué (aprobado por jforero el 2026-10-30):** `vender:valoracion` y `home:asesor-privado` → contacto + oportunidad + **cita opcional**; los simuladores y `home-hipoteca:cta` → contacto + oportunidad; `home:reclutamiento` → solo contacto y etiquetas (no es una venta).
+
+**Garantías:** nunca se muestra "Recibimos" si el contacto o la oportunidad no quedaron; lo escrito no se borra; cada llamada tiene 8 s de límite; los logs solo dicen paso y estado (`[lead] GHL falló (oportunidad-500)`), nunca el token, URLs ni datos personales. Reintentar es seguro: el contacto se actualiza (upsert, según la regla "Allow Duplicate Contact" de la ubicación: **revisarla en GHL**, teléfono primero) y la oportunidad abierta se reutiliza. **Riesgo conocido:** si la cita agota los 8 s, GHL pudo haberla creado igual; la pantalla dice "no pudimos reservar" y el asesor debe revisar el calendario.
+
+**Mapeo a GHL (IDs en `CAMPOS` de `ghl.ts`, revisados en la cuenta el 2026-10-30; no se crearon campos):**
+
+| Dato | Campo de GHL |
+|---|---|
+| nombre / celular / correo | `firstName` + `lastName` (primera palabra / resto), `phone` (E.164), `email` |
+| `origen` · `pagina` | `contact.origen` · `contact.source_url` |
+| interés y origen | etiquetas `web-astupropiedad`, `interes:<x>`, `origen:<y>` |
+| tipo de propiedad (`/vender`) | `opportunity.tipo_propiedad` (lista; `Terreno` → `Terreno / Lote`; lo demás solo en comentarios) |
+| habitaciones | `opportunity.habitaciones` |
+| todo el resto (distrito, área, datos del simulador, fecha de consentimiento, UTM, `id_envio`, llamada pedida) | texto en `opportunity.comentarios_adicionales` y nota del contacto |
+| llamada agendada | `opportunity.agendo_llamada` ("sábado, 31 de octubre a las 11:00 (hora de Lima)") |
+
+Los montos van sin moneda (el formulario no la envía), por eso no se usan campos de tipo monetario. **Recomendado:** crear en GHL un campo propio para la fecha de consentimiento (Ley 29733), hoy solo en el texto.
+
+**Token:** rotarlo en GHL cada ~90 días (el viejo y el nuevo conviven 7 días), actualizarlo en Vercel y volver a desplegar. Si se filtra: rotarlo y expirar el viejo de inmediato.
+
+### Webhook (D-18, respaldo)
+
+**Lo que existe (sesión 05, 2026-10-05):** formularios reales (`LeadForm`) en `/vender`, ambos simuladores y la home, que envían por la Server Action `enviarLead`. Sin las variables de la API, van al webhook de `GHL_WEBHOOK_URL`. `GHLForm.tsx` (iframe de `link.as-tupropiedad.pe`) sigue **sin uso**. El calendario del footer sigue siendo un enlace a WhatsApp.
+**Lo que se desconoce (pedir al cliente):** flujos de autorespuesta, quién atiende y con qué SLA.
 
 ### Contrato de un lead (propuesto)
 
@@ -67,13 +115,13 @@ type Lead = {
 Comportamiento:
 - **Honeypot:** campo `sitio_web` oculto; si viene relleno, se responde `{ ok: true }` sin llamar a GHL (el bot no se entera).
 - **Validación:** errores por campo en español ("tú"). El celular se normaliza a E.164 sin espacios (`+51987654321`); acepta `987654321`, `987 654 321`, `+51 987 654 321`, `0051…`. Solo móviles peruanos (9 dígitos que empiezan en 9).
-- **Motivos de fallo** (`motivo`): `validacion` (corregir campos), `no-configurado` (falta `GHL_WEBHOOK_URL`) y `servicio` (GHL no responde, responde con error o tarda más de 8 s). En los dos últimos el formulario muestra el mensaje y un botón de WhatsApp con el mensaje contextual **más el nombre y el celular escritos**. Lo escrito nunca se borra tras un fallo.
+- **Motivos de fallo** (`motivo`): `validacion` (corregir campos, también "elige un horario"), `no-configurado` (faltan la API y `GHL_WEBHOOK_URL`) y `servicio` (GHL no responde, responde con error o tarda más de 8 s). En los dos últimos el formulario muestra el mensaje y un botón de WhatsApp con el mensaje contextual **más el nombre y el celular escritos**. Lo escrito nunca se borra tras un fallo.
 - **Doble envío:** el botón se bloquea de inmediato (un `ref` evita el doble clic antes del primer render) y cada formulario manda un `id_envio` (UUID, el mismo en los reintentos) para que GHL pueda deduplicar. **No hay deduplicación en el servidor.**
 - **Logs:** solo `[metrica] lead_enviado|lead_error {origen, interes|motivo}` (con `after()`) y un aviso de error sin URL ni datos personales. En el navegador, `lead_enviado`/`formulario_error` van además a GA4/Meta si hay consentimiento (§4).
 - **UTM:** se leen de la URL en el momento del envío (`utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, `utm_content`); si la persona llegó a otra página antes, se pierden (captura en la primera visita: sesión 13).
 - **Pendiente:** Turnstile, límite por IP y deduplicación en servidor (ver §7).
 
-### Mapeo de campos (cuerpo JSON del POST al webhook)
+### Mapeo de campos del webhook (respaldo; cuerpo JSON del POST)
 
 Plano a propósito: en el workflow de GHL se asigna cada clave a un campo de contacto, campo personalizado o etiqueta. Las claves sin dato van como cadena vacía.
 
@@ -97,7 +145,7 @@ Plano a propósito: en el workflow de GHL se asigna cada clave a un campo de con
 Valores de `origen`: `vender:valoracion` (`/vender`, interés `vender`) · `simulador-hipotecario:cta` (`/simulador-hipotecario`, `hipoteca`) · `simulador-inversion:cta` (`/simulador-inversion`, `invertir`) · `home-hipoteca:cta` (calculadora de la home; es el antiguo "Contactar a un Broker", `hipoteca`) · `home:asesor-privado` (`asesor`) · `home:reclutamiento` (`reclutamiento`). Los números del contexto solo se envían si son finitos y mayores que 0.
 
 ### Pruebas
-Usar un webhook/pipeline de **prueba** y datos ficticios. No enviar datos reales de clientes desde desarrollo.
+Automáticas: contra `e2e/ghl-falso.mjs` (ver [PRUEBAS.md](PRUEBAS.md)); nunca contra la API real. Manuales con GHL real: solo datos ficticios y con OK de jforero; borrar después el contacto, la oportunidad y la cita de prueba. **Cuidado:** con el token real en `.env.local`, `npm run dev` escribe en el GHL real.
 
 ## 3. WhatsApp
 

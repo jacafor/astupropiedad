@@ -114,7 +114,7 @@ test.describe("con cookies aceptadas", () => {
 
     await page.getByLabel("Celular").fill("987654321");
     await page.getByLabel("Correo").fill("prueba@example.com");
-    await page.getByRole("checkbox").check();
+    await page.getByRole("checkbox", { name: /Acepto que AS Tupropiedad/ }).check();
     await enviar.click();
     await expect(page.getByText("Recibimos tu solicitud")).toBeVisible();
     await expect.poll(() => cuantos(page, "lead_enviado")).toBe(1);

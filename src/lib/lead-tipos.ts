@@ -35,10 +35,17 @@ export type ContextoLead = {
   propiedadId?: string;
 };
 
-export type CampoLead = "nombre" | "celular" | "correo" | "consentimiento" | "general";
+export type CampoLead = "nombre" | "celular" | "correo" | "consentimiento" | "horario" | "general";
+
+/** Formularios que ofrecen agendar una llamada (D-27); el servidor ignora el horario en los demás. */
+export const ORIGENES_CON_CITA = ["vender:valoracion", "home:asesor-privado"] as const;
 
 export type ResultadoLead =
-  | { ok: true }
+  | {
+      ok: true;
+      /** Solo si se pidió cita: `fallida` = el lead quedó registrado pero la hora no se reservó. */
+      cita?: { estado: "reservada"; horario: string } | { estado: "fallida" };
+    }
   | {
       ok: false;
       /** validacion: corrige campos · no-configurado / servicio: ofrece el plan B de WhatsApp */

@@ -52,9 +52,11 @@ Solo nombres; los valores se escriben en Vercel → *Settings* → *Environment 
 
 | Variable | Qué hace | Development (`.env.local`) | Preview | Production |
 |---|---|---|---|---|
-| `GHL_WEBHOOK_URL` | Webhook de leads de GHL (solo servidor). Vacía = los formularios muestran un error honesto y ofrecen WhatsApp | webhook **de prueba** o vacía | webhook **de prueba** | webhook real (cuando se cierre P-5) |
+| `GHL_API_TOKEN` | Token de la integración privada de GHL (solo servidor, *Sensitive*). Con las 4 siguientes, los leads van por la API (D-27) | en `.env.local` solo si vas a escribir en el GHL real | cargado | cargado |
+| `GHL_LOCATION_ID`, `GHL_PIPELINE_ID`, `GHL_PIPELINE_STAGE_ID`, `GHL_CALENDAR_ID`, `GHL_PIPELINE_STAGE_CITA_ID` (opcional) | Subcuenta, pipeline, etapa inicial, calendario de llamadas y etapa al agendar | cargadas en Vercel (Development) | cargadas | cargadas |
+| `GHL_WEBHOOK_URL` | Respaldo (D-18): solo si falta alguna variable de la API. Sin ninguna, los formularios muestran un error honesto y ofrecen WhatsApp | vacía | vacía | vacía |
 | `NEXT_PUBLIC_SITE_URL` | Dominio canónico (metadata, sitemap, OG). Por defecto `https://astupropiedad.com` | opcional | opcional | definir al asignar el dominio (P-12) |
 | `MOSTRAR_EJEMPLO` | `1` muestra la propiedad de EJEMPLO en un build de producción (D-20) | no hace falta (en `dev` ya se ve) | opcional, para revisar fichas | **nunca** |
-| `GHL_API_KEY`, `GHL_LOCATION_ID`, `NEXT_PUBLIC_GHL_CALENDAR_URL`, `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`, `NEXT_PUBLIC_GA_ID`, `NEXT_PUBLIC_META_PIXEL_ID`, `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY` | Previstas en `.env.example`; **ningún código las lee todavía** | — | — | — |
+| `NEXT_PUBLIC_GHL_CALENDAR_URL`, `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`, `NEXT_PUBLIC_GA_ID`, `NEXT_PUBLIC_META_PIXEL_ID`, `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY` | Previstas en `.env.example`; **ningún código las lee todavía** | — | — | — |
 
-Estado en Vercel (último dato verificado, 2026-10-05): **ninguna** variable definida en ningún entorno. El build no necesita ninguna, por eso el CI corre sin secretos. Las variables `NEXT_PUBLIC_*` se fijan **en el build**: si cambias una en Vercel, vuelve a desplegar.
+Estado en Vercel (verificado el 2026-10-30 con `vercel env ls`, solo nombres): las seis `GHL_*` de la API (el token solo en Production y Preview). Las variables de solo servidor se leen al ejecutar: tras cambiarlas, vuelve a desplegar para que la función las tome. El build no necesita ninguna, por eso el CI corre sin secretos. Las variables `NEXT_PUBLIC_*` se fijan **en el build**: si cambias una en Vercel, vuelve a desplegar.

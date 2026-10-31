@@ -31,7 +31,8 @@ npm run start          # sirve el build (usa otro puerto con: npx next start -p 
 npm run lint           # eslint (línea base actual: 0 errores, 0 advertencias — no añadas ninguna)
 npm run typecheck      # tsc --noEmit (línea base: limpio)
 npm test               # vitest run: pruebas unitarias de src/lib/finance.test.ts
-npm run test:e2e       # playwright: hace su propio build y prueba en Chromium (puertos 3100 y 3101)
+npm run test:e2e       # playwright: hace su propio build y prueba en Chromium (puertos 3100 y 3101, GHL falso)
+                       # si se agotan los 30 s por carga de la máquina: npx playwright test --workers=2
                        # primera vez: npx playwright install chromium
 ```
 
@@ -46,10 +47,11 @@ src/data/properties.ts      inventario de propiedades (tipo Property; única fue
 src/components/           PropertyCard, Navbar, Hero, Footer, FloatingWhatsApp, LeadForm (formulario de leads), simuladores.tsx (campo numérico, moneda, aviso), BannerCookies + Analitica (consentimiento y GA4/Meta), GHLForm (sin uso) y secciones de la home
 src/lib/finance.ts        matemática financiera pura (cuota, cronograma, cap rate…) con pruebas en finance.test.ts; formato.ts = presentación
 src/lib/analytics.ts      track(evento, parámetros): no hace nada sin consentimiento ni IDs; consentimiento.ts guarda la decisión (INTEGRACIONES §4)
-src/app/actions/lead.ts   Server Action enviarLead (valida, honeypot, POST a GHL); esquema en src/lib/leads.ts
+src/app/actions/lead.ts   Server Action enviarLead (valida, honeypot, API de GHL: contacto, oportunidad, cita); esquema en src/lib/leads.ts
+src/lib/ghl.ts            cliente de la API v2 de GHL y registrarLead (D-27); horarios.ts = horarios de Lima; actions/horarios.ts los consulta
 public/imagenes/          fotos y flyers (nombres en minúsculas con guiones)
 docs/                     documentación del proyecto (ver índice abajo)
-e2e/                      pruebas Playwright (*.spec.ts) y webhook-falso.mjs (GHL simulado en local)
+e2e/                      pruebas Playwright (*.spec.ts) y ghl-falso.mjs (API de GHL simulada en local)
 .github/workflows/ci.yml  CI: typecheck, lint, test y build en cada push y pull request
 .claude/commands/         comandos de barra del proyecto (/nueva-pagina, /auditar, …)
 ```

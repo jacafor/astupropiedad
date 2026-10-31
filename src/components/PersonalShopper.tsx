@@ -72,6 +72,7 @@ const PersonalShopper = () => {
                 origen="home:asesor-privado"
                 mensajeWhatsApp="Hola, quisiera solicitar un asesor privado para buscar una propiedad"
                 textoBoton="Solicitar asesor privado"
+                permiteCita
               />
             </div>
           </motion.div>

@@ -1,8 +1,10 @@
 "use server";
 
 import { after } from "next/server";
-import { construirPayload, leadSchema } from "@/lib/leads";
-import type { CampoLead, ResultadoLead } from "@/lib/lead-tipos";
+import { construirPayload, leadSchema, type Lead } from "@/lib/leads";
+import { ORIGENES_CON_CITA, type CampoLead, type ResultadoLead } from "@/lib/lead-tipos";
+import { crearClienteGhl, describir, leerConfigGhl, registrarLead, type ConfigGhl, type ResultadoRegistro } from "@/lib/ghl";
+import { horarioValido } from "@/lib/horarios";
 
 const TIMEOUT_MS = 8000;
 
@@ -27,8 +29,9 @@ const registrarMetrica = (evento: "lead_enviado" | "lead_error", props: Record<s
 };
 
 /**
- * Recibe un lead: honeypot → validación (zod) → POST al webhook de GoHighLevel.
- * Nunca registra la URL del webhook ni datos personales.
+ * Recibe un lead: honeypot → validación (zod) → API de GoHighLevel (contacto, oportunidad y,
+ * si se pidió, cita; D-27). Sin credenciales de la API usa el webhook (D-18) o el plan B.
+ * Nunca registra el token, URLs ni datos personales.
  */
 export async function enviarLead(
   _estadoPrevio: ResultadoLead | null,
@@ -72,6 +75,27 @@ export async function enviarLead(
   }
 
   const lead = analisis.data;
+
+  // Cita (solo formularios que la ofrecen): si la persona la pidió, el horario debe ser uno válido.
+  const conCita =
+    (ORIGENES_CON_CITA as readonly string[]).includes(lead.origen) && formData.get("quiere_cita") === "on";
+  const horario = conCita ? texto(formData.get("horario")).trim() : "";
+  if (conCita && !horarioValido(horario)) {
+    registrarMetrica("lead_error", { origen: lead.origen, motivo: "validacion" });
+    return {
+      ok: false,
+      motivo: "validacion",
+      mensaje: "Revisa los campos marcados y vuelve a enviar.",
+      errores: { horario: "Elige un horario de la lista o desmarca la opción de agendar una llamada." },
+    };
+  }
+
+  const idEnvio = texto(formData.get("id_envio")).slice(0, 64) || crypto.randomUUID();
+
+  // Método vigente (D-27): API de GHL. El webhook (D-18) queda como respaldo mientras se confirma.
+  const config = leerConfigGhl();
+  if (config) return enviarPorApi(config, lead, idEnvio, horario || undefined);
+
   const webhook = process.env.GHL_WEBHOOK_URL?.trim();
 
   if (!webhook) {
@@ -84,8 +108,6 @@ export async function enviarLead(
       errores: {},
     };
   }
-
-  const idEnvio = texto(formData.get("id_envio")).slice(0, 64) || crypto.randomUUID();
 
   try {
     const respuesta = await fetch(webhook, {
@@ -110,6 +132,38 @@ export async function enviarLead(
   registrarMetrica("lead_enviado", { origen: lead.origen, interes: lead.interes });
   return { ok: true };
 }
+
+/** Contacto → oportunidad → cita en GHL. Solo responde "ok" si el contacto y la oportunidad quedaron. */
+const enviarPorApi = async (
+  config: ConfigGhl,
+  lead: Lead,
+  idEnvio: string,
+  horario: string | undefined
+): Promise<ResultadoLead> => {
+  let registro: ResultadoRegistro;
+  try {
+    registro = await registrarLead(crearClienteGhl(config), lead, {
+      idEnvio,
+      horario,
+      etapaCitaId: config.etapaCitaId,
+    });
+  } catch (error) {
+    // Solo paso y estado: ni la URL, ni el token, ni datos personales.
+    console.error(`[lead] GHL falló (${describir(error)})`);
+    registrarMetrica("lead_error", { origen: lead.origen, motivo: describir(error) });
+    return servicioCaido();
+  }
+
+  for (const aviso of registro.avisos) console.warn(`[lead] paso secundario de GHL falló (${aviso})`);
+  if (registro.cita.estado === "fallida") {
+    console.error(`[lead] el lead quedó pero la cita no (${registro.cita.motivo})`);
+  }
+  registrarMetrica("lead_enviado", { origen: lead.origen, interes: lead.interes, cita: registro.cita.estado });
+
+  if (registro.cita.estado === "reservada") return { ok: true, cita: { estado: "reservada", horario: registro.cita.horario } };
+  if (registro.cita.estado === "fallida") return { ok: true, cita: { estado: "fallida" } };
+  return { ok: true };
+};
 
 const servicioCaido = (): ResultadoLead => ({
   ok: false,

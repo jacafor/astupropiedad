@@ -163,6 +163,7 @@ const VenderPage = () => {
                       textoBoton="Enviar datos para la valoración"
                       textoExito="Un asesor revisará los datos de tu inmueble y se pondrá en contacto contigo al celular que dejaste."
                       onAtras={prevStep}
+                      permiteCita
                     />
                   </motion.div>
                 )}

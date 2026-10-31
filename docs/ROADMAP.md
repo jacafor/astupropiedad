@@ -7,7 +7,7 @@ Leyenda de referencias: `C1…C7` = hallazgos críticos de la auditoría web · 
 ## Bloqueos del cliente (sin esto no se puede cerrar P0/P1)
 
 - [ ] ~~WhatsApp, correo y dominio~~ (recibidos 2026-10-04) · ~~dirección, horario y redes~~ (recibidos 2026-10-29, D-28) · **faltan:** RUC y razón social, y confirmar TikTok
-- [ ] GoHighLevel **por API** (D-27, 2026-10-29): token e IDs en Vercel, pipeline, campos y calendario de llamadas; luego la sesión [15](prompts/15-ghl-api.md) (+ flujo de atención y SLA)
+- [ ] GoHighLevel **por API** (D-27, 2026-10-29): ~~token e IDs en Vercel, pipeline, campos y calendario de llamadas~~ (2026-10-30) · ~~código de la sesión [15](prompts/15-ghl-api.md)~~ (2026-10-30) · **falta:** prueba con el GHL real (datos ficticios), quitar el webhook de respaldo si jforero lo confirma, flujo de atención y SLA
 - [ ] Inventario real de propiedades (datos + fotos limpias)
 - [ ] **Administrador de propiedades y publicación en Proppit y otros portales, para dejar Tokko** (D-29, 2026-10-29): primero la especificación técnica de Proppit y la lista de portales (P-15); luego la sesión [16](prompts/16-administrador-propiedades.md)
 - [ ] Fotos y datos del equipo real
@@ -38,7 +38,7 @@ Detalle en [NEGOCIO-Y-CONTENIDO.md](NEGOCIO-Y-CONTENIDO.md) §7 y [DECISIONES.md
 - [x] *(hecho 2026-10-05, sesión 05)* Botón de WhatsApp con mensaje prellenado como plan B (`waLink` en `src/lib/contact.ts`, ya existe)
 - [x] Páginas `/privacidad` y `/terminos` — **borrador**, 2026-10-16, sesión [09](prompts/09-legal.md). `noindex` y fuera del sitemap hasta poner `LEGALES_EN_BORRADOR = false` en `src/lib/legal.ts`. **Pendiente:** revisión legal y los `[PENDIENTE]` (ver D-22). Casilla extraída a `ConsentCheckbox`
   - Hecho cuando: un lead de prueba llega a GHL con origen, página y consentimiento; el usuario ve confirmación real y error entendible.
-- [ ] **Pendiente tras la sesión 05 (cambio de método el 2026-10-29, D-27):** en lugar del webhook, enviar los leads por la **API de GHL** (contacto, oportunidad y cita) con la sesión [15](prompts/15-ghl-api.md); hace falta el token y los IDs en Vercel. Hasta entonces, en producción los formularios muestran el error controlado y ofrecen WhatsApp. Anti-spam adicional (Turnstile, límite por IP) y deduplicación en el servidor siguen sin hacer.
+- [ ] **Pendiente tras la sesión 05 (cambio de método el 2026-10-29, D-27):** en lugar del webhook, enviar los leads por la **API de GHL** (contacto, oportunidad y cita) con la sesión [15](prompts/15-ghl-api.md). *Código, pruebas (Vitest + e2e contra un GHL falso) y variables en Vercel hechos el 2026-10-30; falta la prueba con el GHL real antes de marcarla.* Anti-spam adicional (Turnstile, límite por IP) y deduplicación en el servidor siguen sin hacer.
 
 ## P0 — semana 1: SEO base *(C4)*
 
