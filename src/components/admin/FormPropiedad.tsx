@@ -162,18 +162,22 @@ const FormPropiedad = ({ accion, inicial, slugBloqueado = false }: Props) => {
           {ayuda("precio", <>Solo el número, sin símbolo ni puntos de miles.</>)}
           {error("precio")}
         </div>
-        <div>
-          {etiqueta("estado", `Estado`)}
-          <select {...props("estado")} defaultValue={inicial?.estado ?? "disponible"}>
-            {ESTADOS.map((e) => (
-              <option key={e} value={e}>
-                {ETIQUETA_ESTADO[e]}
-              </option>
-            ))}
-          </select>
-          {ayuda("estado", <>En el catálogo solo salen las disponibles; las reservadas y vendidas conservan su ficha.</>)}
-          {error("estado")}
-        </div>
+        {/* Al editar, el estado se cambia solo en el panel "Publicación": un select aquí quedaría
+            desactualizado tras ese cambio y lo revertiría al guardar. */}
+        {!inicial && (
+          <div>
+            {etiqueta("estado", `Estado`)}
+            <select {...props("estado")} defaultValue="disponible">
+              {ESTADOS.map((e) => (
+                <option key={e} value={e}>
+                  {ETIQUETA_ESTADO[e]}
+                </option>
+              ))}
+            </select>
+            {ayuda("estado", <>En el catálogo solo salen las disponibles; las reservadas y vendidas conservan su ficha.</>)}
+            {error("estado")}
+          </div>
+        )}
         <div className="flex items-start gap-3 md:pt-8">
           <input
             id={`${id}-destacada`}

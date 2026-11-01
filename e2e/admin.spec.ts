@@ -124,9 +124,14 @@ test.describe("flujo completo contra el Supabase de pruebas", () => {
     await page.goBack();
     await page.goto("/admin");
     await page.getByRole("link", { name: `Editar ${titulo}` }).click();
+    // Reservar desde el panel y luego editar: guardar el formulario no debe devolverla a "Disponible".
+    await page.getByRole("button", { name: "Reservado" }).click();
+    await expect(page.getByText("Estado actualizado.")).toBeVisible();
     await page.getByLabel("Precio (USD)").fill("120000");
     await page.getByRole("button", { name: "Guardar cambios" }).click();
     await expect(page.getByText("Cambios guardados")).toBeVisible();
+    await page.reload();
+    await expect(page.getByRole("button", { name: "Reservado" })).toHaveAttribute("aria-pressed", "true");
     await expect(page.getByLabel("Dirección web")).toHaveAttribute("readonly", "");
     await page.goto(`/propiedades/${slug}`);
     await expect(page.locator("main")).toContainText(/120[.,\s  ]?000/);

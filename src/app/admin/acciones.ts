@@ -109,11 +109,16 @@ export async function guardarPropiedad(
   fd: FormData
 ): Promise<ResultadoFormulario> {
   const sesion = await requerirAdmin();
-  const datos = esquemaPropiedad.safeParse(leerFormulario(fd));
+  const entrada = leerFormulario(fd);
+  // Al editar, el estado comercial no viaja en este formulario (lo cambia `cambiarEstado`): se valida
+  // con un valor neutro y no se escribe, para no pisar un cambio hecho desde el panel "Publicación".
+  if (id !== null) entrada.estado = "disponible";
+  const datos = esquemaPropiedad.safeParse(entrada);
   if (!datos.success) {
     return { ok: false, mensaje: "Revisa los campos marcados.", errores: erroresPorCampo(datos.error) };
   }
-  const fila = aFila(datos.data);
+  const fila: Partial<ReturnType<typeof aFila>> = aFila(datos.data);
+  if (id !== null) delete fila.estado;
 
   if (id === null) {
     const { data, error } = await sesion.supabase.from("propiedades").insert(fila).select("id").single();
