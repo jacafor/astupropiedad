@@ -1,5 +1,7 @@
 # 16 · Administrador de propiedades y publicación en portales (reemplazo de Tokko)
 
+> **Actualización 2026-10-31:** la parte de catálogo y administrador (fases 1 y 2) se hizo con **Supabase** en la sesión 16 (D-30). Las fases 3 y 4 (portales, GHL y salida de Tokko) pasaron al prompt [17](17-portales-proppit.md); usa ese.
+
 **Cuándo:** cuando quieras dejar Tokko. Es la sesión más grande del proyecto: conviene dividirla en 2 o 3 sesiones (el prompt ya trae las fases). Se apoya en la sesión 15 (GHL por API): sin ella el administrador funciona, pero no se sincroniza con GHL.
 **Objetivo de negocio (D-29, 2026-10-29):** dejar de usar Tokko; administrar las propiedades desde el propio sitio y publicarlas en **Proppit y otros portales**, con GoHighLevel como CRM central.
 **Depende de:** 07 (fichas, hecha), 15 (GHL por API; recomendada antes). Cambia la decisión D-11 ("el inventario vive en `src/data/properties.ts`"): la sesión debe registrar una decisión nueva que la reemplace.

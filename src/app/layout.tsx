@@ -8,6 +8,7 @@ import JsonLd from "@/components/JsonLd";
 import Providers from "@/components/Providers";
 import Analitica from "@/components/Analitica";
 import BannerCookies from "@/components/BannerCookies";
+import SoloSitioPublico from "@/components/SoloSitioPublico";
 import { BRAND_NAME, SITE_URL } from "@/lib/contact";
 import { RUTAS } from "@/lib/rutas";
 
@@ -60,18 +61,26 @@ export default function RootLayout({
         >
           Saltar al contenido
         </a>
-        <BannerCookies />
+        <SoloSitioPublico>
+          <BannerCookies />
+        </SoloSitioPublico>
         <Providers>
-          <Navbar />
+          <SoloSitioPublico>
+            <Navbar />
+          </SoloSitioPublico>
           <main id="contenido" className="flex-1">
             {children}
           </main>
-          <Footer />
-          <aside aria-label="Contacto por WhatsApp">
-            <FloatingWhatsApp />
-          </aside>
+          <SoloSitioPublico>
+            <Footer />
+            <aside aria-label="Contacto por WhatsApp">
+              <FloatingWhatsApp />
+            </aside>
+          </SoloSitioPublico>
         </Providers>
-        <Analitica />
+        <SoloSitioPublico>
+          <Analitica />
+        </SoloSitioPublico>
       </body>
     </html>
   );

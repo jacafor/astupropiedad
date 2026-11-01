@@ -1,7 +1,8 @@
 /**
- * Única fuente de verdad del inventario de propiedades (D-11): el catálogo, la
- * home, las fichas `/propiedades/[slug]` y el sitemap leen de aquí.
- * Para agregar una propiedad, ver docs/NEGOCIO-Y-CONTENIDO.md → "Cómo agregar una propiedad".
+ * Tipos y constantes del inventario de propiedades (se pueden importar desde componentes de
+ * cliente). La lectura de datos está en `src/data/inventario.ts` (solo servidor). Desde la sesión 16
+ * los datos viven en Supabase y se editan en /admin (D-30, reemplaza D-11); ver
+ * docs/NEGOCIO-Y-CONTENIDO.md → "Cómo agregar una propiedad".
  *
  * Regla 1 de AGENTS.md: solo datos que entregó el cliente. Nada de cifras verosímiles.
  */
@@ -52,58 +53,6 @@ export interface Property {
   /** La primera foto es la portada. Al menos una. */
   fotos: FotoPropiedad[];
 }
-
-/**
- * ⚠ EJEMPLO: dato ficticio solo para desarrollo y pruebas de la ficha.
- * `visibles()` lo descarta en producción (salvo MOSTRAR_EJEMPLO=1 para probar el build).
- * Bórralo cuando cargues la primera propiedad real.
- */
-const EJEMPLO: Property = {
-  id: "EJEMPLO-000",
-  slug: "ejemplo-no-publicar",
-  titulo: "EJEMPLO — Departamento de prueba (no es una propiedad real)",
-  operacion: "venta",
-  tipo: "departamento",
-  distrito: "Distrito de ejemplo",
-  precio: 100000,
-  moneda: "USD",
-  areaConstruidaM2: 80,
-  dormitorios: 2,
-  banos: 2,
-  cocheras: 1,
-  descripcion:
-    "Ficha ficticia para comprobar el diseño de la página. Los datos, el precio y la foto no corresponden a ningún inmueble.",
-  caracteristicas: ["Característica de ejemplo"],
-  estado: "disponible",
-  destacada: true,
-  fotos: [{ url: "/imagenes/portada.jpg", alt: "Foto de ejemplo, no corresponde a una propiedad real" }],
-};
-
-/** Inventario real. Agrega aquí las propiedades que entregue el cliente. */
-const PROPIEDADES: Property[] = [];
-
-const mostrarEjemplo =
-  process.env.NODE_ENV !== "production" || process.env.MOSTRAR_EJEMPLO === "1";
-
-const visibles = (): Property[] =>
-  mostrarEjemplo ? [...PROPIEDADES, EJEMPLO] : PROPIEDADES;
-
-/** Todas las propiedades publicadas (cualquier estado): se usan para generar las fichas y el sitemap. */
-export const obtenerPropiedades = (): Property[] => visibles();
-
-/** Las que se muestran en el catálogo y la home: solo las disponibles. */
-export const listarDisponibles = (): Property[] =>
-  visibles().filter((p) => p.estado === "disponible");
-
-export const obtenerPorSlug = (slug: string): Property | undefined =>
-  visibles().find((p) => p.slug === slug);
-
-/** Hasta `max` propiedades disponibles parecidas: mismo distrito primero, luego misma operación. */
-export const similares = (base: Property, max = 3): Property[] => {
-  const otras = listarDisponibles().filter((p) => p.slug !== base.slug && p.operacion === base.operacion);
-  const puntaje = (p: Property) => (p.distrito === base.distrito ? 2 : 0) + (p.tipo === base.tipo ? 1 : 0);
-  return otras.sort((a, b) => puntaje(b) - puntaje(a)).slice(0, max);
-};
 
 export const ETIQUETA_OPERACION: Record<Operacion, string> = { venta: "Venta", alquiler: "Alquiler" };
 export const ETIQUETA_TIPO: Record<TipoInmueble, string> = {

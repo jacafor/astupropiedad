@@ -43,7 +43,9 @@ npm run test:e2e       # playwright: hace su propio build y prueba en Chromium (
 ```
 src/app/                  rutas (App Router): /, /nosotros, /servicios, /propiedades, /vender,
                           /simulador-inversion, /simulador-hipotecario
-src/data/properties.ts      inventario de propiedades (tipo Property; única fuente del catálogo, home, fichas y sitemap)
+src/data/properties.ts      tipos y etiquetas de propiedades (seguro en cliente); inventario.ts = lectura desde Supabase (servidor, D-30)
+src/app/admin/            administrador de propiedades (/admin, Supabase Auth; acciones.ts); src/lib/catalogo/ = esquema zod, mapeo y fotos
+supabase/migrations/      esquema, RLS y bucket del catálogo (se aplica en el proyecto de Supabase)
 src/components/           PropertyCard, Navbar, Hero, Footer, FloatingWhatsApp, LeadForm (formulario de leads), simuladores.tsx (campo numérico, moneda, aviso), BannerCookies + Analitica (consentimiento y GA4/Meta), GHLForm (sin uso) y secciones de la home
 src/lib/finance.ts        matemática financiera pura (cuota, cronograma, cap rate…) con pruebas en finance.test.ts; formato.ts = presentación
 src/lib/analytics.ts      track(evento, parámetros): no hace nada sin consentimiento ni IDs; consentimiento.ts guarda la decisión (INTEGRACIONES §4)

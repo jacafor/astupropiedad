@@ -4,9 +4,10 @@ Estado actual del código (oct 2026) y arquitectura objetivo. Las referencias `C
 
 ## 1. Resumen
 
-- **Sitio 100 % estático:** `next build` genera las 7 páginas más el 404 como `○ Static`. No hay Route Handlers, Server Actions, `proxy.ts`, base de datos ni variables de entorno en uso.
+- **Mayormente estático:** las páginas públicas se prerenderizan (home, catálogo, fichas y sitemap con revalidación de 1 h y al guardar en `/admin`). Hay Server Actions (leads, horarios, `/admin`), `proxy.ts` solo para `/admin` y una base de datos (Supabase, D-30).
 - **Páginas = Server Components** (sesión 04): cada `page.tsx` exporta su `metadata` y renderiza un `*Client.tsx` con lo interactivo (la home compone directamente sus secciones, que ya son cliente). SEO técnico en [SEO.md](SEO.md).
-- **Todo está escrito a mano en el código:** propiedades ya en `src/data/properties.ts` (sesión 07); cifras, textos, contacto.
+- **Propiedades en Supabase** (sesión 16, D-30): se editan en `/admin` (ruta protegida, dinámica, `noindex`) y el sitio las lee en caché desde `src/data/inventario.ts`; sin variables de Supabase el catálogo queda vacío (D-20). Cifras, textos y contacto siguen escritos en el código.
+- **`src/proxy.ts`** solo corre en `/admin` (refresca la sesión y redirige sin sesión). Home, catálogo, fichas y sitemap son estáticos con revalidación (1 h y al guardar en `/admin`).
 - **`Navbar`, `Footer` y `FloatingWhatsApp` viven en `src/app/layout.tsx`** (Server Component) junto con el único `<main id="contenido">` y el enlace "Saltar al contenido" (sesión 01, 2026-10-05). Las páginas ya no los importan ni llevan `<main>`.
 
 ## 2. Mapa de rutas
@@ -17,7 +18,10 @@ Estado actual del código (oct 2026) y arquitectura objetivo. Las referencias `C
 | `/nosotros` | `src/app/nosotros/NosotrosClient.tsx` | hero, cultura, 4 estadísticas, 3 "especialistas" | ninguno |
 | `/servicios` | `src/app/servicios/ServiciosClient.tsx` | hero + 4 tarjetas de servicio | ninguno |
 | `/propiedades` | `src/app/propiedades/page.tsx` (servidor) + `PropiedadesClient.tsx` | búsqueda por distrito, chips de operación (solo las que tienen propiedades), tarjetas `PropertyCard`, estados vacíos con acción | `operacion`, `distrito` |
-| `/propiedades/[slug]` | `src/app/propiedades/[slug]/page.tsx` | ficha: galería, datos clave, WhatsApp prellenado, JSON-LD `RealEstateListing`, similares; `generateStaticParams` + `dynamicParams = false` (slug falso → 404) | — |
+| `/propiedades/[slug]` | `src/app/propiedades/[slug]/page.tsx` → `FichaPropiedad` | ficha: galería, datos clave, WhatsApp prellenado, JSON-LD `RealEstateListing`, similares; `generateStaticParams` con las publicadas; una publicada después se genera en la primera visita; slug inexistente o archivada → 404 | — |
+| `/admin` | `src/app/admin/(panel)/page.tsx` | listado con filtros (texto, operación, estado, visibilidad), estados vacío y "sin resultados" | filtros en la URL |
+| `/admin/ingresar` | `src/app/admin/ingresar/` | correo y contraseña (Supabase Auth); aviso si Supabase no está configurado | — |
+| `/admin/propiedades/nueva` · `/admin/propiedades/[id]` · `…/vista-previa` | `src/app/admin/(panel)/propiedades/` | crear (borrador); editar datos, fotos (`GestorFotos`), publicación y estado (`Publicacion`); vista previa con `FichaPropiedad` | formulario sin vaciarse al fallar; aviso de cambios sin guardar |
 | `/vender` | `src/app/vender/VenderClient.tsx` | hero + asistente de 3 pasos + 3 ventajas | `step`, `propertyType`, `district` |
 | `/simulador-hipotecario` | `src/app/simulador-hipotecario/SimuladorHipotecarioClient.tsx` | formulario + 4 resultados + CTA | `loanAmount`, `years`, `rate` + 2 derivados |
 | `/simulador-inversion` | `src/app/simulador-inversion/SimuladorInversionClient.tsx` | sliders + KPIs + proyección 5 años | 6 inputs + 4 derivados |
@@ -46,6 +50,9 @@ Existen `/privacidad` y `/terminos` (borrador, `noindex`, ver `src/lib/legal.ts`
 | `BannerCookies` | sí | Banner de cookies (solo si hay `NEXT_PUBLIC_GA_ID` o `NEXT_PUBLIC_META_PIXEL_ID`): Aceptar/Rechazar con el mismo peso; decisión en `localStorage` | Va en el layout justo tras "Saltar al contenido" (sesión 13, D-26) |
 | `Analitica` | sí | Carga GA4/píxel de Meta con `next/script` solo tras aceptar; oyente global de clics a `wa.me` (`cta_whatsapp_click`, origen en `data-origen`) | Eventos en `src/lib/analytics.ts`; detalle en INTEGRACIONES §4 |
 | `PreferenciasCookies` | sí | Botón "Preferencias de cookies" del pie (reabre el banner) | Oculto sin IDs |
+| `FichaPropiedad` | no | Ficha completa de una propiedad (galería, datos, WhatsApp, similares, JSON-LD). La usan `/propiedades/[slug]` y la vista previa de `/admin` (`vistaPrevia`: sin JSON-LD ni analítica) | — |
+| `SoloSitioPublico` | sí | Oculta en `/admin` la barra, el pie, el WhatsApp flotante, el banner de cookies y la analítica | En el layout |
+| `admin/FormPropiedad` · `admin/GestorFotos` · `admin/Publicacion` · `admin/Insignias` · `admin/ui` | sí / no | Formulario de propiedad (zod en el servidor, error por campo, foco al resultado); subir, describir, ordenar con botones y quitar fotos; publicar/archivar y estado comercial; insignias; estilos y avisos compartidos del administrador | Server Actions en `src/app/admin/acciones.ts` |
 | `VistaPropiedad` | sí | Registra `propiedad_vista` desde la ficha (Server Component) | — |
 | `ConsentCheckbox` | no | Casilla de consentimiento reutilizable (label asociada, obligatoria, error, enlace a `/privacidad`). Props: `id`, `checked`, `onChange`, `error`, `variante` | Úsala en todo formulario que recoja datos |
 | `LegalPage` / `Pendiente` | no | Plantilla de `/privacidad` y `/terminos` con aviso de borrador; `Pendiente` pinta `[PENDIENTE: dato]` visible | Estado del borrador: `LEGALES_EN_BORRADOR` en `src/lib/legal.ts` |
@@ -56,7 +63,7 @@ Existen `/privacidad` y `/terminos` (borrador, `noindex`, ver `src/lib/legal.ts`
 
 | Dato / cálculo | Ubicación | Problema |
 |---|---|---|
-| Propiedades (catálogo, home, fichas, sitemap) | `src/data/properties.ts` (tipo `Property`; D-11) | ✔ Resuelto (sesión 07): una sola fuente; hoy sin propiedades reales (ver P-13) |
+| Propiedades (catálogo, home, fichas, sitemap) | Supabase (D-30); lectura en `src/data/inventario.ts`, tipos y etiquetas en `src/data/properties.ts`, validación en `src/lib/catalogo/esquema.ts`, mapeo en `mapeo.ts`, fotos en `fotos.ts` | ✔ Sesión 16: se editan en `/admin`; hoy sin propiedades reales ni proyecto creado (P-13, P-16) |
 | Cifras corporativas | `nosotros`, `vender`, `InvestmentSmarter`, `PropertyZones` | Sin respaldo |
 | Contacto | `Navbar`, `Footer`, `FloatingWhatsApp` | 3 teléfonos y 3 dominios distintos |
 | Cuota hipotecaria | `src/lib/finance.ts` (`cuotaFrancesa`, `cronogramaFrances`) | ✔ Resuelto (sesión 06): una sola fórmula, TEA convertida con (1+TEA)^(1/12)−1 |
@@ -83,7 +90,8 @@ Funciones puras; cada una valida y devuelve `{ ok: true, valor }` o `{ ok: false
 
 ## 5. Configuración
 
-- `next.config.ts`: vacío (sin `images`, `headers`, `poweredByHeader`, redirecciones).
+- `next.config.ts`: cabeceras de seguridad (D-23), `X-Robots-Tag: noindex` en `/admin`, `images.remotePatterns` con el host de Supabase (de `NEXT_PUBLIC_SUPABASE_URL`) y `serverActions.bodySizeLimit` de 4,5 MB (fotos de `/admin`).
+- `supabase/migrations/`: esquema, RLS y bucket del catálogo (se aplica en el proyecto de Supabase; no hay CLI de Supabase en el equipo).
 - `vercel.json`: `framework: nextjs`, `installCommand`, `buildCommand`.
 - `tsconfig.json`: `strict`, alias `@/*`.
 - `eslint.config.mjs`: `eslint-config-next` (core-web-vitals + typescript), flat config.

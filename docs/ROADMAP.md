@@ -9,7 +9,7 @@ Leyenda de referencias: `C1…C7` = hallazgos críticos de la auditoría web · 
 - [ ] ~~WhatsApp, correo y dominio~~ (recibidos 2026-10-04) · ~~dirección, horario y redes~~ (recibidos 2026-10-29, D-28) · **faltan:** RUC y razón social, y confirmar TikTok
 - [ ] GoHighLevel **por API** (D-27, 2026-10-29): ~~token e IDs en Vercel, pipeline, campos y calendario de llamadas~~ (2026-10-30) · ~~código de la sesión [15](prompts/15-ghl-api.md)~~ (2026-10-30) · ~~prueba con el GHL real (datos ficticios)~~ (2026-10-31) · **falta:** decidir API o widget de GHL para la cita, quitar el webhook de respaldo si jforero lo confirma, flujo de atención y SLA
 - [ ] Inventario real de propiedades (datos + fotos limpias)
-- [ ] **Administrador de propiedades y publicación en Proppit y otros portales, para dejar Tokko** (D-29, 2026-10-29): primero la especificación técnica de Proppit y la lista de portales (P-15); luego la sesión [16](prompts/16-administrador-propiedades.md)
+- [ ] **Administrador de propiedades y publicación en Proppit y otros portales, para dejar Tokko** (D-29, 2026-10-29): dividido el 2026-10-31 en dos sesiones: ~~[16](prompts/16-administrador-propiedades.md) = catálogo y administrador `/admin` con Supabase (sin portales)~~ **código hecho 2026-10-31 (D-30); falta crear los proyectos de Supabase, cargar las variables en Vercel y la prueba real (P-16)**; [17](prompts/17-portales-proppit.md) = publicación en Proppit y otros portales, GHL y salida de Tokko (necesita la especificación técnica de Proppit y la lista de portales, P-15)
 - [ ] Fotos y datos del equipo real
 - [ ] Cifras verificables · convenios bancarios: nombres recibidos 2026-10-29 (BBVA, BCP, Scotiabank, Interbank; ya en `/simulador-hipotecario`), **falta archivar el respaldo escrito** (P-10)
 - [ ] Textos legales revisados (privacidad y términos ya existen como borrador) y Libro de Reclamaciones
@@ -29,6 +29,7 @@ Detalle en [NEGOCIO-Y-CONTENIDO.md](NEGOCIO-Y-CONTENIDO.md) §7 y [DECISIONES.md
 - [x] **Tono "tú" y español natural en todo el sitio** (D-10, cierra P-6 con D-16) — 2026-10-05, sesión [03](prompts/03-tono-tu.md). Guía de voz en [NEGOCIO-Y-CONTENIDO.md](NEGOCIO-Y-CONTENIDO.md) §3. Quedan anotados (sin tocar): "3.5x" fijo en `/simulador-hipotecario`, promesas absolutas de `/vender` y botón "Enviar datos" sin acción
 - [x] **Actualizar `next` y `eslint-config-next`** *(C6)* — 2026-10-16, sesión 10: `16.2.0` → `16.4.2` (la `16.3.8` de la auditoría no era la última parcheada; `latest` del registro y `npm audit` apuntan a `16.4.2`). `npm audit --omit=dev`: 0 avisos (D-23)
   - Hecho cuando: `npm audit --omit=dev` sin críticas; build y lint igual o mejor que la línea base.
+- [ ] **Nuevo aviso (visto 2026-10-31, sesión 16):** `npm audit --omit=dev` marca 1 alta en `zod 4.6.5` (GHSA-mrhx-c7xc-m3w5, memoria al validar colecciones enormes; se arregla con `zod 4.6.6`). Ya estaba en `main`; no se actualizó por falta de OK (lista "Pregunta primero")
 - [x] `.gitignore` completo, `.env.example`, documentación del proyecto (esta carpeta)
 
 ## P0 — semana 1: embudo de leads *(Bloque A, C1)*

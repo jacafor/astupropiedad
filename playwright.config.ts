@@ -58,6 +58,11 @@ export default defineConfig({
         GHL_CALENDAR_ID: "calendario-e2e",
         NEXT_PUBLIC_GA_ID: "G-PRUEBAE2E00",
         NEXT_PUBLIC_META_PIXEL_ID: "100000000000000",
+        // Supabase: SOLO el proyecto de PRUEBAS (E2E_*), nunca el del sitio. "sin-supabase" no es
+        // una URL https, así que el sitio queda sin base de datos; y al tener valor, Next no toma
+        // la variable de un posible `.env.local` con el proyecto real.
+        NEXT_PUBLIC_SUPABASE_URL: process.env.E2E_SUPABASE_URL || "sin-supabase",
+        NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: process.env.E2E_SUPABASE_PUBLISHABLE_KEY || "sin-supabase",
       },
     },
   ],
