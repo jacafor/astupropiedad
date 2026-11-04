@@ -48,7 +48,7 @@ Los formularios usan las Server Actions `enviarLead` y `obtenerHorarios`, que ha
 **Supabase:** `playwright.config.ts` fija `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` como variables de proceso: con las `E2E_*` exportadas apuntan al proyecto **de pruebas**; sin ellas valen `sin-supabase` (no es una URL https, así que el sitio queda sin base de datos). Así nunca se usa el proyecto del sitio de `.env.local`. Para correr el flujo completo de `/admin`, en PowerShell:
 
 ```powershell
-$env:E2E_SUPABASE_URL="https://<proyecto-de-pruebas>.supabase.co"; $env:E2E_SUPABASE_PUBLISHABLE_KEY="<clave publicable de pruebas>"; $env:E2E_ADMIN_CORREO="<cuenta de prueba>"; $env:E2E_ADMIN_CLAVE="<su contraseña>"; npx playwright test e2e/admin.spec.ts
+$env:E2E_SUPABASE_URL="https://uyinlfotfqvygimporfe.supabase.co"; $env:E2E_SUPABASE_PUBLISHABLE_KEY="<clave publicable de AS Tupropiedad Pruebas>"; $env:E2E_ADMIN_CORREO="<cuenta de prueba>"; $env:E2E_ADMIN_CLAVE="<su contraseña>"; npx playwright test e2e/admin.spec.ts
 ```
 
 La cuenta de prueba se crea y se autoriza en el proyecto de pruebas igual que la real (NEGOCIO-Y-CONTENIDO → "Dar acceso…"). Cada ejecución deja una propiedad `E2E-…` archivada y sus fotos en ese proyecto.

@@ -215,16 +215,27 @@ Al añadir un enlace de WhatsApp, ponle `data-origen`; al añadir un evento, dec
 
 ## 6. Supabase: catálogo de propiedades y `/admin` (D-30, sesión 16)
 
-**Qué hace:** guarda las propiedades (`propiedades`), sus fotos (`fotos_propiedad` + bucket público `propiedades`) y quién administra (`administradores`). Esquema y permisos en `supabase/migrations/20261031000000_catalogo_propiedades.sql`.
+**Qué hace:** guarda las propiedades (`propiedades`), sus fotos (`fotos_propiedad` + bucket público `propiedades`) y quién administra (`administradores`). Esquema y permisos en `supabase/migrations/` (aplicar **en orden**: `20261031000000_catalogo_propiedades.sql` y `20261104000000_ajustes_asesor.sql`).
 
-**Puesta en marcha (jforero; P-16):**
-1. Crear el proyecto del sitio (y, aparte, el de pruebas). Región sugerida: São Paulo.
-2. Aplicar la migración: desde el conector de Supabase de Claude (con tu OK) o pegando el archivo `.sql` en **SQL Editor**. Aplícala igual en el proyecto de pruebas.
-3. **Authentication → Sign In / Providers:** dejar correo y contraseña, y **apagar** "Allow new users to sign up".
-4. Crear tu cuenta y autorizarla (ver [NEGOCIO-Y-CONTENIDO.md](NEGOCIO-Y-CONTENIDO.md) → "Dar acceso…").
-5. En Vercel (Production y Preview): `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` (**Project Settings → API Keys**, la *publishable*). Volver a desplegar: se incrustan al compilar. En local, las mismas en `.env.local`.
+**Proyectos (cuenta de Supabase propia de AS Tupropiedad, organización "AS Tupropiedad", plan gratuito, región us-east-1):**
 
-**Permisos (RLS):** el público (clave publicable, sin sesión) solo lee propiedades `publicada` y sus fotos. Crear, editar, ordenar fotos y archivar exige sesión **y** estar en `administradores` (`es_admin()`). No hay política de borrado de propiedades. Storage: lectura pública por URL; subir/borrar solo administración, solo `image/webp`, ≤ 5 MB. El sitio **no** usa la clave de servicio.
+| Proyecto | Ref | URL | Uso |
+|---|---|---|---|
+| AS Tupropiedad | `qjspixcfvnrqhugtuadz` | `https://qjspixcfvnrqhugtuadz.supabase.co` | Sitio (Production) |
+| AS Tupropiedad Pruebas | `uyinlfotfqvygimporfe` | `https://uyinlfotfqvygimporfe.supabase.co` | Desarrollo local, previews y e2e |
+
+El conector de Supabase de Claude está autorizado con la cuenta nueva (solo ve esta organización; para Finanzas o Rocio hay que reconectarlo con la cuenta de siempre). La cuenta de siempre fue invitada como *Developer*, pero ese rol **no** puede autorizar el conector (solo Owner o Administrator).
+
+**Puesta en marcha (P-16):**
+1. ~~Crear los dos proyectos~~ (2026-11-04).
+2. ~~Aplicar las migraciones en ambos~~ (2026-11-04, por el conector, con OK de jforero). Verificado: asesor de seguridad sin avisos salvo `es_admin()` ejecutable con sesión (intencional: solo responde si quien llama administra); permisos probados con SQL en pruebas (anónimo, usuario sin permiso y administración) y por HTTP con la clave publicable en ambos.
+3. **Pendiente (jforero), en los dos proyectos:** **Authentication → Sign In / Providers:** dejar correo y contraseña y **apagar** "Allow new users to sign up" (el 2026-11-04 seguía activo: `disable_signup: false`). Aunque alguien se registre no puede administrar (no está en `administradores`), pero no tiene por qué poder crear cuentas.
+4. **Pendiente (jforero):** crear tu cuenta en el proyecto del sitio y autorizarla (ver [NEGOCIO-Y-CONTENIDO.md](NEGOCIO-Y-CONTENIDO.md) → "Dar acceso…"); en el de pruebas, una cuenta de prueba aparte para las e2e (`E2E_ADMIN_CORREO`/`E2E_ADMIN_CLAVE`, ver [PRUEBAS.md](PRUEBAS.md)).
+5. **Pendiente (con OK de jforero):** en Vercel, `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` (**Project Settings → API Keys**, la *publishable*): Production → proyecto del sitio; Preview → proyecto de pruebas. Volver a desplegar: se incrustan al compilar. En local, las del proyecto de pruebas en `.env.local`.
+
+**Privilegios:** en estos proyectos la Data API da los privilegios por defecto sobre `public` (comprobado: el anónimo recibe errores de RLS, no de permiso), así que no hizo falta la migración de `GRANT` que pidió el piloto de GHL Cloud (P-17).
+
+**Permisos (RLS):** el público (clave publicable, sin sesión) solo lee propiedades `publicada` y sus fotos, y no puede ejecutar `es_admin()` ni `ordenar_fotos()`. Con sesión, una sola política de lectura por tabla: lo publicado, o todo si administra. Crear, editar, ordenar fotos y archivar exige sesión **y** estar en `administradores` (`es_admin()`). No hay política de borrado de propiedades. Storage: lectura pública por URL; subir/borrar solo administración, solo `image/webp`, ≤ 5 MB. El sitio **no** usa la clave de servicio.
 
 **Cómo se usa en el código:**
 - Lectura pública: `src/data/inventario.ts` (servidor) → `unstable_cache` 1 h con etiqueta `propiedades`. Si Supabase falla, se lanza el error y Next mantiene la última versión buena de la página.

@@ -2,6 +2,11 @@
 
 Registro de cambios por sesión de trabajo, reconstruido a partir de `git log` para las sesiones 00 a 11. Las sesiones siguen los prompts de [docs/prompts/](docs/prompts/README.md); el porqué de cada decisión está en [docs/DECISIONES.md](docs/DECISIONES.md). Fechas en formato AAAA-MM-DD.
 
+## 2026-11-04 · Sesión 16 — Supabase conectado
+- Proyectos de la cuenta propia de AS Tupropiedad: **AS Tupropiedad** (`qjspixcfvnrqhugtuadz`, sitio) y **AS Tupropiedad Pruebas** (`uyinlfotfqvygimporfe`). Migraciones aplicadas en ambos por el conector de Supabase.
+- Nueva migración `20261104000000_ajustes_asesor.sql` tras el asesor de Supabase: el anónimo no ejecuta `es_admin()`, una sola política de lectura por rol y tabla, sin `EXECUTE` sobre `rls_auto_enable()`.
+- Verificado: permisos con SQL (anónimo, usuario sin permiso, administración; transacción deshecha), API REST con la clave publicable en ambos proyectos, y el build local contra pruebas (catálogo vacío honesto, ingreso con error claro). Falta: registro público apagado, cuentas, Vercel y la e2e completa.
+
 ## 2026-10-31 · Sesión 16 — Catálogo en Supabase y administrador `/admin`
 - Propiedades en Supabase (D-30, reemplaza D-11): migración con tablas, RLS, `es_admin()` y bucket de fotos en `supabase/migrations/`. El sitio usa solo la clave publicable; sin variables, catálogo vacío (D-20).
 - `/admin` (correo y contraseña, sin registro público): listado con filtros; crear, editar, publicar, archivar y cambiar estado; fotos a WebP sin metadatos, con descripción obligatoria, orden con botones y portada; vista previa. `noindex`, dinámico, fuera del sitemap y sin barra, pie ni analítica del sitio.
