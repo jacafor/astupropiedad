@@ -2,6 +2,18 @@
 
 Registro de cambios por sesión de trabajo, reconstruido a partir de `git log` para las sesiones 00 a 11. Las sesiones siguen los prompts de [docs/prompts/](docs/prompts/README.md); el porqué de cada decisión está en [docs/DECISIONES.md](docs/DECISIONES.md). Fechas en formato AAAA-MM-DD.
 
+## 2026-11-04 · Sesión 16 — Supabase conectado
+- Proyectos de la cuenta propia de AS Tupropiedad: **AS Tupropiedad** (`qjspixcfvnrqhugtuadz`, sitio) y **AS Tupropiedad Pruebas** (`uyinlfotfqvygimporfe`). Migraciones aplicadas en ambos por el conector de Supabase.
+- Nueva migración `20261104000000_ajustes_asesor.sql` tras el asesor de Supabase: el anónimo no ejecuta `es_admin()`, una sola política de lectura por rol y tabla, sin `EXECUTE` sobre `rls_auto_enable()`.
+- Verificado: permisos con SQL (anónimo, usuario sin permiso, administración; transacción deshecha), API REST con la clave publicable en ambos proyectos, y el build local contra pruebas (catálogo vacío honesto, ingreso con error claro). Falta: registro público apagado, cuentas, Vercel y la e2e completa.
+
+## 2026-10-31 · Sesión 16 — Catálogo en Supabase y administrador `/admin`
+- Propiedades en Supabase (D-30, reemplaza D-11): migración con tablas, RLS, `es_admin()` y bucket de fotos en `supabase/migrations/`. El sitio usa solo la clave publicable; sin variables, catálogo vacío (D-20).
+- `/admin` (correo y contraseña, sin registro público): listado con filtros; crear, editar, publicar, archivar y cambiar estado; fotos a WebP sin metadatos, con descripción obligatoria, orden con botones y portada; vista previa. `noindex`, dinámico, fuera del sitemap y sin barra, pie ni analítica del sitio.
+- Lectura pública en `src/data/inventario.ts` con caché de 1 h que `/admin` invalida al guardar; la ficha pasa a `FichaPropiedad` (compartida con la vista previa).
+- Dependencias nuevas (con OK de jforero): `@supabase/supabase-js`, `@supabase/ssr`, `sharp`. Pruebas: Vitest del esquema, el mapeo y las fotos; `e2e/admin.spec.ts` (el flujo completo corre solo con un Supabase de pruebas).
+- Separado el trabajo de portales: nuevo prompt [17](docs/prompts/17-portales-proppit.md) (Proppit, GHL, salida de Tokko). Pendiente P-16: crear los proyectos de Supabase.
+
 ## 2026-10-30 · Sesión 15 — GoHighLevel por API
 - `enviarLead` crea en GHL el contacto (upsert), sus etiquetas y una nota, la oportunidad en "1. Propiedades Organico → Nuevo Lead" y, donde se ofrece, la cita en el calendario de llamadas (D-27). Sin las variables de la API sigue el webhook (respaldo) o el plan B de WhatsApp.
 - Selector de cita opcional y accesible en `/vender` y en el asesor privado de la home: días y horas libres en hora de Lima, con estados de carga, vacío y error que ofrecen WhatsApp. Si la cita falla, el lead queda y se dice tal cual.

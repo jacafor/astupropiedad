@@ -37,6 +37,7 @@ Creados el 2026-10-04 a partir de [ROADMAP.md](../ROADMAP.md) y [DECISIONES.md](
 | # | Sesión | Necesita | Por defecto si no lo tienes |
 |---|---|---|---|
 | 16 | [Administrador de propiedades y portales](16-administrador-propiedades.md) — grande; se divide en fases | Especificación técnica de Proppit y de los demás portales, exportación de Tokko, tu OK para instalar y contratar (P-15); mejor después de la 15 | Inventario en `src/data/properties.ts`; Tokko sigue publicando |
+| 17 | [Portales (Proppit), GHL y salida de Tokko](17-portales-proppit.md) — separado de la 16 el 2026-10-31 | Sesión 16 hecha (catálogo y `/admin` con Supabase); especificación técnica de Proppit y de los demás portales en `docs/portales/`; exportación de Tokko | Tokko sigue publicando; el catálogo propio funciona sin portales |
 
 ### Cierre
 

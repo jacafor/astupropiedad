@@ -18,7 +18,8 @@ Plantilla en [`.env.example`](../.env.example). Copiar a `.env.local` (ignorado 
 | `NEXT_PUBLIC_GA_ID` | Google Analytics 4 (`G-XXXXXXX`); solo se carga si el visitante acepta (§4) | sí | **en código (sesión 13)**; valor pendiente |
 | `NEXT_PUBLIC_META_PIXEL_ID` | Píxel de Meta (solo números); solo se carga si el visitante acepta (§4) | sí | **en código (sesión 13)**; valor pendiente |
 | `NEXT_PUBLIC_TURNSTILE_SITE_KEY` · `TURNSTILE_SECRET_KEY` | Anti-spam | sitio sí / secreto **no** | opcional |
-| `NEXT_PUBLIC_SUPABASE_URL` · `NEXT_PUBLIC_SUPABASE_ANON_KEY` · `SUPABASE_SERVICE_ROLE_KEY` | Inventario de propiedades (opcional) | URL/anon sí; service role **no** | opcional |
+| `NEXT_PUBLIC_SUPABASE_URL` · `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Catálogo de propiedades y `/admin` (§6, D-30). Solo URL `https://` del proyecto y clave **publicable**; **no** se usa la clave de servicio | sí (públicas por diseño; manda la RLS) | **en código (sesión 16)**; proyecto pendiente (P-16) |
+| `E2E_SUPABASE_URL` · `E2E_SUPABASE_PUBLISHABLE_KEY` · `E2E_ADMIN_CORREO` · `E2E_ADMIN_CLAVE` | Solo pruebas locales: proyecto de Supabase **de pruebas** y su cuenta de administración (ver [PRUEBAS.md](PRUEBAS.md)). Nunca en Vercel | **no** | pruebas |
 
 Reglas: lee los secretos solo en código de servidor (Server Actions, Route Handlers); valida su presencia al arrancar y falla con mensaje claro; no los imprimas en logs.
 
@@ -212,9 +213,36 @@ Al añadir un enlace de WhatsApp, ponle `data-origen`; al añadir un evento, dec
 - Pendiente: dominio de producción, redirecciones de dominios alternativos, cabeceras de seguridad (`next.config.ts` → `headers()`), `poweredByHeader: false`.
 - ~~Subir `next`~~ hecho: `16.4.2` (2026-10-16, D-23). Al incrustar el calendario o formulario de GHL, revisar la futura CSP (`script-src`, `frame-src`, `connect-src`); hoy no hay CSP.
 
-## 6. Supabase (opcional, para inventario)
+## 6. Supabase: catálogo de propiedades y `/admin` (D-30, sesión 16)
 
-Si el equipo comercial va a editar propiedades sin tocar código: tabla `properties` con el tipo `Property` de [AUDITORIA-FUNCIONALIDADES.md](auditorias/AUDITORIA-FUNCIONALIDADES.md) (Bloque B), Storage para fotos, **RLS**: lectura pública de `estado = 'disponible'`, escritura solo para asesores autenticados. Hasta entonces: `src/data/properties.ts` (mismo tipo, migración sin reescribir).
+**Qué hace:** guarda las propiedades (`propiedades`), sus fotos (`fotos_propiedad` + bucket público `propiedades`) y quién administra (`administradores`). Esquema y permisos en `supabase/migrations/` (aplicar **en orden**: `20261031000000_catalogo_propiedades.sql` y `20261104000000_ajustes_asesor.sql`).
+
+**Proyectos (cuenta de Supabase propia de AS Tupropiedad, organización "AS Tupropiedad", plan gratuito, región us-east-1):**
+
+| Proyecto | Ref | URL | Uso |
+|---|---|---|---|
+| AS Tupropiedad | `qjspixcfvnrqhugtuadz` | `https://qjspixcfvnrqhugtuadz.supabase.co` | Sitio (Production) |
+| AS Tupropiedad Pruebas | `uyinlfotfqvygimporfe` | `https://uyinlfotfqvygimporfe.supabase.co` | Desarrollo local, previews y e2e |
+
+El conector de Supabase de Claude está autorizado con la cuenta nueva (solo ve esta organización; para Finanzas o Rocio hay que reconectarlo con la cuenta de siempre). La cuenta de siempre fue invitada como *Developer*, pero ese rol **no** puede autorizar el conector (solo Owner o Administrator).
+
+**Puesta en marcha (P-16):**
+1. ~~Crear los dos proyectos~~ (2026-11-04).
+2. ~~Aplicar las migraciones en ambos~~ (2026-11-04, por el conector, con OK de jforero). Verificado: asesor de seguridad sin avisos salvo `es_admin()` ejecutable con sesión (intencional: solo responde si quien llama administra); permisos probados con SQL en pruebas (anónimo, usuario sin permiso y administración) y por HTTP con la clave publicable en ambos.
+3. **Pendiente (jforero), en los dos proyectos:** **Authentication → Sign In / Providers:** dejar correo y contraseña y **apagar** "Allow new users to sign up" (el 2026-11-04 seguía activo: `disable_signup: false`). Aunque alguien se registre no puede administrar (no está en `administradores`), pero no tiene por qué poder crear cuentas.
+4. **Pendiente (jforero):** crear tu cuenta en el proyecto del sitio y autorizarla (ver [NEGOCIO-Y-CONTENIDO.md](NEGOCIO-Y-CONTENIDO.md) → "Dar acceso…"); en el de pruebas, una cuenta de prueba aparte para las e2e (`E2E_ADMIN_CORREO`/`E2E_ADMIN_CLAVE`, ver [PRUEBAS.md](PRUEBAS.md)).
+5. ~~Variables en Vercel~~ (2026-11-04, con OK de jforero, por `vercel env add`, tipo *Config* porque son públicas): `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` (la *publishable* de **Project Settings → API Keys**): **Production → proyecto del sitio; Preview (todas las ramas) → proyecto de pruebas.** Se incrustan al compilar: cualquier cambio exige volver a desplegar. Verificado en el preview del PR #22 (redesplegado): `/admin` → 307 a `/admin/ingresar` con `noindex` y el formulario de ingreso (ya no el aviso de "no conectado"); `/propiedades` con el estado vacío. Producción las tomará en el siguiente despliegue (el merge). En local, las del proyecto de pruebas en `.env.local`.
+
+**Privilegios:** en estos proyectos la Data API da los privilegios por defecto sobre `public` (comprobado: el anónimo recibe errores de RLS, no de permiso), así que no hizo falta la migración de `GRANT` que pidió el piloto de GHL Cloud (P-17).
+
+**Permisos (RLS):** el público (clave publicable, sin sesión) solo lee propiedades `publicada` y sus fotos, y no puede ejecutar `es_admin()` ni `ordenar_fotos()`. Con sesión, una sola política de lectura por tabla: lo publicado, o todo si administra. Crear, editar, ordenar fotos y archivar exige sesión **y** estar en `administradores` (`es_admin()`). No hay política de borrado de propiedades. Storage: lectura pública por URL; subir/borrar solo administración, solo `image/webp`, ≤ 5 MB. El sitio **no** usa la clave de servicio.
+
+**Cómo se usa en el código:**
+- Lectura pública: `src/data/inventario.ts` (servidor) → `unstable_cache` 1 h con etiqueta `propiedades`. Si Supabase falla, se lanza el error y Next mantiene la última versión buena de la página.
+- `/admin`: `src/proxy.ts` refresca la sesión (cookies de `@supabase/ssr`) y redirige a `/admin/ingresar` sin sesión; `requerirAdmin()` (`src/lib/admin/sesion.ts`) verifica con `getUser()` + `es_admin()` en **cada** página y Server Action (`src/app/admin/acciones.ts`). Cada cambio invalida la caché (`revalidateTag` + `revalidatePath`).
+- Fotos: la Server Action recibe la imagen (≤ 4 MB; `serverActions.bodySizeLimit` = 4,5 MB, el máximo de Vercel), `sharp` la pasa a WebP (2000 px, calidad 82, sin metadatos) y la sube a `<id-propiedad>/<uuid>.webp`. `next.config.ts` autoriza ese host en `images.remotePatterns` a partir de `NEXT_PUBLIC_SUPABASE_URL`.
+
+**Plan gratuito:** 2 proyectos activos por cuenta; **pausa tras 7 días** con poca actividad (el sitio sigue mostrando la caché, pero `/admin` no funciona hasta reanudarlo desde el panel). Ver P-16.
 
 ## 7. Anti-spam
 

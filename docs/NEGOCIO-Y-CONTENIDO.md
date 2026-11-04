@@ -81,17 +81,27 @@ Ningún flyer muestra precio: **todos los precios del sitio carecen de respaldo.
 | Sin uso en el catálogo | — | Pueblo Libre, Calle Coraceros: 86 m², 3 dorm, 2 baños (`flyer-pueblo-libre-coraceros.jpg`); `foto-edificio-rojo-blanco.jpg` y `flyer-cordillera-condor-ate.webp` no se revisaron |
 | `/propiedades` filtro "Alquiler" | Existe la pestaña | No hay ninguna propiedad en alquiler |
 
-### Cómo agregar una propiedad (5 pasos)
+### Cómo agregar una propiedad (desde el administrador, D-30)
 
-Todo el inventario vive en `src/data/properties.ts` (D-11). No hay que tocar nada más: catálogo, home, ficha, WhatsApp y sitemap se generan solos.
+Las propiedades viven en Supabase y se editan en **`/admin`** (no se enlaza desde el sitio; escribe la dirección). Catálogo, home, ficha, WhatsApp y sitemap se actualizan solos al guardar.
 
-1. **Prepara las fotos.** Cópialas a `public/imagenes/propiedades/` con nombre en minúsculas y con guiones (ej. `jm-001-sala.jpg`). Fotos limpias: sin teléfonos, precios ni marcas de agua incrustadas. La primera es la portada.
-2. **Copia un bloque.** En `src/data/properties.ts`, dentro de la lista `PROPIEDADES`, agrega un objeto nuevo siguiendo el tipo `Property` (el editor te marca lo que falte).
-3. **Completa los datos reales:** `id` (referencia corta única, ej. `JM-001`), `slug` (URL: minúsculas, sin tildes ni espacios, ej. `departamento-jesus-maria-calle-talara`; no lo cambies después), `titulo` (≈ 40 caracteres), `operacion`, `tipo`, `distrito`, `precio` y `moneda`, `areaConstruidaM2`, `dormitorios`, `banos`, `cocheras`, `descripcion`, `estado` (`disponible` | `reservado` | `vendido`) y `fotos` (cada una con `url` y un `alt` que describa lo que se ve). Opcionales: `areaTotalM2`, `caracteristicas`, `destacada: true` (la muestra en la home). Nada de dato inventado: si no lo tienes, no publiques la propiedad.
-4. **Borra el EJEMPLO** (constante `EJEMPLO` y su línea en `visibles()`) cuando cargues la primera real. Solo aparece en desarrollo.
-5. **Verifica y publica.** `npm run dev` → revisa `/propiedades` y `/propiedades/<slug>`, prueba el botón de WhatsApp (el mensaje trae título, referencia y precio) y corre `npx tsc --noEmit && npm run build`. Luego rama, pull request y merge (ver `AGENTS.md`). Para quitarla del catálogo sin romper el enlace, cambia el `estado` a `vendido`; la ficha sigue existiendo con su etiqueta.
+1. **Ingresa** en `/admin/ingresar` con tu correo y contraseña.
+2. **Nueva propiedad** → completa los datos reales: código de referencia (único, ej. `JM-001`), título (≈ 40 caracteres, sin precio ni teléfono), operación (la moneda la fija: venta en USD, alquiler en PEN, D-28), tipo, distrito (la dirección exacta no se publica), precio, áreas, dormitorios, baños, cocheras, descripción y, si quieres, características (una por línea). La dirección web se crea sola con el título y el código. Se guarda como **borrador**: nadie la ve. Nada de dato inventado: si no lo tienes, no la publiques.
+3. **Sube las fotos** (JPG, PNG o WebP, hasta 4 MB cada una), cada una con una descripción de lo que se ve. Deben ser limpias: sin teléfonos, precios, logos ni marcas de agua. La primera es la portada; cambia el orden con las flechas o "Hacer portada". Se convierten a WebP y se les quita la ubicación GPS.
+4. **Vista previa** → revisa la ficha tal como se verá. Luego **Publicar** (pide al menos una foto). Desde ese momento la dirección web ya no cambia.
+5. **Mantenla al día:** el estado comercial (disponible, reservado, vendido) se cambia con un clic; reservada o vendida sale del catálogo pero su ficha sigue. **Archivar** la quita del sitio (su enlace da 404) y se puede restaurar. Las propiedades no se borran.
 
-Para probar un build de producción con la ficha de ejemplo: `MOSTRAR_EJEMPLO=1 npm run build` (no lo pongas en Vercel).
+Destacada = aparece en la home (las 2 más recientes). Sin las variables de Supabase el catálogo muestra su estado vacío honesto (D-20) y, solo en desarrollo, la ficha `EJEMPLO`.
+
+#### Dar acceso a alguien al administrador (lo hace jforero)
+
+1. En el panel de Supabase del proyecto del sitio → **Authentication → Users → Add user → Create new user**, con el correo de la persona y una contraseña (que la persona cambiará; nunca la compartas por el chat de Claude). Desactiva el registro público en **Authentication → Sign In / Providers** ("Allow new users to sign up" apagado).
+2. En **SQL Editor**, autorízala:
+   ```sql
+   insert into public.administradores (user_id, correo)
+   select id, email from auth.users where email = 'correo@de-la-persona';
+   ```
+3. Para quitarle el acceso: `delete from public.administradores where correo = 'correo@de-la-persona';`
 
 ## 5. Cumplimiento (Perú) — checklist a validar con asesoría legal
 
