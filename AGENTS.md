@@ -50,6 +50,7 @@ src/components/           PropertyCard, Navbar, Hero, Footer, FloatingWhatsApp, 
 src/lib/finance.ts        matemática financiera pura (cuota, cronograma, cap rate…) con pruebas en finance.test.ts; formato.ts = presentación
 src/lib/analytics.ts      track(evento, parámetros): no hace nada sin consentimiento ni IDs; consentimiento.ts guarda la decisión (INTEGRACIONES §4)
 src/app/actions/lead.ts   Server Action enviarLead (valida, honeypot, API de GHL: contacto, oportunidad, cita); esquema en src/lib/leads.ts
+src/app/api/mantener-activo/ cron diario de Vercel que mantiene activos los proyectos de Supabase (D-32)
 src/lib/ficha-pdf/        ficha PDF de una propiedad (@react-pdf/renderer, D-31); la sirve /propiedades/[slug]/ficha.pdf
 src/lib/ghl.ts            cliente de la API v2 de GHL y registrarLead (D-27); horarios.ts = horarios de Lima; actions/horarios.ts los consulta
 public/imagenes/          fotos y flyers (nombres en minúsculas con guiones)

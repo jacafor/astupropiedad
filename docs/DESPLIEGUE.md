@@ -55,6 +55,8 @@ Solo nombres; los valores se escriben en Vercel → *Settings* → *Environment 
 | `GHL_API_TOKEN` | Token de la integración privada de GHL (solo servidor, *Sensitive*). Con las 4 siguientes, los leads van por la API (D-27) | en `.env.local` solo si vas a escribir en el GHL real | cargado | cargado |
 | `GHL_LOCATION_ID`, `GHL_PIPELINE_ID`, `GHL_PIPELINE_STAGE_ID`, `GHL_CALENDAR_ID`, `GHL_PIPELINE_STAGE_CITA_ID` (opcional) | Subcuenta, pipeline, etapa inicial, calendario de llamadas y etapa al agendar | cargadas en Vercel (Development) | cargadas | cargadas |
 | `GHL_WEBHOOK_URL` | Respaldo (D-18): solo si falta alguna variable de la API. Sin ninguna, los formularios muestran un error honesto y ofrecen WhatsApp | vacía | vacía | vacía |
+| `CRON_SECRET` | Lo manda Vercel al cron diario `/api/mantener-activo` (D-32); sin él la ruta responde 401. Aleatorio, *Secret* | — | — | cargado (2026-11-05) |
+| `SUPABASE_PRUEBAS_URL`, `SUPABASE_PRUEBAS_PUBLISHABLE_KEY` | Proyecto de Supabase de pruebas, para que el cron también lo consulte (públicas, *Config*) | — | — | cargadas (2026-11-05) |
 | `NEXT_PUBLIC_SITE_URL` | Dominio canónico (metadata, sitemap, OG). Por defecto `https://astupropiedad.com` | opcional | opcional | definir al asignar el dominio (P-12) |
 | `MOSTRAR_EJEMPLO` | `1` muestra la propiedad de EJEMPLO en un build de producción (D-20) | no hace falta (en `dev` ya se ve) | opcional, para revisar fichas | **nunca** |
 | `NEXT_PUBLIC_GHL_CALENDAR_URL`, `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`, `NEXT_PUBLIC_GA_ID`, `NEXT_PUBLIC_META_PIXEL_ID`, `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY` | Previstas en `.env.example`; **ningún código las lee todavía** | — | — | — |
