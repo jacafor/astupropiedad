@@ -48,10 +48,12 @@ Los formularios usan las Server Actions `enviarLead` y `obtenerHorarios`, que ha
 **Supabase:** `playwright.config.ts` fija `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` como variables de proceso: con las `E2E_*` exportadas apuntan al proyecto **de pruebas**; sin ellas valen `sin-supabase` (no es una URL https, así que el sitio queda sin base de datos). Así nunca se usa el proyecto del sitio de `.env.local`. Para correr el flujo completo de `/admin`, en PowerShell:
 
 ```powershell
-$env:E2E_SUPABASE_URL="https://uyinlfotfqvygimporfe.supabase.co"; $env:E2E_SUPABASE_PUBLISHABLE_KEY="<clave publicable de AS Tupropiedad Pruebas>"; $env:E2E_ADMIN_CORREO="<cuenta de prueba>"; $env:E2E_ADMIN_CLAVE="<su contraseña>"; npx playwright test e2e/admin.spec.ts
+powershell -ExecutionPolicy Bypass -File e2eadmin-con-supabase.ps1
 ```
 
-La cuenta de prueba se crea y se autoriza en el proyecto de pruebas igual que la real (NEGOCIO-Y-CONTENIDO → "Dar acceso…"). Cada ejecución deja una propiedad `E2E-…` archivada y sus fotos en ese proyecto.
+El script (`e2e/admin-con-supabase.ps1`) fija las `E2E_*` del proyecto de pruebas, instala el navegador de Playwright si falta, **pide la clave oculta** (no queda en el historial ni pasa por el chat) y corre con `--headed` (se ve la ventana; no la toques). Otra cuenta: `-Correo <correo>`. Superada el 2026-11-05 con la cuenta de administración de jforero en Pruebas: 3 pruebas OK (las 3 omitidas son las de "sin Supabase", que cubre la batería normal).
+
+La cuenta se crea y se autoriza en el proyecto de pruebas igual que la real (NEGOCIO-Y-CONTENIDO → "Dar acceso…"). Cada ejecución deja una propiedad `E2E-…` archivada y sus fotos en ese proyecto.
 
 ## Integración continua (`.github/workflows/ci.yml`)
 
