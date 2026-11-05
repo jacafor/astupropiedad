@@ -28,6 +28,20 @@ describe("procesarFoto", () => {
     expect((await sharp(r.datos).metadata()).exif).toBeUndefined();
   });
 
+  it("acepta JPG de celular con avisos menores del decodificador", async () => {
+    // Bytes sobrantes antes de un marcador: libjpeg avisa ("extraneous bytes") pero la foto se ve bien.
+    const jpg = await imagen(64, 48, "jpeg");
+    const i = jpg.indexOf(Buffer.from([0xff, 0xdb]));
+    const conAviso = Buffer.concat([jpg.subarray(0, i), Buffer.from([0x12, 0x34, 0x56]), jpg.subarray(i)]);
+    const r = await procesarFoto(conAviso);
+    expect([r.ancho, r.alto]).toEqual([64, 48]);
+  });
+
+  it("rechaza con un mensaje claro una foto cortada", async () => {
+    const jpg = await imagen(400, 300, "jpeg");
+    await expect(procesarFoto(jpg.subarray(0, Math.floor(jpg.length * 0.6)))).rejects.toBeInstanceOf(FotoInvalida);
+  });
+
   it("rechaza formatos no admitidos y archivos que no son imagen", async () => {
     await expect(procesarFoto(await imagen(10, 10, "gif"))).rejects.toBeInstanceOf(FotoInvalida);
     await expect(procesarFoto(Buffer.from("no soy una imagen"))).rejects.toBeInstanceOf(FotoInvalida);

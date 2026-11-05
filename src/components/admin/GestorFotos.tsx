@@ -5,7 +5,8 @@ import Image from "next/image";
 import { ArrowDown, ArrowUp, Star, Trash2, Upload } from "lucide-react";
 import { actualizarAlt, moverFoto, quitarFoto, subirFoto } from "@/app/admin/acciones";
 import type { DireccionFoto, ResultadoAccion, ResultadoFoto } from "@/lib/admin/tipos";
-import { MAX_BYTES_FOTO, TIPOS_FOTO } from "@/lib/catalogo/esquema";
+import { LADO_MAXIMO_FOTO, MAX_BYTES_FOTO, TIPOS_FOTO } from "@/lib/catalogo/esquema";
+import { FotoIlegible, reducirSiPesa } from "@/lib/catalogo/reducir";
 import type { FotoAdmin } from "@/lib/catalogo/mapeo";
 import { Aviso, estilos } from "./ui";
 
@@ -63,6 +64,7 @@ const GestorFotos = ({ id, fotos }: Props) => {
   const campo = useId();
   const formRef = useRef<HTMLFormElement>(null);
   const [errorLocal, setErrorLocal] = useState<string | null>(null);
+  const [reduciendo, setReduciendo] = useState(false);
   const [resultado, enviar, subiendo] = useActionState<ResultadoFoto | null, FormData>(async (previo, fd) => {
     const r = await subirFoto(id, previo, fd);
     // Solo se vacía el formulario si la foto se guardó: si falla, lo elegido y escrito sigue ahí.
@@ -73,16 +75,24 @@ const GestorFotos = ({ id, fotos }: Props) => {
   const [pendiente, iniciar] = useTransition();
   const errores = resultado?.errores ?? {};
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
     const archivo = fd.get("foto");
-    // Comprobación previa en el navegador (el servidor la repite): evita subir 4 MB para nada.
-    if (archivo instanceof File && archivo.size > MAX_BYTES_FOTO) {
-      setErrorLocal("La foto pesa más de 4 MB. Redúcela antes de subirla.");
-      return;
-    }
     setErrorLocal(null);
+    // Las fotos de celular de más de 4 MB se reducen aquí (Vercel no acepta envíos mayores);
+    // el servidor repite todas las comprobaciones.
+    if (archivo instanceof File && archivo.size > MAX_BYTES_FOTO) {
+      setReduciendo(true);
+      try {
+        fd.set("foto", await reducirSiPesa(archivo, MAX_BYTES_FOTO, LADO_MAXIMO_FOTO));
+      } catch (error) {
+        setErrorLocal(error instanceof FotoIlegible ? error.message : "No se pudo reducir la foto. Redúcela antes de subirla.");
+        return;
+      } finally {
+        setReduciendo(false);
+      }
+    }
     startTransition(() => enviar(fd));
   };
 
@@ -167,15 +177,18 @@ const GestorFotos = ({ id, fotos }: Props) => {
         {resultado && <Aviso ok={resultado.ok} mensaje={resultado.mensaje} />}
         <div>
           <label htmlFor={`${campo}-foto`} className={estilos.etiqueta}>
-            Archivo (JPG, PNG o WebP, hasta 4 MB)
+            Archivo (JPG, PNG o WebP)
           </label>
+          <p id={`${campo}-foto-ayuda`} className={estilos.ayuda}>
+            Puedes subirla tal como sale del celular: si pesa más de 4 MB, se reduce antes de enviarla.
+          </p>
           <input
             id={`${campo}-foto`}
             name="foto"
             type="file"
             accept={TIPOS_FOTO.join(",")}
             aria-invalid={errorFoto ? true : undefined}
-            aria-describedby={errorFoto ? `${campo}-foto-error` : undefined}
+            aria-describedby={`${campo}-foto-ayuda${errorFoto ? ` ${campo}-foto-error` : ""}`}
             className="block w-full text-base text-dark file:mr-4 file:min-h-11 file:rounded-sm file:border-0 file:bg-dark file:px-4 file:py-2 file:text-xs file:font-black file:uppercase file:tracking-widest file:text-white"
           />
           {errorFoto && (
@@ -227,9 +240,9 @@ const GestorFotos = ({ id, fotos }: Props) => {
           )}
         </div>
         <div>
-          <button type="submit" disabled={subiendo} className={estilos.botonPrincipal}>
+          <button type="submit" disabled={subiendo || reduciendo} className={estilos.botonPrincipal}>
             <Upload className="w-4 h-4" aria-hidden="true" />
-            {subiendo ? "Subiendo y convirtiendo…" : "Subir foto"}
+            {reduciendo ? "Reduciendo la foto…" : subiendo ? "Subiendo y convirtiendo…" : "Subir foto"}
           </button>
         </div>
       </form>

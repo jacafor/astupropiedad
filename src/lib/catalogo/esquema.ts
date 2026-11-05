@@ -194,7 +194,10 @@ export const aFila = (d: DatosPropiedad) => ({
 
 // ───── Fotos ─────
 
+/** Tope por envío: Vercel corta el cuerpo en 4,5 MB. Las fotos más pesadas se reducen antes en el navegador. */
 export const MAX_BYTES_FOTO = 4 * 1024 * 1024;
+/** Lado mayor de la foto guardada: suficiente para la ficha a pantalla completa. */
+export const LADO_MAXIMO_FOTO = 2000;
 export const TIPOS_FOTO = ["image/jpeg", "image/png", "image/webp"] as const;
 
 export const esquemaAlt = z
