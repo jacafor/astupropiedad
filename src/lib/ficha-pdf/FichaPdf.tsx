@@ -25,15 +25,15 @@ export type DatosFichaPdf = {
 };
 
 const s = StyleSheet.create({
-  pagina: { paddingTop: 28, paddingBottom: 64, paddingHorizontal: 36, fontFamily: "Helvetica", fontSize: 10, color: COLOR.texto },
-  cabecera: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 14 },
-  logo: { width: 76, height: 76 },
+  pagina: { paddingTop: 24, paddingBottom: 60, paddingHorizontal: 36, fontFamily: "Helvetica", fontSize: 10, color: COLOR.texto },
+  cabecera: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 10 },
+  logo: { width: 64, height: 64 },
   eyebrow: { fontFamily: "Helvetica-Bold", fontSize: 8, letterSpacing: 1.5, color: COLOR.primary, textAlign: "right" },
   referencia: { fontFamily: "Helvetica-Bold", fontSize: 12, color: COLOR.dark, textAlign: "right", marginTop: 3 },
-  portada: { width: "100%", height: 270, objectFit: "cover", borderRadius: 10 },
+  portada: { width: "100%", height: 235, objectFit: "cover", borderRadius: 10 },
   miniaturas: { flexDirection: "row", gap: 8, marginTop: 8 },
-  miniatura: { flex: 1, height: 90, objectFit: "cover", borderRadius: 6 },
-  insignias: { flexDirection: "row", gap: 6, marginTop: 16 },
+  miniatura: { flex: 1, height: 80, objectFit: "cover", borderRadius: 6 },
+  insignias: { flexDirection: "row", gap: 6, marginTop: 12 },
   insignia: { fontFamily: "Helvetica-Bold", fontSize: 7.5, letterSpacing: 1.2, color: "white", backgroundColor: COLOR.dark, paddingVertical: 3, paddingHorizontal: 8, borderRadius: 8 },
   insigniaClara: { color: COLOR.dark, backgroundColor: COLOR.light, borderWidth: 1, borderColor: COLOR.borde },
   insigniaEstado: { backgroundColor: COLOR.primary },
@@ -44,7 +44,7 @@ const s = StyleSheet.create({
   dato: { flex: 1, backgroundColor: COLOR.light, borderRadius: 6, paddingVertical: 8, alignItems: "center" },
   datoValor: { fontFamily: "Helvetica-Bold", fontSize: 13, color: COLOR.dark },
   datoEtiqueta: { fontFamily: "Helvetica-Bold", fontSize: 7, letterSpacing: 1, color: COLOR.texto, marginTop: 2 },
-  subtitulo: { fontFamily: "Times-Bold", fontSize: 14, color: COLOR.dark, marginTop: 16, marginBottom: 6 },
+  subtitulo: { fontFamily: "Times-Bold", fontSize: 14, color: COLOR.dark, marginTop: 12, marginBottom: 4 },
   parrafo: { lineHeight: 1.5 },
   lista: { flexDirection: "row", flexWrap: "wrap", marginTop: 4 },
   item: { width: "50%", flexDirection: "row", marginTop: 4, paddingRight: 8 },
@@ -106,7 +106,7 @@ const FichaPdf = ({ propiedad: p, fotos, logo, url, fecha }: DatosFichaPdf) => {
         </View>
 
         <Text style={s.subtitulo}>Descripción</Text>
-        <Text style={s.parrafo}>{p.descripcion}</Text>
+        <Text style={s.parrafo}>{p.descripcion.trim()}</Text>
 
         {p.caracteristicas && p.caracteristicas.length > 0 && (
           <>

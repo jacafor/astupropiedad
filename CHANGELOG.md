@@ -6,6 +6,7 @@ Registro de cambios por sesión de trabajo, reconstruido a partir de `git log` p
 - Nueva ruta `/propiedades/<slug>/ficha.pdf` y botón "Descargar ficha (PDF)" en la ficha web (D-31). Ficha A4 con logo, fotos, datos, descripción, características y contacto; fotos a JPG con `sharp`; caché de 10 min en la CDN y `noindex`.
 - Dependencia nueva con OK de jforero: `@react-pdf/renderer` 4.9.0. Pruebas Vitest del PDF (con y sin fotos, tildes, foto ilegible) y e2e del 404.
 - Verificado en el build local contra pruebas: PDF de PRUEBA-1, 2 (reservada) y 3; botón a 390 y 1280 px.
+- Ajuste tras verificar en producción: con el logo más grande, una ficha corta dejaba la última característica sola en una segunda página. Cabecera y portada más compactas, descripción sin espacios sobrantes y prueba que exige una sola página para una ficha corta.
 
 ## 2026-11-05 · Sesión 16 — Fotos de celular en `/admin`
 - Las fotos JPG de celulares Samsung (avisos menores del decodificador) ya no se rechazan: `sharp` con `failOn: "error"`. Una foto realmente dañada da un mensaje claro en vez de un error.

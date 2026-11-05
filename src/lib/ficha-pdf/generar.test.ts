@@ -57,3 +57,16 @@ describe("generarFichaPdf", () => {
     expect(conFotos.length).toBeGreaterThan(sinFotos.length);
   }, 30_000);
 });
+
+describe("una ficha corta cabe en una página", () => {
+  it("con 4 fotos, área total y 6 características", async () => {
+    const foto = (await fotosParaPdf(base))[0];
+    const pdf = await generarFichaPdf(
+      { ...base, descripcion: `${"Texto de prueba ficticio. ".repeat(12)}\n\n`, caracteristicas: ["Ascensor", "Terraza", "Cocina equipada", "Depósito", "Gimnasio", "Piscina"] },
+      "https://ejemplo.test/x",
+      [foto, foto, foto, foto]
+    );
+    const paginas = pdf.toString("latin1").match(/\/Type\s*\/Page[^s]/g) ?? [];
+    expect(paginas).toHaveLength(1);
+  }, 30_000);
+});
