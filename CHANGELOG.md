@@ -2,6 +2,10 @@
 
 Registro de cambios por sesión de trabajo, reconstruido a partir de `git log` para las sesiones 00 a 11. Las sesiones siguen los prompts de [docs/prompts/](docs/prompts/README.md); el porqué de cada decisión está en [docs/DECISIONES.md](docs/DECISIONES.md). Fechas en formato AAAA-MM-DD.
 
+## 2026-11-05 · Consulta diaria a Supabase (cron de Vercel)
+- `/api/mantener-activo` + cron en `vercel.json` (todos los días, 8:00 de Lima): lectura mínima en el proyecto del sitio y en el de pruebas, para que el plan gratuito no los pause (P-16, D-32). Solo responde a Vercel (`CRON_SECRET`).
+- Variables nuevas en Vercel Production, con OK de jforero: `CRON_SECRET` (Secret, generado al azar en su terminal), `SUPABASE_PRUEBAS_URL` y `SUPABASE_PRUEBAS_PUBLISHABLE_KEY`.
+
 ## 2026-11-05 · Cierre de la sesión 16
 - Flujo completo de `/admin` contra Supabase Pruebas superado (`e2e/admin.spec.ts`, 3 de 3 con Supabase): ingreso con error claro, crear con validación, subir fotos, cambiar portada, publicar, verla en catálogo y ficha, reservar, editar el precio y archivar → 404.
 - La prueba no había corrido nunca completa: se corrigieron tres selectores (la alerta que Next añade para anunciar rutas, la etiqueta nueva del campo de foto y el enlace de WhatsApp de la tarjeta que repite el título). Nuevo `e2e/admin-con-supabase.ps1` (clave oculta, `--headed`).
