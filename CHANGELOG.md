@@ -2,6 +2,12 @@
 
 Registro de cambios por sesión de trabajo, reconstruido a partir de `git log` para las sesiones 00 a 11. Las sesiones siguen los prompts de [docs/prompts/](docs/prompts/README.md); el porqué de cada decisión está en [docs/DECISIONES.md](docs/DECISIONES.md). Fechas en formato AAAA-MM-DD.
 
+## 2026-11-05 · Sesión 16 — Fotos de celular en `/admin`
+- Las fotos JPG de celulares Samsung (avisos menores del decodificador) ya no se rechazan: `sharp` con `failOn: "error"`. Una foto realmente dañada da un mensaje claro en vez de un error.
+- Fotos de más de 4 MB: el navegador las reduce a 2000 px antes de enviarlas (`src/lib/catalogo/reducir.ts`), con el botón "Reduciendo la foto…" y ayuda bajo el campo.
+- Verificado en el build local contra pruebas: subida de una foto Samsung real (2,6 MB) y de una de 10 MB, ambas guardadas a 2000 px; luego se quitaron. Pruebas Vitest nuevas para ambos casos.
+- Registro público apagado y cuentas de administración autorizadas en los dos proyectos; 3 propiedades `PRUEBA-*` ficticias con fotos de prueba.
+
 ## 2026-11-04 · Sesión 16 — Supabase conectado
 - Proyectos de la cuenta propia de AS Tupropiedad: **AS Tupropiedad** (`qjspixcfvnrqhugtuadz`, sitio) y **AS Tupropiedad Pruebas** (`uyinlfotfqvygimporfe`). Migraciones aplicadas en ambos por el conector de Supabase.
 - Nueva migración `20261104000000_ajustes_asesor.sql` tras el asesor de Supabase: el anónimo no ejecuta `es_admin()`, una sola política de lectura por rol y tabla, sin `EXECUTE` sobre `rls_auto_enable()`.
