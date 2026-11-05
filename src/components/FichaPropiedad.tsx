@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, Bath, BedDouble, Car, Check, MapPin, MessageCircle, Square } from "lucide-react";
+import { ArrowLeft, Bath, BedDouble, Car, Check, FileDown, MapPin, MessageCircle, Square } from "lucide-react";
 import PropertyCard from "@/components/PropertyCard";
 import VistaPropiedad from "@/components/VistaPropiedad";
 import { SITE_URL } from "@/lib/contact";
@@ -165,6 +165,17 @@ const FichaPropiedad = ({ propiedad: p, parecidas = [], vistaPrevia = false }: P
               <MessageCircle className="w-4 h-4 mr-3" aria-hidden="true" />
               Consultar por WhatsApp
             </a>
+            {/* La vista previa de /admin puede ser un borrador: su PDF no existe todavía. */}
+            {!vistaPrevia && (
+              <a
+                href={`/propiedades/${p.slug}/ficha.pdf`}
+                download
+                className="mt-3 flex items-center justify-center border-2 border-dark text-dark px-6 py-4 font-black uppercase text-xs tracking-[0.2em] hover:bg-dark hover:text-white transition-all focus-visible:ring-2 focus-visible:ring-primary"
+              >
+                <FileDown className="w-4 h-4 mr-3" aria-hidden="true" />
+                Descargar ficha (PDF)
+              </a>
+            )}
             <p className="text-xs text-gray-600 mt-4">Referencia: {p.id}</p>
           </aside>
         </div>

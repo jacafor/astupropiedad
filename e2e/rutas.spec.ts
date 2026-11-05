@@ -30,3 +30,9 @@ test("robots.txt y sitemap.xml responden 200", async ({ request }) => {
 test("una ruta inexistente responde 404", async ({ request }) => {
   expect((await request.get("/esta-ruta-no-existe")).status()).toBe(404);
 });
+
+test("la ficha PDF de una propiedad que no existe responde 404", async ({ request }) => {
+  const r = await request.get("/propiedades/no-existe/ficha.pdf");
+  expect(r.status()).toBe(404);
+  expect(r.headers()["content-type"]).not.toContain("application/pdf");
+});

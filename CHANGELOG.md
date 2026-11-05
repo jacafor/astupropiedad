@@ -2,6 +2,11 @@
 
 Registro de cambios por sesión de trabajo, reconstruido a partir de `git log` para las sesiones 00 a 11. Las sesiones siguen los prompts de [docs/prompts/](docs/prompts/README.md); el porqué de cada decisión está en [docs/DECISIONES.md](docs/DECISIONES.md). Fechas en formato AAAA-MM-DD.
 
+## 2026-11-05 · Ficha PDF de cada propiedad
+- Nueva ruta `/propiedades/<slug>/ficha.pdf` y botón "Descargar ficha (PDF)" en la ficha web (D-31). Ficha A4 con logo, fotos, datos, descripción, características y contacto; fotos a JPG con `sharp`; caché de 10 min en la CDN y `noindex`.
+- Dependencia nueva con OK de jforero: `@react-pdf/renderer` 4.9.0. Pruebas Vitest del PDF (con y sin fotos, tildes, foto ilegible) y e2e del 404.
+- Verificado en el build local contra pruebas: PDF de PRUEBA-1, 2 (reservada) y 3; botón a 390 y 1280 px.
+
 ## 2026-11-05 · Sesión 16 — Fotos de celular en `/admin`
 - Las fotos JPG de celulares Samsung (avisos menores del decodificador) ya no se rechazan: `sharp` con `failOn: "error"`. Una foto realmente dañada da un mensaje claro en vez de un error.
 - Fotos de más de 4 MB: el navegador las reduce a 2000 px antes de enviarlas (`src/lib/catalogo/reducir.ts`), con el botón "Reduciendo la foto…" y ayuda bajo el campo.
