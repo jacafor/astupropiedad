@@ -2,6 +2,11 @@
 
 Registro de cambios por sesión de trabajo, reconstruido a partir de `git log` para las sesiones 00 a 11. Las sesiones siguen los prompts de [docs/prompts/](docs/prompts/README.md); el porqué de cada decisión está en [docs/DECISIONES.md](docs/DECISIONES.md). Fechas en formato AAAA-MM-DD.
 
+## 2026-11-05 · Cierre de la sesión 16
+- Flujo completo de `/admin` contra Supabase Pruebas superado (`e2e/admin.spec.ts`, 3 de 3 con Supabase): ingreso con error claro, crear con validación, subir fotos, cambiar portada, publicar, verla en catálogo y ficha, reservar, editar el precio y archivar → 404.
+- La prueba no había corrido nunca completa: se corrigieron tres selectores (la alerta que Next añade para anunciar rutas, la etiqueta nueva del campo de foto y el enlace de WhatsApp de la tarjeta que repite el título). Nuevo `e2e/admin-con-supabase.ps1` (clave oculta, `--headed`).
+- Sesión 16 cerrada. Sigue abierto: la pausa por inactividad del plan gratuito de Supabase (P-16).
+
 ## 2026-11-05 · Ficha PDF de cada propiedad
 - Nueva ruta `/propiedades/<slug>/ficha.pdf` y botón "Descargar ficha (PDF)" en la ficha web (D-31). Ficha A4 con logo, fotos, datos, descripción, características y contacto; fotos a JPG con `sharp`; caché de 10 min en la CDN y `noindex`.
 - Dependencia nueva con OK de jforero: `@react-pdf/renderer` 4.9.0. Pruebas Vitest del PDF (con y sin fotos, tildes, foto ilegible) y e2e del 404.

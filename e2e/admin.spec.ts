@@ -53,7 +53,7 @@ const ingresar = async (page: Page) => {
 };
 
 const subirFoto = async (page: Page, alt: string, color: { r: number; g: number; b: number }) => {
-  await page.getByLabel("Archivo (JPG, PNG o WebP, hasta 4 MB)").setInputFiles({
+  await page.getByLabel("Archivo (JPG, PNG o WebP)").setInputFiles({
     name: "foto-prueba.jpg",
     mimeType: "image/jpeg",
     buffer: await fotoDePrueba(color),
@@ -72,7 +72,8 @@ test.describe("flujo completo contra el Supabase de pruebas", () => {
     await page.getByLabel("Correo").fill("no-existe@ejemplo.com");
     await page.getByLabel("Contraseña").fill("clave-incorrecta");
     await page.getByRole("button", { name: "Ingresar" }).click();
-    await expect(page.getByRole("alert")).toContainText("Correo o contraseña incorrectos");
+    // Solo la alerta del formulario: Next añade otra (vacía) para anunciar cambios de ruta.
+    await expect(page.locator("form").getByRole("alert")).toContainText("Correo o contraseña incorrectos");
   });
 
   test("crear, subir fotos, publicar, editar, reordenar y archivar", async ({ page }) => {
@@ -115,7 +116,7 @@ test.describe("flujo completo contra el Supabase de pruebas", () => {
     await expect(page.getByText("Publicada: ya aparece en el sitio.")).toBeVisible();
     const slug = await page.getByLabel("Dirección web").inputValue();
     await page.goto("/propiedades");
-    await expect(page.getByRole("link", { name: titulo })).toBeVisible();
+    await expect(page.getByRole("link", { name: titulo, exact: true })).toBeVisible();
     await page.goto(`/propiedades/${slug}`);
     await expect(page.getByRole("heading", { level: 1, name: titulo })).toBeVisible();
     await expect(page.locator("main")).toContainText(/123[.,\s  ]?456/);
