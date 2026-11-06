@@ -50,7 +50,7 @@ Creados el 2026-10-04 a partir de [ROADMAP.md](../ROADMAP.md) y [DECISIONES.md](
 
 | # | Sesión | Necesita | Por defecto si no lo tienes |
 |---|---|---|---|
-| 18 | [Auditoría completa: diseño, UI/UX, accesibilidad, rendimiento, SEO y seguridad](18-auditoria-completa.md) — solo diagnóstico, no arregla sin OK; deja `docs/auditorias/AUDITORIA-COMPLETA-2026-11.md` y el plan de arreglos | Usuario de prueba de `/admin`; permiso para leer (solo lectura) Supabase y Vercel | `/admin` se audita desde el código y la pantalla de inicio de sesión |
+| 18 ✅ | [Auditoría completa: diseño, UI/UX, accesibilidad, rendimiento, SEO y seguridad](18-auditoria-completa.md) — solo diagnóstico, no arregla sin OK; deja `docs/auditorias/AUDITORIA-COMPLETA-2026-11.md` y el plan de arreglos | Usuario de prueba de `/admin`; permiso para leer (solo lectura) Supabase y Vercel | `/admin` se audita desde el código y la pantalla de inicio de sesión |
 
 ## Reglas comunes a todas las sesiones
 

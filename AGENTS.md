@@ -8,7 +8,7 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 Sitio web de **AS Tupropiedad**, boutique inmobiliaria de Lima (Perú): compra, venta e inversión, con simuladores hipotecario y de rentabilidad. Idioma del sitio y de la documentación: **español**.
 
-> **Estado real (oct 2026):** el sitio es una fachada visual; los formularios y CTAs de conversión **no funcionan** y varios datos son de relleno. Antes de construir encima, lee [docs/ROADMAP.md](docs/ROADMAP.md) y los informes [AUDITORIA-WEB.md](docs/auditorias/AUDITORIA-WEB.md) y [AUDITORIA-FUNCIONALIDADES.md](docs/auditorias/AUDITORIA-FUNCIONALIDADES.md).
+> **Estado real (nov 2026):** los formularios envían a GHL de verdad, el catálogo vive en Supabase con `/admin` y la base de SEO y accesibilidad está hecha; quedan pendientes del cliente (inventario, equipo, cifras, legales) y los hallazgos de la auditoría de noviembre (nota global 70/100). Antes de construir encima, lee [docs/ROADMAP.md](docs/ROADMAP.md) y la última auditoría, [AUDITORIA-COMPLETA-2026-11.md](docs/auditorias/AUDITORIA-COMPLETA-2026-11.md) (con su plan de arreglos). Las de octubre, [AUDITORIA-WEB.md](docs/auditorias/AUDITORIA-WEB.md) y [AUDITORIA-FUNCIONALIDADES.md](docs/auditorias/AUDITORIA-FUNCIONALIDADES.md), quedan como foto histórica (su estado actual está en el anexo A de la de noviembre).
 
 ## Stack
 

@@ -2,6 +2,11 @@
 
 Registro de cambios por sesión de trabajo, reconstruido a partir de `git log` para las sesiones 00 a 11. Las sesiones siguen los prompts de [docs/prompts/](docs/prompts/README.md); el porqué de cada decisión está en [docs/DECISIONES.md](docs/DECISIONES.md). Fechas en formato AAAA-MM-DD.
 
+## 2026-11-05 · Auditoría completa (sesión 18, solo diagnóstico)
+- Nuevo informe [AUDITORIA-COMPLETA-2026-11.md](docs/auditorias/AUDITORIA-COMPLETA-2026-11.md): UX 64, diseño y textos 66, accesibilidad 78, rendimiento 70, SEO 62, seguridad 80 (global 70), con hallazgos con evidencia, estado de cada hallazgo de octubre y plan de arreglos en 12 sesiones. No se cambió código.
+- Lo más grave: una ficha "[Prueba]" publicada en producción e indexable; canonical e imagen OG apuntando a un dominio que hoy da 404; el hero ilegible a 390 px; el formulario público sin límite de envíos; promesas sin respaldo en `/vender`.
+- ROADMAP con la sección de arreglos propuestos y la línea base actualizada; enlaces al informe en AGENTS.md, CLAUDE.md y README.md.
+
 ## 2026-11-05 · Fotos: varias a la vez y orden arrastrando
 - `/admin`: nueva zona de carga (`SubirFotos`) para elegir o arrastrar hasta 20 fotos juntas, con vista previa, descripción por foto y una sola casilla de "fotos limpias". Suben una por una ("Subiendo 2 de 5…"); si falta una descripción no sube ninguna; las que fallan quedan en la lista con su error.
 - Orden arrastrando el asa ⠿ (ratón o dedo; en celular, sobre la foto) con `Reorder` de framer-motion (ya instalado); al soltar se guarda el orden completo con la nueva acción `ordenarFotos`, que rechaza la lista si las fotos cambiaron. Las flechas y "Hacer portada" siguen para teclado y lector de pantalla. Cada foto muestra su número.
