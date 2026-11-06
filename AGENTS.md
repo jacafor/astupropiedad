@@ -171,3 +171,17 @@ npm run typecheck && npm run lint && npm test && npm run test:e2e && npm run bui
 | Pulido visual / animación (stack Next + Tailwind) | `ux-elevacion-formula100k` |
 | Seguridad de cambios | `security-review` |
 | Nueva página / revisión previa a desplegar / prueba móvil | `/nueva-pagina`, `/revisar-deploy`, `/probar-movil` |
+| Crítica de diseño / textos de interfaz / sistema de diseño | `design:design-critique`, `design:ux-copy`, `design:design-system` |
+| Revisión de código (errores, rendimiento, seguridad de un diff) | `engineering:code-review`, `security-review` |
+| Diseño en Figma o de Figma a código | `figma:figma-generate-design`, `figma:figma-design-to-code` (requiere autorizar Figma) |
+| Referencia visual de un sitio de la competencia | `brightdata-plugin:design-mirror` (inspiración, nunca copia) |
+| Landing de campaña dentro del sitio | `/nueva-pagina` + `ux-elevacion-formula100k` (`/landing`) |
+| Lead magnet / miniapp (p. ej. a partir de los simuladores) | `cazador-lead-magnets-f100k`, `constructor-miniapps-f100k` |
+| Plan de campaña (objetivos, embudo, canales, calendario) | `marketing:campaign-plan` |
+| Contenido orgánico para redes | `small-business:social-content-engine`, `small-business:content-strategy`, `marketing:content-creation`, `marketing:draft-content`, `small-business:marketing-monday` |
+| Voz y estilo de marca | `marketing:brand-review`, `small-business:brand-style` |
+| Material y estructura de anuncios (copies, variantes, públicos, presupuesto, UTMs) | `small-business:ad-manager`, `canva:bulk-create`, `canva:resize-for-social-media`, `anthropic-skills:canvas-design` |
+| Secuencias de seguimiento de leads (encaja con GHL) | `marketing:email-sequence` |
+| Informes de resultados | `anthropic-skills:reportes-meta-ads`, `marketing:performance-report` |
+
+**Límites de marketing:** no hay conector que configure campañas en Meta Ads o Google Ads; se entrega todo listo para cargar y la publicación la hace una persona. `landing-producto-formula100k` y `vsl-expert-f100k` no están instaladas. Toda pieza de marketing cumple las reglas 1 y 4 (sin cifras, precios ni promesas inventadas).
