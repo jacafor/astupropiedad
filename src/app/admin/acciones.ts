@@ -18,7 +18,7 @@ import {
   esquemaPropiedad,
   leerFormulario,
 } from "@/lib/catalogo/esquema";
-import { FotoInvalida, procesarFoto, reordenar } from "@/lib/catalogo/fotos";
+import { esPermutacion, FotoInvalida, procesarFoto, reordenar } from "@/lib/catalogo/fotos";
 import { ETIQUETA_CACHE_PROPIEDADES } from "@/data/inventario";
 import { BUCKET_FOTOS, leerConfigSupabase } from "@/lib/supabase/config";
 import { clienteConSesion } from "@/lib/supabase/servidor";
@@ -270,6 +270,27 @@ export async function moverFoto(id: string, fotoId: string, direccion: Direccion
   }
   actualizarSitio();
   return { ok: true, mensaje: direccion === "portada" ? "Nueva portada guardada." : "Orden guardado." };
+}
+
+/** Orden completo de una vez (arrastrar y soltar). Rechaza la lista si las fotos cambiaron mientras tanto. */
+export async function ordenarFotos(id: string, ids: string[]): Promise<ResultadoAccion> {
+  const sesion = await requerirAdmin();
+  if (!esUuid(id) || !Array.isArray(ids) || !ids.every((x) => typeof x === "string" && esUuid(x))) {
+    return { ok: false, mensaje: "Opción no válida." };
+  }
+  const p = await cargar(sesion, id);
+  const actual = p.fotos.map((f) => f.id);
+  if (!esPermutacion(actual, ids)) {
+    return { ok: false, mensaje: "Las fotos cambiaron mientras ordenabas. Recarga la página e inténtalo de nuevo." };
+  }
+  if (actual.every((x, i) => x === ids[i])) return { ok: true, mensaje: "El orden no cambió." };
+  const { error } = await sesion.supabase.rpc("ordenar_fotos", { p_propiedad: id, p_ids: ids });
+  if (error) {
+    registrar("ordenar fotos", error);
+    return { ok: false, mensaje: ERROR_GENERICO };
+  }
+  actualizarSitio();
+  return { ok: true, mensaje: ids[0] !== actual[0] ? "Orden guardado. La primera foto es la nueva portada." : "Orden guardado." };
 }
 
 export async function quitarFoto(id: string, fotoId: string): Promise<ResultadoAccion> {

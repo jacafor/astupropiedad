@@ -52,15 +52,23 @@ const ingresar = async (page: Page) => {
   await expect(page.getByRole("heading", { level: 1, name: "Propiedades" })).toBeVisible();
 };
 
-const subirFoto = async (page: Page, alt: string, color: { r: number; g: number; b: number }) => {
-  await page.getByLabel("Archivo (JPG, PNG o WebP)").setInputFiles({
-    name: "foto-prueba.jpg",
-    mimeType: "image/jpeg",
-    buffer: await fotoDePrueba(color),
-  });
-  await page.getByLabel("Descripción de la foto", { exact: true }).fill(alt);
-  await page.getByRole("checkbox", { name: /no muestra teléfonos/ }).check();
-  await page.getByRole("button", { name: "Subir foto" }).click();
+const AZUL = { r: 1, g: 72, b: 152 };
+const VERDE = { r: 124, g: 192, b: 75 };
+
+/** Arrastra la foto `desde` (0 = portada) hasta el lugar de la foto `hasta`, desde su asa. */
+const arrastrarFoto = async (page: Page, desde: number, hasta: number) => {
+  // Las dos asas tienen que estar en pantalla: el ratón no agarra lo que queda fuera de la ventana.
+  await page.getByRole("list", { name: "Fotos de la propiedad, en orden" }).evaluate((el) => el.scrollIntoView({ block: "start" }));
+  const asas = page.getByTitle("Arrastra para cambiar el orden");
+  await expect(asas.nth(desde)).toBeInViewport();
+  await expect(asas.nth(hasta)).toBeInViewport();
+  const origen = await asas.nth(desde).boundingBox();
+  const destino = await asas.nth(hasta).boundingBox();
+  if (!origen || !destino) throw new Error("No se ven las asas para arrastrar");
+  await page.mouse.move(origen.x + origen.width / 2, origen.y + origen.height / 2);
+  await page.mouse.down();
+  await page.mouse.move(destino.x + destino.width / 2, destino.y - 20, { steps: 20 });
+  await page.mouse.up();
 };
 
 test.describe("flujo completo contra el Supabase de pruebas", () => {
@@ -102,14 +110,39 @@ test.describe("flujo completo contra el Supabase de pruebas", () => {
     await expect(page.getByText("Paso 2 de 2")).toBeVisible();
     await expect(page.getByRole("button", { name: "Publicar" })).toBeDisabled();
 
-    // Fotos: la primera es la portada; la segunda pasa a portada.
-    await subirFoto(page, "Foto azul de prueba", { r: 1, g: 72, b: 152 });
-    await expect(page.getByText("Foto subida. Es la portada")).toBeVisible();
-    await subirFoto(page, "Foto verde de prueba", { r: 124, g: 192, b: 75 });
-    await expect(page.getByText("Foto subida al final")).toBeVisible();
+    // Fotos: dos a la vez. Sin descripción no se sube ninguna; con ella, suben las dos y la primera es la portada.
+    await page.getByLabel(/Elige o arrastra aquí tus fotos/).setInputFiles([
+      { name: "azul.jpg", mimeType: "image/jpeg", buffer: await fotoDePrueba(AZUL) },
+      { name: "verde.jpg", mimeType: "image/jpeg", buffer: await fotoDePrueba(VERDE) },
+    ]);
+    await page.getByRole("button", { name: "Subir 2 fotos" }).click();
+    await expect(page.getByText("Revisa los campos marcados.")).toBeVisible();
+    await expect(page.getByText("Fotos (0)")).toBeVisible();
+    await page.getByLabel("Descripción de la foto nueva 1").fill("Foto azul de prueba");
+    await page.getByLabel("Descripción de la foto nueva 2").fill("Foto verde de prueba");
+    await page.getByRole("checkbox", { name: /ninguna foto muestra teléfonos/ }).check();
+    await page.getByRole("button", { name: "Subir 2 fotos" }).click();
+    await expect(page.getByText("2 fotos subidas al final de la galería. La primera es la portada.")).toBeVisible();
+    await expect(page.getByLabel("Descripción de la foto 1")).toHaveValue("Foto azul de prueba");
+    await expect(page.getByLabel("Descripción de la foto 2")).toHaveValue("Foto verde de prueba");
+
+    // Ordenar arrastrando: la verde pasa a portada y el orden queda guardado al recargar.
+    await arrastrarFoto(page, 1, 0);
+    await expect(page.getByText("Orden guardado. La primera foto es la nueva portada.")).toBeVisible();
+    await page.reload();
+    await expect(page.getByLabel("Descripción de la foto 1")).toHaveValue("Foto verde de prueba");
+    // Con botones (teclado) se puede igual: la azul vuelve a ser la portada.
     await page.getByRole("button", { name: "Hacer portada" }).click();
     await expect(page.getByText("Nueva portada guardada.")).toBeVisible();
-    await expect(page.getByLabel("Descripción de la foto 1")).toHaveValue("Foto verde de prueba");
+    await expect(page.getByLabel("Descripción de la foto 1")).toHaveValue("Foto azul de prueba");
+
+    // La galería y la zona de carga caben a 390 px (capturas en test-results/ para revisar a ojo).
+    await page.getByRole("heading", { name: /^Fotos/ }).scrollIntoViewIfNeeded();
+    await page.screenshot({ path: "test-results/admin-fotos-1280.png", fullPage: true });
+    await page.setViewportSize({ width: 390, height: 844 });
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
+    await page.screenshot({ path: "test-results/admin-fotos-390.png", fullPage: true });
+    await page.setViewportSize({ width: 1280, height: 800 });
 
     // Publicar → aparece en el catálogo y su ficha responde.
     await page.getByRole("button", { name: "Publicar" }).click();

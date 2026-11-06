@@ -1,13 +1,13 @@
 "use client";
 
-import { startTransition, useActionState, useId, useRef, useState, useTransition } from "react";
+import { useId, useRef, useState, useTransition } from "react";
 import Image from "next/image";
-import { ArrowDown, ArrowUp, Star, Trash2, Upload } from "lucide-react";
-import { actualizarAlt, moverFoto, quitarFoto, subirFoto } from "@/app/admin/acciones";
-import type { DireccionFoto, ResultadoAccion, ResultadoFoto } from "@/lib/admin/tipos";
-import { LADO_MAXIMO_FOTO, MAX_BYTES_FOTO, TIPOS_FOTO } from "@/lib/catalogo/esquema";
-import { FotoIlegible, reducirSiPesa } from "@/lib/catalogo/reducir";
+import { Reorder, useDragControls } from "framer-motion";
+import { ArrowDown, ArrowUp, GripVertical, Star, Trash2 } from "lucide-react";
+import { actualizarAlt, moverFoto, ordenarFotos, quitarFoto } from "@/app/admin/acciones";
+import type { DireccionFoto, ResultadoAccion } from "@/lib/admin/tipos";
 import type { FotoAdmin } from "@/lib/catalogo/mapeo";
+import SubirFotos from "./SubirFotos";
 import { Aviso, estilos } from "./ui";
 
 type Props = { id: string; fotos: FotoAdmin[] };
@@ -56,44 +56,122 @@ const AltFoto = ({ id, foto, numero }: { id: string; foto: FotoAdmin; numero: nu
   );
 };
 
+type ItemProps = {
+  id: string;
+  foto: FotoAdmin;
+  indice: number;
+  total: number;
+  pendiente: boolean;
+  alSoltar: () => void;
+  mover: (fotoId: string, direccion: DireccionFoto) => void;
+  quitar: (foto: FotoAdmin, numero: number) => void;
+};
+
 /**
- * Subir, describir, ordenar y quitar fotos. La primera es la portada. El orden se cambia con
- * botones (funciona con teclado y lector de pantalla; no hay arrastrar y soltar).
+ * Una foto de la galería. Se arrastra desde el asa (ratón o dedo); con teclado y lector de pantalla
+ * se ordena con los botones de flecha y "Hacer portada", que hacen lo mismo.
+ */
+const ItemFoto = ({ id, foto: f, indice: i, total, pendiente, alSoltar, mover, quitar }: ItemProps) => {
+  const controles = useDragControls();
+  return (
+    <Reorder.Item
+      as="li"
+      value={f}
+      dragListener={false}
+      dragControls={controles}
+      onDragEnd={alSoltar}
+      className="relative grid gap-4 sm:grid-cols-[auto_10rem_1fr] rounded-2xl border border-gray-200 bg-white p-4"
+    >
+      <div
+        aria-hidden="true"
+        onPointerDown={(e) => {
+          e.preventDefault();
+          controles.start(e);
+        }}
+        style={{ touchAction: "none" }}
+        title="Arrastra para cambiar el orden"
+        className="hidden sm:flex items-center justify-center w-8 -ml-1 rounded-lg text-gray-500 hover:text-primary hover:bg-light cursor-grab active:cursor-grabbing"
+      >
+        <GripVertical className="w-6 h-6" />
+      </div>
+      <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-gray-100">
+        <Image src={f.url} alt="" fill sizes="(min-width: 640px) 160px, 100vw" className="object-cover pointer-events-none" draggable={false} />
+        <span className={`${estilos.insignia} absolute top-2 left-2 ${i === 0 ? "bg-primary text-white" : "bg-white/90 text-dark"}`}>
+          {i === 0 ? "Portada" : `Foto ${i + 1}`}
+        </span>
+        {/* En celular el asa va sobre la foto, a la derecha, para no robar ancho al texto. */}
+        <div
+          aria-hidden="true"
+          onPointerDown={(e) => {
+            e.preventDefault();
+            controles.start(e);
+          }}
+          style={{ touchAction: "none" }}
+          className="sm:hidden absolute top-2 right-2 flex items-center justify-center w-11 h-11 rounded-full bg-white/90 text-dark shadow cursor-grab"
+        >
+          <GripVertical className="w-6 h-6" />
+        </div>
+      </div>
+      <div className="space-y-3 min-w-0">
+        <AltFoto id={id} foto={f} numero={i + 1} />
+        <div className="flex flex-wrap gap-2">
+          <button
+            type="button"
+            disabled={pendiente || i === 0}
+            onClick={() => mover(f.id, "arriba")}
+            className={estilos.botonSecundario}
+            aria-label={`Subir la foto ${i + 1}`}
+          >
+            <ArrowUp className="w-4 h-4" aria-hidden="true" />
+          </button>
+          <button
+            type="button"
+            disabled={pendiente || i === total - 1}
+            onClick={() => mover(f.id, "abajo")}
+            className={estilos.botonSecundario}
+            aria-label={`Bajar la foto ${i + 1}`}
+          >
+            <ArrowDown className="w-4 h-4" aria-hidden="true" />
+          </button>
+          {i > 0 && (
+            <button type="button" disabled={pendiente} onClick={() => mover(f.id, "portada")} className={estilos.botonSecundario}>
+              <Star className="w-4 h-4" aria-hidden="true" />
+              Hacer portada
+            </button>
+          )}
+          <button type="button" disabled={pendiente} onClick={() => quitar(f, i + 1)} className={estilos.botonPeligro}>
+            <Trash2 className="w-4 h-4" aria-hidden="true" />
+            Quitar<span className="sr-only"> la foto {i + 1}</span>
+          </button>
+        </div>
+      </div>
+    </Reorder.Item>
+  );
+};
+
+/**
+ * Subir (varias a la vez), describir, ordenar y quitar fotos. La primera es la portada. El orden se
+ * cambia arrastrando o con botones; al soltar se guarda el orden completo.
  */
 const GestorFotos = ({ id, fotos }: Props) => {
-  const campo = useId();
-  const formRef = useRef<HTMLFormElement>(null);
-  const [errorLocal, setErrorLocal] = useState<string | null>(null);
-  const [reduciendo, setReduciendo] = useState(false);
-  const [resultado, enviar, subiendo] = useActionState<ResultadoFoto | null, FormData>(async (previo, fd) => {
-    const r = await subirFoto(id, previo, fd);
-    // Solo se vacía el formulario si la foto se guardó: si falla, lo elegido y escrito sigue ahí.
-    if (r.ok) formRef.current?.reset();
-    return r;
-  }, null);
   const [accion, setAccion] = useState<ResultadoAccion | null>(null);
   const [pendiente, iniciar] = useTransition();
-  const errores = resultado?.errores ?? {};
 
-  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const fd = new FormData(e.currentTarget);
-    const archivo = fd.get("foto");
-    setErrorLocal(null);
-    // Las fotos de celular de más de 4 MB se reducen aquí (Vercel no acepta envíos mayores);
-    // el servidor repite todas las comprobaciones.
-    if (archivo instanceof File && archivo.size > MAX_BYTES_FOTO) {
-      setReduciendo(true);
-      try {
-        fd.set("foto", await reducirSiPesa(archivo, MAX_BYTES_FOTO, LADO_MAXIMO_FOTO));
-      } catch (error) {
-        setErrorLocal(error instanceof FotoIlegible ? error.message : "No se pudo reducir la foto. Redúcela antes de subirla.");
-        return;
-      } finally {
-        setReduciendo(false);
-      }
-    }
-    startTransition(() => enviar(fd));
+  // Orden local mientras se arrastra. Si el servidor manda otras fotos u otro orden, se toma ese.
+  const firma = fotos.map((f) => f.id).join(",");
+  const [local, setLocal] = useState({ firma, orden: fotos });
+  if (local.firma !== firma) setLocal({ firma, orden: fotos });
+  const orden = local.firma === firma ? local.orden : fotos;
+  // Último orden arrastrado, con la firma del orden del servidor sobre el que se hizo.
+  const arrastrado = useRef<{ firma: string; ids: string[] } | null>(null);
+
+  const alSoltar = () => {
+    const ultimo = arrastrado.current;
+    arrastrado.current = null;
+    if (!ultimo || ultimo.firma !== firma) return;
+    const ids = ultimo.ids;
+    if (ids.join(",") === firma) return;
+    iniciar(async () => setAccion(await ordenarFotos(id, ids)));
   };
 
   const mover = (fotoId: string, direccion: DireccionFoto) =>
@@ -104,8 +182,6 @@ const GestorFotos = ({ id, fotos }: Props) => {
     iniciar(async () => setAccion(await quitarFoto(id, foto.id)));
   };
 
-  const errorFoto = errorLocal ?? errores.foto;
-
   return (
     <section aria-labelledby="fotos" className={`${estilos.tarjeta} p-6 sm:p-8 space-y-6`}>
       <div>
@@ -113,8 +189,9 @@ const GestorFotos = ({ id, fotos }: Props) => {
           Fotos <span className="font-sans text-base font-bold text-gray-600">({fotos.length})</span>
         </h2>
         <p className="text-gray-700 mt-1">
-          La primera es la portada. Se convierten a WebP y se les quitan los datos de ubicación. Usa fotos limpias: sin
-          teléfonos, precios, logos ni marcas de agua.
+          La primera es la portada. Ordénalas arrastrando el asa <GripVertical className="inline w-4 h-4 align-text-bottom" aria-label="(icono de seis puntos)" />{" "}
+          o con las flechas. Se convierten a WebP y se les quitan los datos de ubicación. Usa fotos limpias: sin teléfonos,
+          precios, logos ni marcas de agua.
         </p>
       </div>
 
@@ -125,127 +202,34 @@ const GestorFotos = ({ id, fotos }: Props) => {
           Aún no hay fotos. Sube la primera: será la portada.
         </p>
       ) : (
-        <ol className="grid gap-4">
-          {fotos.map((f, i) => (
-            <li key={f.id} className="grid gap-4 sm:grid-cols-[10rem_1fr] rounded-2xl border border-gray-200 p-4">
-              <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-gray-100">
-                <Image src={f.url} alt="" fill sizes="(min-width: 640px) 160px, 100vw" className="object-cover" />
-                {i === 0 && (
-                  <span className={`${estilos.insignia} absolute top-2 left-2 bg-primary text-white`}>Portada</span>
-                )}
-              </div>
-              <div className="space-y-3 min-w-0">
-                <AltFoto id={id} foto={f} numero={i + 1} />
-                <div className="flex flex-wrap gap-2">
-                  <button
-                    type="button"
-                    disabled={pendiente || i === 0}
-                    onClick={() => mover(f.id, "arriba")}
-                    className={estilos.botonSecundario}
-                    aria-label={`Subir la foto ${i + 1}`}
-                  >
-                    <ArrowUp className="w-4 h-4" aria-hidden="true" />
-                  </button>
-                  <button
-                    type="button"
-                    disabled={pendiente || i === fotos.length - 1}
-                    onClick={() => mover(f.id, "abajo")}
-                    className={estilos.botonSecundario}
-                    aria-label={`Bajar la foto ${i + 1}`}
-                  >
-                    <ArrowDown className="w-4 h-4" aria-hidden="true" />
-                  </button>
-                  {i > 0 && (
-                    <button type="button" disabled={pendiente} onClick={() => mover(f.id, "portada")} className={estilos.botonSecundario}>
-                      <Star className="w-4 h-4" aria-hidden="true" />
-                      Hacer portada
-                    </button>
-                  )}
-                  <button type="button" disabled={pendiente} onClick={() => quitar(f, i + 1)} className={estilos.botonPeligro}>
-                    <Trash2 className="w-4 h-4" aria-hidden="true" />
-                    Quitar<span className="sr-only"> la foto {i + 1}</span>
-                  </button>
-                </div>
-              </div>
-            </li>
+        <Reorder.Group
+          as="ol"
+          axis="y"
+          values={orden}
+          onReorder={(nuevo) => {
+            arrastrado.current = { firma, ids: nuevo.map((f) => f.id) };
+            setLocal({ firma, orden: nuevo });
+          }}
+          className={`grid gap-4 ${pendiente ? "opacity-80" : ""}`}
+          aria-label="Fotos de la propiedad, en orden"
+        >
+          {orden.map((f, i) => (
+            <ItemFoto
+              key={f.id}
+              id={id}
+              foto={f}
+              indice={i}
+              total={orden.length}
+              pendiente={pendiente}
+              alSoltar={alSoltar}
+              mover={mover}
+              quitar={quitar}
+            />
           ))}
-        </ol>
+        </Reorder.Group>
       )}
 
-      <form ref={formRef} onSubmit={onSubmit} noValidate className="rounded-2xl bg-light p-5 grid gap-5">
-        <h3 className="font-black text-dark">Subir una foto</h3>
-        {resultado && <Aviso ok={resultado.ok} mensaje={resultado.mensaje} />}
-        <div>
-          <label htmlFor={`${campo}-foto`} className={estilos.etiqueta}>
-            Archivo (JPG, PNG o WebP)
-          </label>
-          <p id={`${campo}-foto-ayuda`} className={estilos.ayuda}>
-            Puedes subirla tal como sale del celular: si pesa más de 4 MB, se reduce antes de enviarla.
-          </p>
-          <input
-            id={`${campo}-foto`}
-            name="foto"
-            type="file"
-            accept={TIPOS_FOTO.join(",")}
-            aria-invalid={errorFoto ? true : undefined}
-            aria-describedby={`${campo}-foto-ayuda${errorFoto ? ` ${campo}-foto-error` : ""}`}
-            className="block w-full text-base text-dark file:mr-4 file:min-h-11 file:rounded-sm file:border-0 file:bg-dark file:px-4 file:py-2 file:text-xs file:font-black file:uppercase file:tracking-widest file:text-white"
-          />
-          {errorFoto && (
-            <p id={`${campo}-foto-error`} className={estilos.error}>
-              {errorFoto}
-            </p>
-          )}
-        </div>
-        <div>
-          <label htmlFor={`${campo}-alt`} className={estilos.etiqueta}>
-            Descripción de la foto
-          </label>
-          <input
-            id={`${campo}-alt`}
-            name="alt"
-            maxLength={160}
-            placeholder="Ej. Sala con ventanal hacia el parque"
-            aria-invalid={errores.alt ? true : undefined}
-            aria-describedby={`${campo}-alt-ayuda${errores.alt ? ` ${campo}-alt-error` : ""}`}
-            className={`${estilos.campo} ${errores.alt ? estilos.campoError : estilos.campoNormal}`}
-          />
-          <p id={`${campo}-alt-ayuda`} className={estilos.ayuda}>
-            Qué se ve y dónde. La leen los lectores de pantalla y los buscadores.
-          </p>
-          {errores.alt && (
-            <p id={`${campo}-alt-error`} className={estilos.error}>
-              {errores.alt}
-            </p>
-          )}
-        </div>
-        <div>
-          <div className="flex items-start gap-3">
-            <input
-              id={`${campo}-limpia`}
-              name="limpia"
-              type="checkbox"
-              aria-invalid={errores.limpia ? true : undefined}
-              aria-describedby={errores.limpia ? `${campo}-limpia-error` : undefined}
-              className="mt-1 w-5 h-5 accent-primary"
-            />
-            <label htmlFor={`${campo}-limpia`} className="text-dark">
-              Confirmo que la foto no muestra teléfonos, precios, logos ni marcas de agua, y que tenemos derecho a usarla.
-            </label>
-          </div>
-          {errores.limpia && (
-            <p id={`${campo}-limpia-error`} className={estilos.error}>
-              {errores.limpia}
-            </p>
-          )}
-        </div>
-        <div>
-          <button type="submit" disabled={subiendo || reduciendo} className={estilos.botonPrincipal}>
-            <Upload className="w-4 h-4" aria-hidden="true" />
-            {reduciendo ? "Reduciendo la foto…" : subiendo ? "Subiendo y convirtiendo…" : "Subir foto"}
-          </button>
-        </div>
-      </form>
+      <SubirFotos id={id} hayFotos={fotos.length > 0} />
     </section>
   );
 };

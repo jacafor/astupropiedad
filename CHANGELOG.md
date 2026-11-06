@@ -2,6 +2,11 @@
 
 Registro de cambios por sesión de trabajo, reconstruido a partir de `git log` para las sesiones 00 a 11. Las sesiones siguen los prompts de [docs/prompts/](docs/prompts/README.md); el porqué de cada decisión está en [docs/DECISIONES.md](docs/DECISIONES.md). Fechas en formato AAAA-MM-DD.
 
+## 2026-11-05 · Fotos: varias a la vez y orden arrastrando
+- `/admin`: nueva zona de carga (`SubirFotos`) para elegir o arrastrar hasta 20 fotos juntas, con vista previa, descripción por foto y una sola casilla de "fotos limpias". Suben una por una ("Subiendo 2 de 5…"); si falta una descripción no sube ninguna; las que fallan quedan en la lista con su error.
+- Orden arrastrando el asa ⠿ (ratón o dedo; en celular, sobre la foto) con `Reorder` de framer-motion (ya instalado); al soltar se guarda el orden completo con la nueva acción `ordenarFotos`, que rechaza la lista si las fotos cambiaron. Las flechas y "Hacer portada" siguen para teclado y lector de pantalla. Cada foto muestra su número.
+- Verificado con `e2e/admin-con-supabase.ps1` contra Pruebas (con ventana): subida doble con validación, arrastre que cambia la portada y persiste al recargar, botones, 390 px sin desborde.
+
 ## 2026-11-05 · Consulta diaria a Supabase (cron de Vercel)
 - `/api/mantener-activo` + cron en `vercel.json` (todos los días, 8:00 de Lima): lectura mínima en el proyecto del sitio y en el de pruebas, para que el plan gratuito no los pause (P-16, D-32). Solo responde a Vercel (`CRON_SECRET`).
 - Variables nuevas en Vercel Production, con OK de jforero: `CRON_SECRET` (Secret, generado al azar en su terminal), `SUPABASE_PRUEBAS_URL` y `SUPABASE_PRUEBAS_PUBLISHABLE_KEY`.

@@ -42,6 +42,10 @@ export const procesarFoto = async (entrada: Buffer): Promise<{ datos: Buffer; an
   }
 };
 
+/** `nuevo` tiene exactamente las mismas fotos que `actual`, sin repetir ni faltar ninguna (solo cambia el orden). */
+export const esPermutacion = (actual: string[], nuevo: string[]): boolean =>
+  nuevo.length === actual.length && new Set(nuevo).size === nuevo.length && nuevo.every((id) => actual.includes(id));
+
 /** Nuevo orden de las fotos al mover una (la primera es la portada). Si no se puede mover, devuelve el mismo. */
 export const reordenar = (ids: string[], id: string, direccion: DireccionFoto): string[] => {
   const i = ids.indexOf(id);

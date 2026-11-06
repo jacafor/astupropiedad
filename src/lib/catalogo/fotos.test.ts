@@ -1,6 +1,6 @@
 import sharp from "sharp";
 import { describe, expect, it } from "vitest";
-import { FotoInvalida, LADO_MAXIMO, procesarFoto, reordenar } from "./fotos";
+import { esPermutacion, FotoInvalida, LADO_MAXIMO, procesarFoto, reordenar } from "./fotos";
 
 const imagen = (ancho: number, alto: number, formato: "jpeg" | "png" | "gif") =>
   sharp({ create: { width: ancho, height: alto, channels: 3, background: { r: 1, g: 72, b: 152 } } })
@@ -59,5 +59,17 @@ describe("reordenar", () => {
     expect(reordenar(ids, "a", "arriba")).toEqual(ids);
     expect(reordenar(ids, "c", "abajo")).toEqual(ids);
     expect(reordenar(ids, "z", "portada")).toEqual(ids);
+  });
+});
+
+describe("esPermutacion", () => {
+  it("acepta el mismo conjunto en otro orden", () => {
+    expect(esPermutacion(["a", "b", "c"], ["c", "a", "b"])).toBe(true);
+  });
+  it("rechaza fotos que faltan, sobran, se repiten o no existen", () => {
+    expect(esPermutacion(["a", "b", "c"], ["a", "b"])).toBe(false);
+    expect(esPermutacion(["a", "b"], ["a", "b", "c"])).toBe(false);
+    expect(esPermutacion(["a", "b", "c"], ["a", "a", "b"])).toBe(false);
+    expect(esPermutacion(["a", "b", "c"], ["a", "b", "x"])).toBe(false);
   });
 });
