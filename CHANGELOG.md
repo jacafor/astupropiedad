@@ -2,6 +2,11 @@
 
 Registro de cambios por sesión de trabajo, reconstruido a partir de `git log` para las sesiones 00 a 11. Las sesiones siguen los prompts de [docs/prompts/](docs/prompts/README.md); el porqué de cada decisión está en [docs/DECISIONES.md](docs/DECISIONES.md). Fechas en formato AAAA-MM-DD.
 
+## 2026-11-07 · Documentación: dominio de producción y uso de skills (D-35)
+- `AGENTS.md`, `CLAUDE.md`, `DESPLIEGUE.md` y los prompts dicen que producción es `https://web.astupropiedad.com` (D-34); D-14 deja de decir "sin dominio". Verificación de D-34 en producción anotada en `DECISIONES.md`.
+- `DESPLIEGUE.md` explica el límite del plan gratuito de Vercel (100 despliegues al día): el check falla sin culpa del código y cómo volver a disparar el preview.
+- La tabla "Qué skills usar aquí" se reorganiza en tres bloques (auditar y revisar, diseñar y construir, marketing), con rendimiento, contenido SEO, estudio de mercado y LinkedIn. Nuevo paso 5 del Protocolo de sesión: cargar la skill que corresponda antes de trabajar (D-35).
+
 ## 2026-11-06 · Dominio `web.astupropiedad.com` y redirección (sesión 5 del plan de arreglos)
 - Canonical, `robots`, sitemap, Open Graph y JSON-LD pasan a `https://web.astupropiedad.com` (valor por defecto de `SITE_URL`; no hizo falta tocar variables de Vercel). Cierra SEO-2, SEO-3 y SEO-6 de la auditoría de noviembre.
 - `next.config.ts`: `web-as-tupropiedad.vercel.app` redirige con 308 al subdominio, con ruta y parámetros; `/api/*` queda fuera para no romper el cron diario. Los previews no se redirigen.

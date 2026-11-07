@@ -80,7 +80,7 @@ Cada entrada lleva `estado`, `fecha` y `responsable` (quien debe validarla). Par
 
 ### D-14 · Push, pull request y merge al cerrar cada sesión (durante el desarrollo)
 - **Estado:** **Aceptada** · **Fecha:** 2026-10-05 (ampliada el mismo día para incluir el merge) · **Responsable:** jforero
-- **Decisión:** cada sesión termina con `push` de su rama, pull request hacia `main` y **merge automático por Claude**, sin que haya que pedirlo. Condiciones: `tsc`, lint y build locales pasan (lint sin empeorar) y el preview de Vercel está en *Ready*; si algo falla, no se fusiona y se avisa. Cada merge **despliega a producción** (solo en `*.vercel.app`; sin dominio). Vigente hasta que jforero declare terminado el desarrollo; entonces se revisa (y se puede reabrir la protección de `main`, ver P-12).
+- **Decisión:** cada sesión termina con `push` de su rama, pull request hacia `main` y **merge automático por Claude**, sin que haya que pedirlo. Condiciones: `tsc`, lint y build locales pasan (lint sin empeorar) y el preview de Vercel está en *Ready*; si algo falla, no se fusiona y se avisa. Cada merge **despliega a producción** (al principio solo en `*.vercel.app`; desde el 2026-11-06, en `web.astupropiedad.com`, D-34). Vigente hasta que jforero declare terminado el desarrollo; entonces se revisa (y se puede reabrir la protección de `main`, ver P-12).
 - **Consecuencias:** reemplaza la regla anterior "sin `push` salvo que se pida" de `AGENTS.md` y `docs/prompts/README.md`.
 
 ### D-15 · Contenido sin respaldo se quita, no se sustituye (sesión 02)
@@ -209,6 +209,12 @@ Cada entrada lleva `estado`, `fecha` y `responsable` (quien debe validarla). Par
 - **Decisión:** mientras `www.astupropiedad.com` siga sirviendo la web anterior, el sitio nuevo se presenta como `https://web.astupropiedad.com`: es el valor por defecto de `SITE_URL` en `src/lib/contact.ts` (canonical, `robots`, sitemap, Open Graph, JSON-LD) y `next.config.ts` redirige con **308** todo `web-as-tupropiedad.vercel.app` a ese dominio, conservando ruta y parámetros. YouTube pasa a `@AS-Tupropiedad` (dato de jforero; `@AS_Tupropiedad` daba 404).
 - **Decidido sin consultar:** cambiar el valor por defecto en el código en vez de crear `NEXT_PUBLIC_SITE_URL` en Vercel (no había ninguna; así no cambia la configuración de Vercel y los previews también lo usan); `/api/*` queda **fuera** de la redirección porque el cron diario (D-32) no sigue redirecciones; los previews (`*-git-*.vercel.app` y URLs por despliegue) no se redirigen.
 - **Siguiente paso (cuando se apague la web anterior):** apuntar `www.astupropiedad.com` (y el raíz) a Vercel, cambiar `SITE_URL` a `www` y redirigir `web.` → `www.` con 308. Revisar antes que `ventas@astupropiedad.com` no dependa de registros DNS que se pisen. En Supabase Auth, la *Site URL* debe seguir al dominio si algún día se envían correos de acceso.
+- **Verificado 2026-11-07:** `web-as-tupropiedad.vercel.app/` y sus rutas responden 308 → `web.astupropiedad.com` (200); canonical, `og:url`, `robots.txt` y sitemap del sitio publicado usan `web.astupropiedad.com`; `astupropiedad.com` sigue en 301 → `www` (web anterior).
+
+### D-35 · Usar las skills de la tabla de `AGENTS.md` cuando la tarea lo pida (2026-11-05)
+- **Estado:** **Aceptada** (jforero en chat: "instala todo lo sugerido en el proyecto y úsalas de ahora en adelante", 2026-11-05; "las necesito ejecutar cuando se necesiten", 2026-11-07) · **Fecha:** 2026-11-05 · **Responsable:** jforero
+- **Decisión:** la tabla "Qué skills usar aquí" de `AGENTS.md` dice qué skill corresponde a cada tarea (auditar, diseñar y construir, marketing). Toda sesión la consulta al empezar (paso 5 del Protocolo) y carga la skill antes de trabajar. Las skills no mandan sobre las reglas del proyecto.
+- **Decidido sin consultar:** no se "instaló" nada: las skills ya estaban disponibles en la cuenta; se registraron en la documentación. Quedan fuera por no existir: `landing-producto-formula100k` y `vsl-expert-f100k`. No hay conector para configurar campañas en Meta Ads ni Google Ads (se entrega todo listo para cargar).
 
 ## Pendientes (necesitan respuesta del cliente o del equipo)
 
