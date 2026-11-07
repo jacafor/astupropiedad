@@ -1,7 +1,7 @@
 # Flujo completo de /admin contra Supabase PRUEBAS (nunca el proyecto del sitio). Ver docs/PRUEBAS.md.
 # Uso, desde la raíz del repo:  powershell -ExecutionPolicy Bypass -File e2e\admin-con-supabase.ps1
 # Pide la clave oculta; solo vive en las variables de este proceso y se borra al terminar.
-# También pide (opcional) la clave SECRETA de PRUEBAS para probar /admin/usuarios (D-35): cópiala de
+# También pide (opcional) la clave SECRETA de PRUEBAS para probar /admin/usuarios (D-36): cópiala de
 # Supabase → proyecto "AS Tupropiedad Pruebas" → Project Settings → API Keys → Secret keys. Si la
 # dejas vacía, esa prueba se salta.
 # Se ve el navegador (--headed): no lo toques mientras corre.

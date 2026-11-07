@@ -24,7 +24,7 @@ Reglas que no se negocian:
 
 Entorno de medición:
 - Rendimiento y funcionalidad: build de producción local (npm run build y npx next start -p 3055). Apágalo al terminar.
-- Producción real (https://web-as-tupropiedad.vercel.app): solo lectura con curl y el navegador (cabeceras, robots, sitemap, tiempos de respuesta).
+- Producción real (https://web.astupropiedad.com; web-as-tupropiedad.vercel.app redirige allí con 308, D-34): solo lectura con curl y el navegador (cabeceras, robots, sitemap, tiempos de respuesta).
 - Anchos: 390 px y 1280 px en todas las rutas. Prueba también modo oscuro del sistema y prefers-reduced-motion.
 
 Áreas, skill de cada una y qué revisar (carga cada skill con la herramienta Skill antes de usarla):

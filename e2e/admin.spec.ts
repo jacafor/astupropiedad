@@ -10,7 +10,7 @@ import { expect, test, type Page } from "@playwright/test";
  *    exportar E2E_SUPABASE_URL, E2E_SUPABASE_PUBLISHABLE_KEY, E2E_ADMIN_CORREO y E2E_ADMIN_CLAVE
  *    (ver docs/PRUEBAS.md). Sin ellas, esa parte se salta. Datos ficticios; las propiedades de
  *    prueba quedan archivadas en el proyecto de pruebas.
- * 3. Usuarios y roles (D-35): además E2E_SUPABASE_SECRET_KEY (clave secreta de PRUEBAS). Crea una
+ * 3. Usuarios y roles (D-36): además E2E_SUPABASE_SECRET_KEY (clave secreta de PRUEBAS). Crea una
  *    editora @example.com y al final le quita el acceso (no queda la cuenta).
  */
 
@@ -189,7 +189,7 @@ test.describe("flujo completo contra el Supabase de pruebas", () => {
   });
 });
 
-// ───────────────────────── Usuarios y roles (D-35, proyecto de pruebas) ─────────────────────────
+// ───────────────────────── Usuarios y roles (D-36, proyecto de pruebas) ─────────────────────────
 
 const conClaveSecreta = conSupabase && Boolean(process.env.E2E_SUPABASE_SECRET_KEY);
 

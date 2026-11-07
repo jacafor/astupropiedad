@@ -10,7 +10,7 @@ export const metadata: Metadata = { title: "Usuarios" };
 
 const fecha = new Intl.DateTimeFormat("es-PE", { dateStyle: "medium", timeStyle: "short", timeZone: "America/Lima" });
 
-/** Gestión de accesos al administrador (D-35). Solo rol administrador; un editor vuelve a /admin. */
+/** Gestión de accesos al administrador (D-36). Solo rol administrador; un editor vuelve a /admin. */
 const Page = async () => {
   const sesion = await requerirAdministrador();
   const [usuarios, registro] = await Promise.all([listarUsuarios(sesion), leerRegistro(sesion)]);

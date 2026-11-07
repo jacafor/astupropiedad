@@ -23,7 +23,7 @@ import { clienteServicio } from "@/lib/supabase/servicio";
 import { clientePublico } from "@/lib/supabase/servidor";
 
 /**
- * Gestión de usuarios de /admin (D-35). Cada acción: `requerirAdministrador()` → comprueba las
+ * Gestión de usuarios de /admin (D-36). Cada acción: `requerirAdministrador()` → comprueba las
  * reglas (roles.ts) con la lista actual → cambia la cuenta con la clave secreta → deja registro.
  * Los registros de consola llevan solo códigos de error: nunca correos ni contraseñas.
  */

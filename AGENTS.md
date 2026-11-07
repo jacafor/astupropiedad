@@ -18,7 +18,7 @@ Sitio web de **AS Tupropiedad**, boutique inmobiliaria de Lima (Perú): compra, 
 | UI | React 19.2, **Tailwind CSS 4** (`@theme inline` en `globals.css`, sin `tailwind.config`), `framer-motion`, `lucide-react` |
 | Lenguaje | TypeScript estricto (`strict: true`), alias `@/*` → `src/*` |
 | Fuentes | `next/font`: Geist (sans), Playfair Display (serif), Geist Mono (sin uso) |
-| Hosting | Vercel (proyecto `web-as-tupropiedad`, framework `nextjs`). Conectado a GitHub (2026-10-05): **un `push` a `main` despliega a producción**; las demás ramas generan *previews*. Trabaja en ramas; flujo y rollback en [docs/DESPLIEGUE.md](docs/DESPLIEGUE.md). |
+| Hosting | Vercel (proyecto `web-as-tupropiedad`, framework `nextjs`). Conectado a GitHub (2026-10-05): **un `push` a `main` despliega a producción**; las demás ramas generan *previews*. **Dominio de producción: `https://web.astupropiedad.com`** (D-34; `web-as-tupropiedad.vercel.app` redirige allí con 308, salvo `/api/*`; `www`/raíz siguen con la web anterior, P-12). Plan gratuito: **máximo 100 despliegues al día** (ver DESPLIEGUE). Trabaja en ramas; flujo y rollback en [docs/DESPLIEGUE.md](docs/DESPLIEGUE.md). |
 | Calidad | ESLint 9 flat config (`eslint-config-next`), `tsc --noEmit`, **Vitest** (`src/lib/finance.test.ts`), **Playwright** (`e2e/`, contra el build de producción) y **CI** en GitHub Actions (`.github/workflows/ci.yml`: typecheck, lint, test, build). Detalle: [docs/PRUEBAS.md](docs/PRUEBAS.md). |
 | Entorno | Node ≥ 20.9 (probado con 24), npm. Windows + PowerShell/Git Bash. **Repositorio git** (rama `main`, iniciado el 2026-10-05; remoto `origin` = https://github.com/jacafor/astupropiedad, ver D-12). |
 
@@ -44,7 +44,7 @@ npm run test:e2e       # playwright: hace su propio build y prueba en Chromium (
 src/app/                  rutas (App Router): /, /nosotros, /servicios, /propiedades, /vender,
                           /simulador-inversion, /simulador-hipotecario
 src/data/properties.ts      tipos y etiquetas de propiedades (seguro en cliente); inventario.ts = lectura desde Supabase (servidor, D-30)
-src/app/admin/            administrador de propiedades (/admin, Supabase Auth; acciones.ts) y de usuarios y roles (/admin/usuarios, /admin/cuenta; acciones-usuarios.ts, D-35); src/lib/admin/ = sesión, roles y lecturas; src/lib/catalogo/ = esquema zod, mapeo y fotos
+src/app/admin/            administrador de propiedades (/admin, Supabase Auth; acciones.ts) y de usuarios y roles (/admin/usuarios, /admin/cuenta; acciones-usuarios.ts, D-36); src/lib/admin/ = sesión, roles y lecturas; src/lib/catalogo/ = esquema zod, mapeo y fotos
 supabase/migrations/      esquema, RLS y bucket del catálogo (se aplica en el proyecto de Supabase)
 src/components/           PropertyCard, Navbar, Hero, Footer, FloatingWhatsApp, LeadForm (formulario de leads), simuladores.tsx (campo numérico, moneda, aviso), BannerCookies + Analitica (consentimiento y GA4/Meta), GHLForm (sin uso) y secciones de la home
 src/lib/finance.ts        matemática financiera pura (cuota, cronograma, cap rate…) con pruebas en finance.test.ts; formato.ts = presentación
@@ -85,6 +85,7 @@ Mapa completo de rutas, componentes y deuda técnica: [docs/ARQUITECTURA.md](doc
 2. Comprueba las dependencias del prompt (`docs/prompts/README.md`): si exige una sesión previa que el `ROADMAP` no muestra hecha, dilo y espera instrucciones.
 3. Si algo del prompt contradice estas reglas o `DECISIONES.md`, **avisa antes de actuar**; las reglas mandan sobre el prompt, salvo que el usuario diga expresamente lo contrario.
 4. Una sesión = un objetivo. Lo demás que veas, anótalo en `docs/ROADMAP.md` y sigue.
+5. **Skills:** busca la tarea en ["Qué skills usar aquí"](#qué-skills-usar-aquí) y **carga la skill indicada con la herramienta Skill antes de empezar** (no la imites de memoria). Si la tarea abarca varias filas, cárgalas en el orden de la tabla. Si una skill no está disponible en la sesión o su conector pide autorización, dilo y sigue con las reglas de esta guía (D-35).
 
 **Mientras trabajas:** un cambio verificable por vez; sin datos de negocio inventados; contacto solo desde `src/lib/contact.ts`; sin dependencias nuevas, borrados, despliegues ni envío de datos reales sin permiso (lista "Pregunta primero").
 
@@ -133,7 +134,7 @@ Mapa completo de rutas, componentes y deuda técnica: [docs/ARQUITECTURA.md](doc
 ## Reglas del proyecto (obligatorias)
 
 1. **No inventes datos de negocio.** Cifras, precios, teléfonos, nombres del equipo, tasas, alianzas bancarias y fichas de propiedades deben venir del cliente. Si falta el dato, usa un marcador honesto ("Próximamente") y avisa; nunca un número verosímil.
-2. **Una sola fuente de verdad para el contacto.** Teléfono, WhatsApp, correo, dominio y dirección viven en `src/lib/contact.ts` y se importan; no los repitas en componentes. Valores confirmados el 2026-10-04: WhatsApp 51977588905, correo ventas@astupropiedad.com, dominio astupropiedad.com. Si ves otro teléfono o dominio (imágenes, `GHLForm`, el HTML anterior archivado), es residuo viejo. Nunca uses `51900000000`.
+2. **Una sola fuente de verdad para el contacto.** Teléfono, WhatsApp, correo, dominio y dirección viven en `src/lib/contact.ts` y se importan; no los repitas en componentes. Valores confirmados el 2026-10-04: WhatsApp 51977588905, correo ventas@astupropiedad.com, dominio astupropiedad.com (durante la migración el sitio nuevo vive en `web.astupropiedad.com`, vía `SITE_URL`, D-34). Si ves otro teléfono o dominio (imágenes, `GHLForm`, el HTML anterior archivado), es residuo viejo. Nunca uses `51900000000`.
 3. **Ningún botón sin destino.** Todo CTA enlaza a una ruta real, abre WhatsApp o dispara una acción verificada. Si aún no hay backend, enlaza a WhatsApp con mensaje prellenado. Cero texto interno de desarrollo visible (`(GHL)`, `Replace with real number`).
 4. **Sin afirmaciones absolutas** ("garantizado", "100% seguro") ni cifras de mercado sin respaldo — ver política en [docs/NEGOCIO-Y-CONTENIDO.md](docs/NEGOCIO-Y-CONTENIDO.md).
 5. **Los cálculos financieros no van dentro de componentes.** Extraer a `src/lib/finance.ts` (funciones puras, con pruebas) y validar entradas: nunca mostrar `$∞`, `NaN` ni negativos.
@@ -161,27 +162,52 @@ npm run typecheck && npm run lint && npm test && npm run test:e2e && npm run bui
 
 ## Qué skills usar aquí
 
-| Tarea | Skill / comando |
+**Obligatorio (D-35, jforero 2026-11-05):** cuando la tarea coincide con una fila, se carga la skill con la herramienta Skill **antes** de trabajar; un comando de barra (`/…`) se ejecuta igual. Las skills ayudan, pero **no mandan sobre esta guía**: si una propone algo contra las reglas 1-9, el diseño o "Pregunta primero" (p. ej. instalar dependencias, inventar cifras, publicar), gana esta guía y se avisa.
+
+### Auditar y revisar
+
+| Cuándo | Skill / comando |
 |---|---|
-| Auditoría SEO completa / técnica / on-page | `searchfit-seo:seo-audit`, `searchfit-seo:technical-seo`, `searchfit-seo:on-page-seo`, `/auditar` |
+| Auditoría completa (diseño, UX, accesibilidad, rendimiento, SEO, seguridad) | Prompt [18](docs/prompts/18-auditoria-completa.md): combina las filas de abajo. Última: [AUDITORIA-COMPLETA-2026-11](docs/auditorias/AUDITORIA-COMPLETA-2026-11.md) |
+| Auditoría rápida de una ruta o área | `/auditar` |
+| UX del producto (estados, feedback, móvil, leads) | `auditor-ux-app-f100k` |
+| Crítica de diseño visual / UI | `design:design-critique`, `ux-elevacion-formula100k` (`/audit-ux`, sin aplicar cambios) |
+| Textos de interfaz (tono "tú", claridad) | `design:ux-copy` |
+| Accesibilidad (WCAG 2.1 AA) | `design:accessibility-review` |
+| Rendimiento (Core Web Vitals, peso, render) | `searchfit-seo:technical-seo` + medición en el navegador integrado con el build de producción |
+| SEO completo / on-page | `searchfit-seo:seo-audit`, `searchfit-seo:on-page-seo` |
 | Datos estructurados | `searchfit-seo:schema-markup` |
 | Enlaces rotos / enlazado interno | `searchfit-seo:broken-links`, `searchfit-seo:internal-linking` |
-| Accesibilidad | `design:accessibility-review` |
-| UX del producto (estados, feedback, móvil, leads) | `auditor-ux-app-f100k` |
-| Pulido visual / animación (stack Next + Tailwind) | `ux-elevacion-formula100k` |
-| Seguridad de cambios | `security-review` |
-| Nueva página / revisión previa a desplegar / prueba móvil | `/nueva-pagina`, `/revisar-deploy`, `/probar-movil` |
-| Crítica de diseño / textos de interfaz / sistema de diseño | `design:design-critique`, `design:ux-copy`, `design:design-system` |
-| Revisión de código (errores, rendimiento, seguridad de un diff) | `engineering:code-review`, `security-review` |
-| Diseño en Figma o de Figma a código | `figma:figma-generate-design`, `figma:figma-design-to-code` (requiere autorizar Figma) |
-| Referencia visual de un sitio de la competencia | `brightdata-plugin:design-mirror` (inspiración, nunca copia) |
+| Seguridad de los cambios de una rama | `security-review` |
+| Revisión de código (errores, rendimiento, seguridad de un diff) | `engineering:code-review` |
+| Antes de fusionar a `main` / prueba móvil | `/revisar-deploy`, `/probar-movil` |
+
+### Diseñar y construir
+
+| Cuándo | Skill / comando |
+|---|---|
+| Página nueva | `/nueva-pagina` |
 | Landing de campaña dentro del sitio | `/nueva-pagina` + `ux-elevacion-formula100k` (`/landing`) |
-| Lead magnet / miniapp (p. ej. a partir de los simuladores) | `cazador-lead-magnets-f100k`, `constructor-miniapps-f100k` |
-| Plan de campaña (objetivos, embudo, canales, calendario) | `marketing:campaign-plan` |
-| Contenido orgánico para redes | `small-business:social-content-engine`, `small-business:content-strategy`, `marketing:content-creation`, `marketing:draft-content`, `small-business:marketing-monday` |
+| Pulido visual, animación, microinteracciones (stack Next + Tailwind) | `ux-elevacion-formula100k` |
+| Sistema de diseño (tokens, componentes) | `design:design-system` (respetando `docs/DISENO.md`) |
+| Diseño en Figma o de Figma a código | `figma:figma-generate-design`, `figma:figma-design-to-code` (requiere autorizar Figma con `/mcp`) |
+| Referencia visual de un sitio de la competencia | `brightdata-plugin:design-mirror` (inspiración, nunca copia) |
+| Lead magnet / miniapp (p. ej. a partir de los simuladores) | `cazador-lead-magnets-f100k` (qué hacer), `constructor-miniapps-f100k` (construirla) |
+
+### Marketing: redes, anuncios y campañas
+
+| Cuándo | Skill / comando |
+|---|---|
+| Plan de campaña (objetivos, embudo, canales, calendario, presupuesto) | `marketing:campaign-plan` |
+| Contenido orgánico para redes (calendario y piezas) | `small-business:social-content-engine`, `small-business:content-strategy`, `small-business:marketing-monday` |
+| Redactar publicaciones y textos | `marketing:content-creation`, `marketing:draft-content` |
+| Publicaciones en LinkedIn | `anthropic-skills:linkedin-publicar-contenido` |
 | Voz y estilo de marca | `marketing:brand-review`, `small-business:brand-style` |
-| Material y estructura de anuncios (copies, variantes, públicos, presupuesto, UTMs) | `small-business:ad-manager`, `canva:bulk-create`, `canva:resize-for-social-media`, `anthropic-skills:canvas-design` |
+| Material y estructura de anuncios (copies, variantes, públicos, presupuesto, UTMs) | `small-business:ad-manager` |
+| Piezas gráficas y variantes por formato | `canva:bulk-create`, `canva:resize-for-social-media`, `small-business:canva-creator`, `anthropic-skills:canvas-design` |
+| Contenido SEO (blog, guías) | `searchfit-seo:create-topic`, `searchfit-seo:content-brief`, `searchfit-seo:create-content` |
+| Estudio de mercado inmobiliario / competencia | `anthropic-skills:urbania-market-study`, `brightdata-plugin:competitive-intel` |
 | Secuencias de seguimiento de leads (encaja con GHL) | `marketing:email-sequence` |
 | Informes de resultados | `anthropic-skills:reportes-meta-ads`, `marketing:performance-report` |
 
-**Límites de marketing:** no hay conector que configure campañas en Meta Ads o Google Ads; se entrega todo listo para cargar y la publicación la hace una persona. `landing-producto-formula100k` y `vsl-expert-f100k` no están instaladas. Toda pieza de marketing cumple las reglas 1 y 4 (sin cifras, precios ni promesas inventadas).
+**Límites:** no hay conector que configure campañas en Meta Ads o Google Ads: se entrega todo listo para cargar (estructura, públicos, copies, creatividades, UTMs, presupuesto) y la publicación la hace una persona. `landing-producto-formula100k` y `vsl-expert-f100k` no están instaladas (buscadas el 2026-11-05). Nada se publica en redes ni en anuncios sin OK de jforero. Toda pieza de marketing cumple las reglas 1 y 4: sin cifras, precios, tasas ni promesas inventadas; contacto solo desde `src/lib/contact.ts` y enlaces al dominio de producción.

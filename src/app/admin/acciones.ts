@@ -25,7 +25,7 @@ import { clienteConSesion } from "@/lib/supabase/servidor";
 
 /**
  * Acciones de /admin (sesión 16). Cada una vuelve a comprobar el acceso (`requerirAdmin`: rol
- * administrador o editor, D-35) y la RLS de Supabase repite el control en la base. Las de usuarios
+ * administrador o editor, D-36) y la RLS de Supabase repite el control en la base. Las de usuarios
  * están en acciones-usuarios.ts. Los registros llevan solo códigos de error: nunca
  * correos, contraseñas ni datos de propiedades.
  */

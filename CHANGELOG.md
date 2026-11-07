@@ -2,12 +2,17 @@
 
 Registro de cambios por sesión de trabajo, reconstruido a partir de `git log` para las sesiones 00 a 11. Las sesiones siguen los prompts de [docs/prompts/](docs/prompts/README.md); el porqué de cada decisión está en [docs/DECISIONES.md](docs/DECISIONES.md). Fechas en formato AAAA-MM-DD.
 
-## 2026-11-07 · Usuarios y roles del administrador (D-35)
+## 2026-11-07 · Usuarios y roles del administrador (D-36)
 - Nueva **`/admin/usuarios`** (solo administradores): dar acceso por correo con rol **administrador** o **editor**, contraseña temporal que se ve una sola vez, cambiar rol, suspender/reactivar, contraseña temporal nueva y quitar acceso, con último ingreso, estado y **registro de cambios**. Nadie se cambia a sí mismo y nunca queda el sitio sin administrador activo.
 - Nueva **`/admin/cuenta`** ("Mi cuenta"): cambiar la propia contraseña; quien entra con una temporal tiene que cambiarla antes de seguir. La pantalla de ingreso avisa si el acceso está suspendido.
 - El rol **editor** carga, edita, publica y archiva propiedades, pero no ve "Usuarios" (ni entrando por la URL).
 - Migración `20261107000000_roles_y_usuarios.sql` (rol, suspensión, contraseña temporal, `es_administrador()`, `listar_usuarios()`, disparador del último administrador, tabla `auditoria_usuarios`), aplicada y probada por SQL en **Pruebas**; falta el proyecto del sitio.
 - Variable nueva **`SUPABASE_SECRET_KEY`** (solo servidor; sin ella la lista se ve pero no se puede cambiar nada). Pruebas unitarias de las reglas de roles (`roles.test.ts`) y e2e de punta a punta con una editora de prueba (necesita `E2E_SUPABASE_SECRET_KEY`; el script la pide oculta).
+
+## 2026-11-07 · Documentación: dominio de producción y uso de skills (D-35)
+- `AGENTS.md`, `CLAUDE.md`, `DESPLIEGUE.md` y los prompts dicen que producción es `https://web.astupropiedad.com` (D-34); D-14 deja de decir "sin dominio". Verificación de D-34 en producción anotada en `DECISIONES.md`.
+- `DESPLIEGUE.md` explica el límite del plan gratuito de Vercel (100 despliegues al día): el check falla sin culpa del código y cómo volver a disparar el preview.
+- La tabla "Qué skills usar aquí" se reorganiza en tres bloques (auditar y revisar, diseñar y construir, marketing), con rendimiento, contenido SEO, estudio de mercado y LinkedIn. Nuevo paso 5 del Protocolo de sesión: cargar la skill que corresponda antes de trabajar (D-35).
 
 ## 2026-11-06 · Dominio `web.astupropiedad.com` y redirección (sesión 5 del plan de arreglos)
 - Canonical, `robots`, sitemap, Open Graph y JSON-LD pasan a `https://web.astupropiedad.com` (valor por defecto de `SITE_URL`; no hizo falta tocar variables de Vercel). Cierra SEO-2, SEO-3 y SEO-6 de la auditoría de noviembre.

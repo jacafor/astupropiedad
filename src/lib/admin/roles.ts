@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 /**
- * Roles y reglas de los usuarios del administrador (D-35). Funciones puras, sin Supabase: las usan
+ * Roles y reglas de los usuarios del administrador (D-36). Funciones puras, sin Supabase: las usan
  * las páginas, las Server Actions y las pruebas (roles.test.ts). La base repite las reglas que
  * importan (RLS, `es_admin()`, `es_administrador()` y el disparador del último administrador).
  */

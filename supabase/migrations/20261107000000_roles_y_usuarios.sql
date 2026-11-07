@@ -1,4 +1,4 @@
--- Usuarios y roles del administrador (D-35, 2026-11-07). Reemplaza el alta a mano por SQL.
+-- Usuarios y roles del administrador (D-36, 2026-11-07). Reemplaza el alta a mano por SQL.
 --
 -- `administradores` pasa a ser la lista de personas con acceso a /admin, cada una con un rol:
 --   administrador → catálogo + gestión de usuarios (/admin/usuarios)

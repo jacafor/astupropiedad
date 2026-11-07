@@ -2,7 +2,7 @@ import { createClient } from "@supabase/supabase-js";
 import type { ConfigSupabase } from "./config";
 
 /**
- * Clave secreta de Supabase (D-35): SOLO para gestionar cuentas de /admin/usuarios (crear,
+ * Clave secreta de Supabase (D-36): SOLO para gestionar cuentas de /admin/usuarios (crear,
  * contraseña temporal, suspender, quitar acceso) y escribir su registro. Salta la RLS, así que:
  * - vive solo en el servidor (`SUPABASE_SECRET_KEY`, nunca con prefijo NEXT_PUBLIC_);
  * - solo se usa después de `requerirAdministrador()` (src/lib/admin/sesion.ts);

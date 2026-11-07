@@ -93,7 +93,7 @@ Las propiedades viven en Supabase y se editan en **`/admin`** (no se enlaza desd
 
 Destacada = aparece en la home (las 2 más recientes). Sin las variables de Supabase el catálogo muestra su estado vacío honesto (D-20) y, solo en desarrollo, la ficha `EJEMPLO`.
 
-#### Dar acceso a alguien al administrador (desde `/admin/usuarios`, D-35)
+#### Dar acceso a alguien al administrador (desde `/admin/usuarios`, D-36)
 
 Lo hace un **administrador** (hoy jforero); no hace falta tocar Supabase ni SQL.
 
