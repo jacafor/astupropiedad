@@ -1,6 +1,6 @@
 # SEO técnico
 
-Estado tras la sesión 04 (2026-10-05). Dominio base: `SITE_URL` de `src/lib/contact.ts` (`https://astupropiedad.com`, sobrescribible con `NEXT_PUBLIC_SITE_URL`). **Ojo:** el dominio aún no está asignado a este despliegue (ver P-12); mientras tanto el canonical, el sitemap y las imágenes OG apuntan a `astupropiedad.com`, no a la URL `*.vercel.app`.
+Estado tras la sesión 04 (2026-10-05). Dominio base: `SITE_URL` de `src/lib/contact.ts` (`https://web.astupropiedad.com` desde el 2026-11-06, D-34; sobrescribible con `NEXT_PUBLIC_SITE_URL`). Canonical, sitemap, `robots` e imágenes OG apuntan a ese subdominio, y `web-as-tupropiedad.vercel.app` redirige allí con 308. Cuando `www` deje de servir la web anterior, se cambia a `www` (P-12).
 
 ## Cómo está armado
 
@@ -49,12 +49,12 @@ Las fichas `/propiedades/[slug]` (sesión 07) generan su `generateMetadata` (tí
 
 ## Cómo probar el enlace compartido (no verificable sin dominio público)
 
-Los metadatos están comprobados en el HTML, pero cómo se ve la tarjeta en WhatsApp/Instagram depende de que sus rastreadores lean una URL pública. Las URLs absolutas dentro del HTML apuntan a `astupropiedad.com`, así que la imagen solo aparecerá cuando ese dominio responda.
+Los metadatos están comprobados en el HTML, pero cómo se ve la tarjeta en WhatsApp/Instagram depende de que sus rastreadores lean una URL pública. Las URLs absolutas dentro del HTML apuntan a `web.astupropiedad.com` (D-34), que ya responde con el sitio nuevo.
 
 1. Con el dominio asignado, pega la URL en un chat contigo mismo en WhatsApp y espera unos segundos: debe verse el título, la descripción y la imagen con el logo.
 2. WhatsApp guarda la tarjeta en caché: si cambias algo, prueba con la URL + `?v=2`. Para Facebook/Instagram: [Sharing Debugger](https://developers.facebook.com/tools/debug/). Para ver la imagen sola: abre `/opengraph-image`.
 3. Datos estructurados: [Rich Results Test](https://search.google.com/test/rich-results) o [Schema Markup Validator](https://validator.schema.org/).
-4. Con dominio: enviar `https://astupropiedad.com/sitemap.xml` en Search Console.
+4. Con dominio: enviar `https://web.astupropiedad.com/sitemap.xml` en Search Console (y el de `www` cuando se migre).
 
 ## Pendiente (no hecho en esta sesión)
 

@@ -16,7 +16,7 @@ Qué es AS Tupropiedad según el propio sitio, cómo debe sonar, qué se puede a
 |---|---|---|
 | WhatsApp / teléfono | `+51 940 428 352` (navbar) · `+51 900 000 000` (footer y botón flotante, **relleno**) · `940 215 027` (banner y el HTML anterior, ya archivado) · `994 741 703` y `977 588 905` (letreros dentro de flyers) | **Pendiente.** Elegir uno oficial |
 | Correo | `contacto@astupropiedad.pe` | Confirmar que existe y se lee |
-| Dominio | `astupropiedad.com` (flyers, banner) · `astupropiedad.pe` (correo y el HTML anterior, ya archivado) · `as-tupropiedad.pe` (enlace GHL) | **Pendiente.** Elegir dominio canónico y redirigir los demás |
+| Dominio | `astupropiedad.com` (flyers, banner) · `astupropiedad.pe` (correo y el HTML anterior, ya archivado) · `as-tupropiedad.pe` (enlace GHL) | **Durante la migración (D-34):** canónico `web.astupropiedad.com`; `*.vercel.app` redirige allí. Falta pasar `www` al sitio nuevo y redirigir los demás |
 | Dirección | **Calle San Juan 211, La Molina** (jforero, 2026-10-29) | **Decidida (D-28).** En `contact.ts`; no es el domicilio fiscal |
 | Horario de atención | **Lunes a sábado, 8:00 a 20:00 h** (jforero, 2026-10-29) | **Decidido (D-28).** En `contact.ts` y en el pie |
 | Razón social / RUC | no existen | Necesario en el footer |

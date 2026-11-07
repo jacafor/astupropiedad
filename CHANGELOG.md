@@ -2,6 +2,11 @@
 
 Registro de cambios por sesión de trabajo, reconstruido a partir de `git log` para las sesiones 00 a 11. Las sesiones siguen los prompts de [docs/prompts/](docs/prompts/README.md); el porqué de cada decisión está en [docs/DECISIONES.md](docs/DECISIONES.md). Fechas en formato AAAA-MM-DD.
 
+## 2026-11-06 · Dominio `web.astupropiedad.com` y redirección (sesión 5 del plan de arreglos)
+- Canonical, `robots`, sitemap, Open Graph y JSON-LD pasan a `https://web.astupropiedad.com` (valor por defecto de `SITE_URL`; no hizo falta tocar variables de Vercel). Cierra SEO-2, SEO-3 y SEO-6 de la auditoría de noviembre.
+- `next.config.ts`: `web-as-tupropiedad.vercel.app` redirige con 308 al subdominio, con ruta y parámetros; `/api/*` queda fuera para no romper el cron diario. Los previews no se redirigen.
+- YouTube corregido a `@AS-Tupropiedad` (el anterior daba 404). Decisión D-34; P-12 sigue abierto para pasar `www` al sitio nuevo.
+
 ## 2026-11-05 · Auditoría completa (sesión 18, solo diagnóstico)
 - Nuevo informe [AUDITORIA-COMPLETA-2026-11.md](docs/auditorias/AUDITORIA-COMPLETA-2026-11.md): UX 64, diseño y textos 66, accesibilidad 78, rendimiento 70, SEO 62, seguridad 80 (global 70), con hallazgos con evidencia, estado de cada hallazgo de octubre y plan de arreglos en 12 sesiones. No se cambió código.
 - Lo más grave: una ficha "[Prueba]" publicada en producción e indexable; canonical e imagen OG apuntando a un dominio que hoy da 404; el hero ilegible a 390 px; el formulario público sin límite de envíos; promesas sin respaldo en `/vender`.

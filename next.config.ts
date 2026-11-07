@@ -33,6 +33,16 @@ const nextConfig: NextConfig = {
       bodySizeLimit: "4.5mb",
     },
   },
+  // D-34: la URL de producción de Vercel manda al dominio propio (308), para que Google y quien
+  // comparta un enlace vean una sola dirección. Los previews tienen otro host y no se tocan.
+  // /api queda fuera: el cron diario (/api/mantener-activo) no sigue redirecciones.
+  async redirects() {
+    const has = [{ type: "host" as const, value: "web-as-tupropiedad.vercel.app" }];
+    return [
+      { source: "/", has, destination: "https://web.astupropiedad.com/", permanent: true },
+      { source: "/:path((?!api/).*)", has, destination: "https://web.astupropiedad.com/:path", permanent: true },
+    ];
+  },
   async headers() {
     return [
       { source: "/:path*", headers: cabecerasSeguridad },
