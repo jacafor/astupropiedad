@@ -8,6 +8,9 @@
 
 - **Empieza y cierra cada sesión con el "Protocolo de sesión" de `AGENTS.md`** (qué leer, qué actualizar, qué reportar). El resumen de diseño de `AGENTS.md` y `docs/DISENO.md` mandan en cualquier cambio visual.
 
+- **Usa las skills cuando la tarea lo pida (D-35):** antes de auditar, diseñar, construir una página o landing, o hacer marketing (redes, anuncios, campañas), busca la fila en "Qué skills usar aquí" de `AGENTS.md` y carga esa skill con la herramienta Skill. Si no está disponible o su conector pide autorización (`/mcp`), dilo.
+- **Producción es `https://web.astupropiedad.com`** (D-34); `web-as-tupropiedad.vercel.app` redirige allí. Si el check de Vercel falla por "rate limited", es el límite diario del plan gratuito, no el código (ver `docs/DESPLIEGUE.md`).
+
 - **Responde en español.** Código, commits y documentación también en español (los identificadores existentes mezclan inglés; no los renombres sin motivo).
 - **Lee antes de escribir:** para cualquier API de Next consulta `node_modules/next/dist/docs/` (regla de `AGENTS.md`). Para decisiones de negocio o contenido, `docs/NEGOCIO-Y-CONTENIDO.md`.
 - **Documentación bajo demanda** (no se carga sola; ábrela cuando la tarea lo pida): `docs/ARQUITECTURA.md`, `docs/DISENO.md`, `docs/NEGOCIO-Y-CONTENIDO.md`, `docs/INTEGRACIONES.md`, `docs/ROADMAP.md`, `docs/DECISIONES.md`, `docs/prompts/` (un prompt por sesión), y los informes `docs/auditorias/AUDITORIA-COMPLETA-2026-11.md` (la última: seis áreas, notas y plan de arreglos por sesiones) / `docs/auditorias/AUDITORIA-WEB.md` / `docs/auditorias/AUDITORIA-FUNCIONALIDADES.md` (octubre, foto histórica).

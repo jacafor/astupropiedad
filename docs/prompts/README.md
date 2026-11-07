@@ -65,6 +65,8 @@ Fuente de verdad: `AGENTS.md` (reglas 1-9, Protocolo de sesión, Diseño — res
 - No desplegar. Apagar cualquier servidor que se levante. Borrar los archivos temporales propios (p. ej. `tsconfig.tsbuildinfo`).
 - Cambios visuales: tokens de marca y patrones de `docs/DISENO.md`; sin hex sueltos; contraste, texto ≥ 12 px y foco visible.
 - Al terminar: marcar la casilla en `docs/ROADMAP.md` (con fecha), anotar decisiones en `docs/DECISIONES.md` y actualizar el `.md` que corresponda.
+- Skills: antes de trabajar, cargar la skill que corresponda según "Qué skills usar aquí" de `AGENTS.md` (D-35).
+- Producción es `https://web.astupropiedad.com` (D-34); allí se verifica tras cada merge.
 - Un commit por tarea, en español. Durante el desarrollo: al cerrar, `push` de la rama de la sesión, pull request hacia `main` y merge si todo pasa y el preview está en *Ready* (D-14). Ver `AGENTS.md` → Protocolo de sesión.
 
 ## Mantener los prompts al día
