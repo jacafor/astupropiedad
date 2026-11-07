@@ -229,7 +229,7 @@ Cada entrada lleva `estado`, `fecha` y `responsable` (quien debe validarla). Par
   - Contraseña propia: mínimo 10 caracteres, máximo 72 (límite de bcrypt); fuera del primer ingreso pide la contraseña actual.
   - **Ajustes de la revisión del PR #34** (`20261107010000_roles_ajustes_revision.sql`): `clave_cambiada()` solo apaga la marca si la contraseña de Auth ya no es la temporal (se guarda su hash al marcar), para que nadie la apague llamando a la RPC sin cambiarla; y el disparador del último administrador toma un candado por transacción, para que dos administradores no se suspendan o degraden mutuamente a la vez.
   - El aviso del asesor de Supabase "función SECURITY DEFINER ejecutable con sesión" para `es_admin`, `es_administrador`, `listar_usuarios` y `clave_cambiada` es **intencional**: solo responden sobre quien llama o exigen ser administrador.
-- **Pendiente:** aplicar la migración en el proyecto del **sitio** (`qjspixcfvnrqhugtuadz`) con OK de jforero (en Pruebas aplicada y verificada el 2026-11-07); que jforero cargue `SUPABASE_SECRET_KEY` en Vercel (Production → secreta del sitio; Preview → secreta de Pruebas, tipo *Sensitive*) y corra `e2e/admin-con-supabase.ps1` con la secreta de Pruebas.
+- **Pendiente:** ~~aplicar las migraciones en el proyecto del **sitio**~~ (2026-11-07, con OK de jforero en chat: "Sí, aplícalas"; verificado por SQL y con el asesor; en Pruebas, el mismo día); que jforero cargue `SUPABASE_SECRET_KEY` en Vercel (Production → secreta del sitio; Preview → secreta de Pruebas, tipo *Sensitive*) y corra `e2e/admin-con-supabase.ps1` con la secreta de Pruebas.
 
 ## Pendientes (necesitan respuesta del cliente o del equipo)
 

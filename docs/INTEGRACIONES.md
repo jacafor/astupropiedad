@@ -216,7 +216,7 @@ Al añadir un enlace de WhatsApp, ponle `data-origen`; al añadir un evento, dec
 
 ## 6. Supabase: catálogo de propiedades y `/admin` (D-30, sesión 16)
 
-**Qué hace:** guarda las propiedades (`propiedades`), sus fotos (`fotos_propiedad` + bucket público `propiedades`) y quién administra (`administradores`). Esquema y permisos en `supabase/migrations/` (aplicar **en orden**: `20261031000000_catalogo_propiedades.sql`, `20261104000000_ajustes_asesor.sql`, `20261107000000_roles_y_usuarios.sql` y `20261107010000_roles_ajustes_revision.sql`; las dos últimas, de D-36, está aplicada en **Pruebas** desde el 2026-11-07 y **pendiente en el sitio** hasta el OK de jforero).
+**Qué hace:** guarda las propiedades (`propiedades`), sus fotos (`fotos_propiedad` + bucket público `propiedades`) y quién administra (`administradores`). Esquema y permisos en `supabase/migrations/` (aplicar **en orden**: `20261031000000_catalogo_propiedades.sql`, `20261104000000_ajustes_asesor.sql`, `20261107000000_roles_y_usuarios.sql` y `20261107010000_roles_ajustes_revision.sql`; las dos últimas, de D-36, están aplicadas en **Pruebas** y en el **sitio** desde el 2026-11-07 (sitio con OK de jforero)).
 
 **Proyectos (cuenta de Supabase propia de AS Tupropiedad, organización "AS Tupropiedad", plan gratuito, región us-east-1):**
 

@@ -6,7 +6,7 @@ Registro de cambios por sesión de trabajo, reconstruido a partir de `git log` p
 - Nueva **`/admin/usuarios`** (solo administradores): dar acceso por correo con rol **administrador** o **editor**, contraseña temporal que se ve una sola vez, cambiar rol, suspender/reactivar, contraseña temporal nueva y quitar acceso, con último ingreso, estado y **registro de cambios**. Nadie se cambia a sí mismo y nunca queda el sitio sin administrador activo.
 - Nueva **`/admin/cuenta`** ("Mi cuenta"): cambiar la propia contraseña; quien entra con una temporal tiene que cambiarla antes de seguir. La pantalla de ingreso avisa si el acceso está suspendido.
 - El rol **editor** carga, edita, publica y archiva propiedades, pero no ve "Usuarios" (ni entrando por la URL).
-- Migración `20261107000000_roles_y_usuarios.sql` (rol, suspensión, contraseña temporal, `es_administrador()`, `listar_usuarios()`, disparador del último administrador, tabla `auditoria_usuarios`), aplicada y probada por SQL en **Pruebas**; falta el proyecto del sitio.
+- Migración `20261107000000_roles_y_usuarios.sql` (rol, suspensión, contraseña temporal, `es_administrador()`, `listar_usuarios()`, disparador del último administrador, tabla `auditoria_usuarios`), aplicada y probada por SQL en **Pruebas** y en el proyecto del **sitio** (con OK de jforero), junto con `20261107010000_roles_ajustes_revision.sql` (ajustes de la revisión del PR).
 - Variable nueva **`SUPABASE_SECRET_KEY`** (solo servidor; sin ella la lista se ve pero no se puede cambiar nada). Pruebas unitarias de las reglas de roles (`roles.test.ts`) y e2e de punta a punta con una editora de prueba (necesita `E2E_SUPABASE_SECRET_KEY`; el script la pide oculta).
 
 ## 2026-11-07 · Documentación: dominio de producción y uso de skills (D-35)
