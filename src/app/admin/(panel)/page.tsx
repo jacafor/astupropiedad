@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ImageOff, Pencil, Plus, Search } from "lucide-react";
 import { InsigniaEstado, InsigniaVisibilidad } from "@/components/admin/Insignias";
-import { estilos } from "@/components/admin/ui";
+import { Aviso, estilos } from "@/components/admin/ui";
 import { ETIQUETA_OPERACION, ETIQUETA_TIPO } from "@/data/properties";
 import { requerirAdmin } from "@/lib/admin/sesion";
 import { hayFiltros, leerFiltros, listarParaAdmin } from "@/lib/catalogo/admin";
@@ -18,7 +18,9 @@ const fecha = new Intl.DateTimeFormat("es-PE", { dateStyle: "medium", timeStyle:
 
 const Page = async ({ searchParams }: Props) => {
   const sesion = await requerirAdmin();
-  const filtros = leerFiltros(await searchParams);
+  const parametros = await searchParams;
+  const filtros = leerFiltros(parametros);
+  const bienvenida = parametros.bienvenida === "1";
   const propiedades = await listarParaAdmin(sesion, filtros);
   const filtrando = hayFiltros(filtros);
 
@@ -28,6 +30,12 @@ const Page = async ({ searchParams }: Props) => {
         <span className={estilos.eyebrow}>Inventario</span>
         <h1 className={estilos.titulo}>Propiedades</h1>
       </div>
+
+      {bienvenida && (
+        <div className="mb-8">
+          <Aviso ok mensaje="Contraseña guardada. Desde ahora entras con ella; ya puedes cargar y editar propiedades." />
+        </div>
+      )}
 
       <form role="search" aria-label="Filtrar propiedades" className={`${estilos.tarjeta} p-5 mb-8 grid gap-4 md:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr_auto] lg:items-end`}>
         <div>

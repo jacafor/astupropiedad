@@ -19,6 +19,8 @@ export const estilos = {
     "inline-flex items-center justify-center gap-2 min-h-11 bg-white text-dark border border-gray-300 px-5 py-3 font-black uppercase text-xs tracking-widest rounded-sm hover:border-primary hover:text-primary transition-all disabled:opacity-70 disabled:cursor-wait",
   botonPeligro:
     "inline-flex items-center justify-center gap-2 min-h-11 bg-white text-red-700 border border-red-600 px-5 py-3 font-black uppercase text-xs tracking-widest rounded-sm hover:bg-red-700 hover:text-white transition-all disabled:opacity-70 disabled:cursor-wait",
+  enlaceCabecera:
+    "inline-flex items-center gap-2 min-h-11 px-3 text-xs font-black uppercase tracking-widest text-gray-300 hover:text-white",
   tarjeta: "bg-white rounded-3xl border border-gray-100 shadow-sm",
   eyebrow: "text-secondary-dark font-black tracking-widest uppercase text-xs mb-2 block",
   titulo: "text-3xl md:text-4xl font-serif font-black text-dark",

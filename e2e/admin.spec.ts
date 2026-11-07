@@ -10,6 +10,8 @@ import { expect, test, type Page } from "@playwright/test";
  *    exportar E2E_SUPABASE_URL, E2E_SUPABASE_PUBLISHABLE_KEY, E2E_ADMIN_CORREO y E2E_ADMIN_CLAVE
  *    (ver docs/PRUEBAS.md). Sin ellas, esa parte se salta. Datos ficticios; las propiedades de
  *    prueba quedan archivadas en el proyecto de pruebas.
+ * 3. Usuarios y roles (D-35): además E2E_SUPABASE_SECRET_KEY (clave secreta de PRUEBAS). Crea una
+ *    editora @example.com y al final le quita el acceso (no queda la cuenta).
  */
 
 const conSupabase = Boolean(process.env.E2E_SUPABASE_URL && process.env.E2E_ADMIN_CORREO && process.env.E2E_ADMIN_CLAVE);
@@ -27,6 +29,13 @@ test.describe("sin Supabase configurado", () => {
     await expect(page.getByRole("navigation", { name: "Principal" })).toHaveCount(0);
     await expect(page.locator("footer")).toHaveCount(0);
     await expect(page.getByRole("complementary", { name: "Contacto por WhatsApp" })).toHaveCount(0);
+  });
+
+  test("/admin/usuarios y /admin/cuenta también llevan al ingreso", async ({ page }) => {
+    for (const ruta of ["/admin/usuarios", "/admin/cuenta"]) {
+      await page.goto(ruta);
+      await expect(page).toHaveURL(/\/admin\/ingresar$/);
+    }
   });
 
   test("el catálogo muestra su estado vacío honesto", async ({ page }) => {
@@ -177,6 +186,154 @@ test.describe("flujo completo contra el Supabase de pruebas", () => {
     await page.getByRole("button", { name: "Archivar" }).click();
     await expect(page.getByText("Archivada: ya no aparece en el sitio.")).toBeVisible();
     expect((await page.request.get(`/propiedades/${slug}`)).status()).toBe(404);
+  });
+});
+
+// ───────────────────────── Usuarios y roles (D-35, proyecto de pruebas) ─────────────────────────
+
+const conClaveSecreta = conSupabase && Boolean(process.env.E2E_SUPABASE_SECRET_KEY);
+
+const ingresarCon = async (page: Page, correo: string, clave: string) => {
+  await page.goto("/admin/ingresar");
+  await page.getByLabel("Correo").fill(correo);
+  await page.getByLabel("Contraseña").fill(clave);
+  await page.getByRole("button", { name: "Ingresar" }).click();
+};
+
+const salir = async (page: Page) => {
+  await page.getByRole("button", { name: "Salir" }).click();
+  await expect(page).toHaveURL(/\/admin\/ingresar$/);
+};
+
+test.describe("usuarios y roles contra el Supabase de pruebas", () => {
+  test.skip(!conClaveSecreta, "Faltan las E2E_* de Supabase o E2E_SUPABASE_SECRET_KEY");
+
+  test("dar acceso a una editora, que cambia su clave y carga propiedades sin ver usuarios; suspender, reactivar y quitar", async ({
+    page,
+  }) => {
+    test.setTimeout(180_000);
+    const marca = Date.now();
+    const correo = `e2e-editora-${marca}@example.com`;
+    const fila = () => page.getByRole("listitem").filter({ has: page.getByRole("heading", { name: correo }) });
+
+    // 1. El administrador ve "Usuarios" y su propia fila no tiene acciones.
+    await ingresar(page);
+    await page.getByRole("link", { name: "Usuarios" }).click();
+    await expect(page.getByRole("heading", { level: 1, name: "Usuarios" })).toBeVisible();
+    await expect(page.getByRole("listitem").filter({ hasText: "Es tu cuenta" })).toHaveCount(1);
+
+    // 2. Correo inválido: error en el campo y no se pierde lo escrito.
+    await page.getByLabel("Correo de la persona").fill("no-es-correo");
+    await page.getByRole("button", { name: "Crear acceso" }).click();
+    await expect(page.getByText("Escribe un correo válido.")).toBeVisible();
+    await expect(page.getByLabel("Correo de la persona")).toHaveValue("no-es-correo");
+
+    // 3. Crear la editora: la contraseña temporal se ve una vez.
+    await page.getByLabel("Correo de la persona").fill(correo);
+    await page.getByRole("radio", { name: /Editor/ }).check();
+    await page.getByRole("button", { name: "Crear acceso" }).click();
+    await expect(page.getByText(`Listo: ${correo} ya tiene acceso como editor.`)).toBeVisible();
+    const temporal = (await page.getByLabel("Contraseña temporal").first().textContent())?.trim() ?? "";
+    expect(temporal).toMatch(/^\w{4}-\w{4}-\w{4}$/);
+    await page.getByRole("button", { name: "Ya la entregué o la copié" }).click();
+    await expect(page.getByLabel("Contraseña temporal")).toHaveCount(0);
+    await expect(fila()).toContainText("Editor");
+    await expect(fila()).toContainText("Contraseña temporal");
+    await expect(fila()).toContainText("Último ingreso: nunca");
+
+    // El mismo correo no se puede dar dos veces.
+    await page.getByLabel("Correo de la persona").fill(correo);
+    await page.getByRole("button", { name: "Crear acceso" }).click();
+    await expect(page.getByText("Esa persona ya tiene acceso")).toBeVisible();
+
+    // La pantalla de usuarios cabe a 390 px.
+    await page.setViewportSize({ width: 390, height: 844 });
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
+    await page.screenshot({ path: "test-results/admin-usuarios-390.png", fullPage: true });
+    await page.setViewportSize({ width: 1280, height: 800 });
+    await page.screenshot({ path: "test-results/admin-usuarios-1280.png", fullPage: true });
+    await salir(page);
+
+    // 4. La editora entra con la temporal: primero elige su contraseña (no puede saltárselo).
+    await ingresarCon(page, correo, temporal);
+    await expect(page).toHaveURL(/\/admin\/cuenta$/);
+    await expect(page.getByRole("heading", { level: 1, name: "Elige tu contraseña" })).toBeVisible();
+    await page.goto("/admin");
+    await expect(page).toHaveURL(/\/admin\/cuenta$/);
+    const propia = `frase de prueba ${marca}`;
+    await page.getByLabel("Contraseña nueva", { exact: true }).fill(propia);
+    await page.getByLabel("Repite la contraseña nueva").fill(`${propia}x`);
+    await page.getByRole("button", { name: "Guardar contraseña" }).click();
+    await expect(page.getByText("Las dos contraseñas no coinciden.")).toBeVisible();
+    await page.getByLabel("Contraseña nueva", { exact: true }).fill(propia);
+    await page.getByLabel("Repite la contraseña nueva").fill(propia);
+    await page.getByRole("button", { name: "Guardar contraseña" }).click();
+    await expect(page.getByRole("heading", { level: 1, name: "Propiedades" })).toBeVisible();
+    await expect(page.getByText("Contraseña guardada.")).toBeVisible();
+
+    // 5. Como editora: no ve "Usuarios" (ni entrando por la URL) y sí carga una propiedad.
+    await expect(page.getByRole("navigation", { name: "Administrador" }).getByRole("link", { name: "Usuarios" })).toHaveCount(0);
+    await page.goto("/admin/usuarios");
+    await expect(page).toHaveURL(/\/admin$/);
+    const codigo = `E2E-ED-${marca}`;
+    await page.getByRole("link", { name: "Nueva propiedad" }).first().click();
+    await page.getByLabel("Código de referencia").fill(codigo);
+    await page.getByLabel("Título").fill(`Prueba editora ${codigo}`);
+    await page.getByLabel("Distrito").fill("Distrito Ficticio");
+    await page.getByLabel("Precio (USD)").fill("100000");
+    await page.getByLabel("Área construida (m²)").fill("80");
+    await page.getByLabel("Dormitorios").fill("2");
+    await page.getByLabel("Baños").fill("1");
+    await page.getByLabel("Cocheras").fill("0");
+    await page.getByLabel("Descripción", { exact: true }).fill("Propiedad ficticia creada por la editora de las pruebas.");
+    await page.getByRole("button", { name: "Crear propiedad" }).click();
+    await expect(page.getByText("Paso 2 de 2")).toBeVisible();
+    page.once("dialog", (d) => d.accept());
+    await page.getByRole("button", { name: "Archivar" }).click();
+    await expect(page.getByText("Archivada: ya no aparece en el sitio.")).toBeVisible();
+    await salir(page);
+
+    // 6. El administrador la pasa a administradora y de vuelta, y la suspende.
+    await ingresar(page);
+    await page.goto("/admin/usuarios");
+    await expect(fila()).toContainText("Activo");
+    await expect(fila()).not.toContainText("Último ingreso: nunca");
+    await fila().getByRole("button", { name: "Hacer administrador" }).click();
+    await expect(fila().getByText(`${correo} ahora es administrador.`)).toBeVisible();
+    await fila().getByRole("button", { name: "Hacer editor" }).click();
+    await expect(fila().getByText(`${correo} ahora es editor.`)).toBeVisible();
+    page.once("dialog", (d) => d.accept());
+    await fila().getByRole("button", { name: "Suspender" }).click();
+    await expect(fila().getByText("quedó suspendido")).toBeVisible();
+    await salir(page);
+
+    // 7. Suspendida no entra.
+    await ingresarCon(page, correo, propia);
+    await expect(page.locator("form").getByRole("alert")).toContainText("suspendid");
+
+    // 8. Reactivar, contraseña temporal nueva y quitar el acceso; todo queda en el registro.
+    await ingresar(page);
+    await page.goto("/admin/usuarios");
+    await fila().getByRole("button", { name: "Reactivar" }).click();
+    await expect(fila().getByText("puede volver a entrar")).toBeVisible();
+    page.once("dialog", (d) => d.accept());
+    await fila().getByRole("button", { name: "Nueva contraseña" }).click();
+    await expect(fila().getByLabel("Contraseña temporal")).toBeVisible();
+    await fila().getByRole("button", { name: "Ya la entregué o la copié" }).click();
+    page.once("dialog", (d) => d.accept());
+    await fila().getByRole("button", { name: "Quitar acceso" }).click();
+    await expect(page.getByText(`${correo} ya no tiene acceso`)).toBeVisible();
+    await page.reload();
+    await expect(fila()).toHaveCount(0);
+    const registro = page.getByRole("region", { name: "Registro de cambios" });
+    for (const texto of ["dio acceso a", "suspendió a", "reactivó a", "generó contraseña temporal para", "quitó el acceso a"]) {
+      await expect(registro.getByRole("listitem").filter({ hasText: correo }).filter({ hasText: texto }).first()).toBeVisible();
+    }
+
+    // 9. Con el acceso quitado ya no entra.
+    await salir(page);
+    await ingresarCon(page, correo, propia);
+    await expect(page.locator("form").getByRole("alert")).toContainText("incorrectos");
   });
 });
 
