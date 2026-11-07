@@ -321,8 +321,9 @@ export async function cambiarMiClave(_previo: ResultadoCambioClave | null, fd: F
   }
 
   if (sesion.debeCambiarClave) {
-    const { error: errorMarca } = await sesion.supabase.rpc("clave_cambiada");
-    if (errorMarca) {
+    // La base solo apaga la marca si la contraseña de Auth ya no es la temporal (devuelve false si no).
+    const { data: apagada, error: errorMarca } = await sesion.supabase.rpc("clave_cambiada");
+    if (errorMarca || apagada !== true) {
       registrar("marcar clave cambiada", errorMarca);
       return { ok: false, mensaje: ERROR_GENERICO };
     }
