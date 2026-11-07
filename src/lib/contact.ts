@@ -46,7 +46,7 @@ export const REDES_SOCIALES = [
   { nombre: "Facebook", url: "https://www.facebook.com/astupropiedadsac" },
   { nombre: "Instagram", url: "https://www.instagram.com/as.tupropiedad" },
   { nombre: "LinkedIn", url: "https://www.linkedin.com/company/as-tupropiedad" },
-  { nombre: "YouTube", url: "https://www.youtube.com/@AS_Tupropiedad" },
+  { nombre: "YouTube", url: "https://www.youtube.com/@AS-Tupropiedad" },
 ] as const;
 
 /**
@@ -60,9 +60,12 @@ export const BANCOS_CONVENIO_TEXTO = new Intl.ListFormat("es", { style: "long", 
   BANCOS_CONVENIO
 );
 
-/** Dominio canónico, sin barra final. Se puede sobrescribir con NEXT_PUBLIC_SITE_URL. */
+/**
+ * Dominio canónico, sin barra final (D-34: `web.astupropiedad.com` mientras `www` siga con la web anterior).
+ * Se puede sobrescribir con NEXT_PUBLIC_SITE_URL.
+ */
 export const SITE_URL = (
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://astupropiedad.com"
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://web.astupropiedad.com"
 ).replace(/\/$/, "");
 
 export const DEFAULT_WHATSAPP_MESSAGE =

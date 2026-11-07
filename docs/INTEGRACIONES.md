@@ -8,7 +8,7 @@ Plantilla en [`.env.example`](../.env.example). Copiar a `.env.local` (ignorado 
 
 | Variable | Uso | Público | Estado |
 |---|---|---|---|
-| `NEXT_PUBLIC_SITE_URL` | `metadataBase`, canonical, sitemap, OG (opcional: `contact.ts` ya trae `https://astupropiedad.com` por defecto) | sí | dominio dado por jforero 2026-10-04; confirmar `www` |
+| `NEXT_PUBLIC_SITE_URL` | `metadataBase`, canonical, sitemap, OG (opcional: `contact.ts` trae `https://web.astupropiedad.com` por defecto, D-34) | sí | dominio dado por jforero 2026-10-04; confirmar `www` |
 | `GHL_API_TOKEN` | Token de la **integración privada** de GHL (Bearer). En Vercel como *Sensitive* (Production y Preview; no se puede leer de vuelta). Rotarlo cada ~90 días (§2) | **no** | **en uso (2026-10-30, D-27)**; cargado por jforero |
 | `GHL_LOCATION_ID` · `GHL_PIPELINE_ID` · `GHL_PIPELINE_STAGE_ID` · `GHL_CALENDAR_ID` | Subcuenta, pipeline "1. Propiedades Organico", etapa "Nuevo Lead" y "2. Calendario Llamadas AS Tupropiedad" (IDs en Vercel; no son secretos) | **no** | **en uso**; en Vercel (Production, Preview, Development) |
 | `GHL_PIPELINE_STAGE_CITA_ID` | Opcional: etapa a la que pasa la oportunidad si se agenda la llamada ("Agendo Llamada") | **no** | en uso |

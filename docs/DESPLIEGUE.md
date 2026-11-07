@@ -4,7 +4,7 @@ Cómo llega el código a Vercel, qué revisar antes y cómo volver atrás. Detal
 
 > **Advertencia:** el proyecto Vercel `web-as-tupropiedad` está conectado a `jacafor/astupropiedad`. Un `push` (o merge) a **`main` despliega a producción**. Trabaja siempre en ramas.
 
-> `main` **no está protegido** por decisión de jforero (2026-10-05, mientras dure el desarrollo): GitHub no bloquea el push directo, así que la disciplina de ramas depende de nosotros. El dominio raíz `astupropiedad.com` **no está asignado** a este proyecto (hoy sirve otra web). Desde el 2026-10-29 el sitio también responde en el subdominio `https://web.astupropiedad.com` (lo asignó jforero); su canonical, `robots` y sitemap siguen apuntando a `astupropiedad.com`. Producción: `https://web-as-tupropiedad.vercel.app` y ese subdominio.
+> `main` **no está protegido** por decisión de jforero (2026-10-05, mientras dure el desarrollo): GitHub no bloquea el push directo, así que la disciplina de ramas depende de nosotros. El dominio raíz `astupropiedad.com` **no está asignado** a este proyecto (hoy sirve otra web). Desde el 2026-10-29 el sitio también responde en el subdominio `https://web.astupropiedad.com` (lo asignó jforero); desde el 2026-11-06 es el dominio canónico (canonical, `robots`, sitemap y OG) y `web-as-tupropiedad.vercel.app` redirige allí con 308, salvo `/api/*` (D-34). Producción: `https://web-as-tupropiedad.vercel.app` y ese subdominio.
 
 ## Flujo acordado
 
@@ -15,7 +15,7 @@ Cómo llega el código a Vercel, qué revisar antes y cómo volver atrás. Detal
 3. `push` de la rama → GitHub Actions corre el CI (typecheck, lint, test, build) y Vercel genera un **preview** (URL propia por rama/commit; revisa que el estado sea *Ready*).
 4. Pull request hacia `main` → lista previa (abajo) y revisión del preview a 390 px y 1280 px.
 5. Merge a `main` = despliegue a **producción**. Durante el desarrollo lo hace Claude con las condiciones de arriba; al terminar el desarrollo vuelve a requerir confirmación de jforero.
-6. Tras el merge, verificar en `https://web-as-tupropiedad.vercel.app` lo que cambió (no basta con que el despliegue figure como *success*; las URLs por despliegue piden login de Vercel).
+6. Tras el merge, verificar en `https://web.astupropiedad.com` lo que cambió (`web-as-tupropiedad.vercel.app` redirige allí con 308 desde el 2026-11-06, D-34) (no basta con que el despliegue figure como *success*; las URLs por despliegue piden login de Vercel).
 
 Nadie despliega a mano con `vercel --prod`: el único camino a producción es el merge a `main`.
 
@@ -57,7 +57,7 @@ Solo nombres; los valores se escriben en Vercel → *Settings* → *Environment 
 | `GHL_WEBHOOK_URL` | Respaldo (D-18): solo si falta alguna variable de la API. Sin ninguna, los formularios muestran un error honesto y ofrecen WhatsApp | vacía | vacía | vacía |
 | `CRON_SECRET` | Lo manda Vercel al cron diario `/api/mantener-activo` (D-32); sin él la ruta responde 401. Aleatorio, *Secret* | — | — | cargado (2026-11-05) |
 | `SUPABASE_PRUEBAS_URL`, `SUPABASE_PRUEBAS_PUBLISHABLE_KEY` | Proyecto de Supabase de pruebas, para que el cron también lo consulte (públicas, *Config*) | — | — | cargadas (2026-11-05) |
-| `NEXT_PUBLIC_SITE_URL` | Dominio canónico (metadata, sitemap, OG). Por defecto `https://astupropiedad.com` | opcional | opcional | definir al asignar el dominio (P-12) |
+| `NEXT_PUBLIC_SITE_URL` | Dominio canónico (metadata, sitemap, OG). Por defecto `https://web.astupropiedad.com` (D-34) | opcional | opcional | no definida: usa el valor por defecto; definir al pasar a `www` (P-12) |
 | `MOSTRAR_EJEMPLO` | `1` muestra la propiedad de EJEMPLO en un build de producción (D-20) | no hace falta (en `dev` ya se ve) | opcional, para revisar fichas | **nunca** |
 | `NEXT_PUBLIC_GHL_CALENDAR_URL`, `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`, `NEXT_PUBLIC_GA_ID`, `NEXT_PUBLIC_META_PIXEL_ID`, `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY` | Previstas en `.env.example`; **ningún código las lee todavía** | — | — | — |
 

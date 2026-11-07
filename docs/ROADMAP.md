@@ -19,6 +19,23 @@ Leyenda de referencias: `C1…C7` = hallazgos críticos de la auditoría web · 
 
 Detalle en [NEGOCIO-Y-CONTENIDO.md](NEGOCIO-Y-CONTENIDO.md) §7 y [DECISIONES.md](DECISIONES.md).
 
+## Auditoría completa 2026-11 — arreglos propuestos (esperan OK de jforero)
+
+Hallazgos accionables de [AUDITORIA-COMPLETA-2026-11.md](auditorias/AUDITORIA-COMPLETA-2026-11.md) (2026-11-05, nota global 70/100), agrupados en las sesiones del plan (§6 del informe), en el orden de prioridad del repo. Los que ya estaban anotados más abajo no se repiten: se citan.
+
+- [ ] **1 · Sacar la ficha ficticia de producción** (SEO-1): "[Prueba] Departamento con vista al parque" está publicada en el proyecto del sitio, en la home, el catálogo y el sitemap, sin `noindex`. Archivarla en `/admin` (y revisar PRUEBA-2/3); `docs/INTEGRACIONES.md:233` dice que están en borrador
+- [ ] **2 · No perder trabajo** (UX-2, A11Y-3): borrador del asistente de `/vender` en `localStorage`; foco al primer campo inválido tras un envío con errores
+- [ ] **3 · Embudo seguro** (SEG-1, SEG-2, SEG-3, SEG-7; incluye el aviso de `zod` de P0): límite por IP y por celular + Turnstile (*OK: servicio externo*), caché corta de `obtenerHorarios`, 1 cita futura por celular, `origen` como lista cerrada, upsert que no pise nombre ni correo de un contacto existente, límite de cuerpo de 1 MB en las acciones públicas
+- [ ] **4 · La pantalla no miente** (COPY-3, COPY-4, DIS-6, SEG-5): `noindex` para `PRUEBA-*`; "Colección Exclusiva"/"colección selecta" solo con propiedades; "Ver catálogo privado" → "Ver todo el catálogo"; barra de proyección real o fuera; escape `\\u003c` en `JsonLd.tsx:44`
+- [x] **5 · Que compartir funcione** — **hecho 2026-11-06 (D-34):** canonical, OG, sitemap y `robots` en `web.astupropiedad.com`, 308 desde `web-as-tupropiedad.vercel.app` (salvo `/api`), YouTube `@AS-Tupropiedad`. Antes: (SEO-2, SEO-3, SEO-6; *decisión de jforero, P-12*): canonical, `og:image`, logo y sitemap apuntan a `astupropiedad.com`, que hoy da 404 (web anterior). Mientras no se pase el dominio: `NEXT_PUBLIC_SITE_URL=https://web.astupropiedad.com` en Production y 308 desde `*.vercel.app`; YouTube `@AS_Tupropiedad` da 404 (pedir el canal real)
+- [ ] **6 · Estados de error** (SEO-5, COPY-5): `not-found.tsx` y `error.tsx` en español (ya anotado en P2 "Cabeceras de seguridad… Pendiente")
+- [ ] **7 · Acción principal: hero y ficha** (A11Y-1, REN-2, REN-3, DIS-1/2/3/7/9, UX-1, UX-3, SEO-7): hero legible a 390 px (hoy el 54 % del párrafo < 4,5:1), sin retrasos ni animaciones infinitas, foto limpia (P-11); en la ficha, título/precio/CTA antes de la descripción; resultados antes del formulario en `/simulador-inversion`; hover del botón de `/vender`; CTA de la calculadora de la home
+- [ ] **8 · Textos con respaldo** (COPY-1, COPY-2, COPY-6 a COPY-9, COPY-13, COPY-14): amplía la tarea de `/vender` de P2 con el titular "Vendemos más rápido. A mejor precio.", el "No somos…" repetido, adjetivos huecos y mayúsculas a la inglesa
+- [ ] **9 · Alerta cuando falle el envío a GHL** (hoy solo `console.error`)
+- [ ] **10 · Móvil** (A11Y-2): menú que se cierre al tocar fuera y bloquee el scroll; objetivos de 44 px en el pie (hoy 15 px de alto) y la hamburguesa (40 px)
+- [ ] **11 · Rendimiento** (REN-1, REN-4, REN-5/SEG-6): framer-motion fuera del layout (≈ 200 KB de JS comprimido en cada ruta), Server Components para lo estático, Geist Mono solo en `/admin`, caché del PDF por slug
+- [ ] **12 · Resto** (SEG-8 a SEG-12, DIS-10 a DIS-24, SEO-7 a SEO-12): CSP Report-Only (propuesta en el anexo C del informe), criterio único de radios y botones, `lastmod` de fichas, títulos de ficha ≤ 60, h2 del pie, e2e en CI, correo del administrador fuera de `e2e/admin-con-supabase.ps1`
+
 ## P0 — esta semana
 
 - [x] **Mover `Navbar`, `Footer` y `FloatingWhatsApp` a `layout.tsx`** y poner `<main>` por página *(base de varias correcciones; C5)* — 2026-10-05, sesión [01](prompts/01-layout-navbar-main.md)
@@ -32,7 +49,7 @@ Detalle en [NEGOCIO-Y-CONTENIDO.md](NEGOCIO-Y-CONTENIDO.md) §7 y [DECISIONES.md
 - [x] **Tono "tú" y español natural en todo el sitio** (D-10, cierra P-6 con D-16) — 2026-10-05, sesión [03](prompts/03-tono-tu.md). Guía de voz en [NEGOCIO-Y-CONTENIDO.md](NEGOCIO-Y-CONTENIDO.md) §3. Quedan anotados (sin tocar): "3.5x" fijo en `/simulador-hipotecario`, promesas absolutas de `/vender` y botón "Enviar datos" sin acción
 - [x] **Actualizar `next` y `eslint-config-next`** *(C6)* — 2026-10-16, sesión 10: `16.2.0` → `16.4.2` (la `16.3.8` de la auditoría no era la última parcheada; `latest` del registro y `npm audit` apuntan a `16.4.2`). `npm audit --omit=dev`: 0 avisos (D-23)
   - Hecho cuando: `npm audit --omit=dev` sin críticas; build y lint igual o mejor que la línea base.
-- [ ] **Nuevo aviso (visto 2026-10-31, sesión 16):** `npm audit --omit=dev` marca 1 alta en `zod 4.6.5` (GHSA-mrhx-c7xc-m3w5, memoria al validar colecciones enormes; se arregla con `zod 4.6.6`). Ya estaba en `main`; no se actualizó por falta de OK (lista "Pregunta primero")
+- [ ] **Nuevo aviso (visto 2026-10-31, sesión 16):** `npm audit --omit=dev` marca 1 alta en `zod 4.6.5` (GHSA-mrhx-c7xc-m3w5, memoria al validar colecciones enormes; se arregla con `zod 4.6.6`). Ya estaba en `main`; no se actualizó por falta de OK (lista "Pregunta primero"). Sigue igual el 2026-11-05 (SEG-4 de la auditoría completa)
 - [x] `.gitignore` completo, `.env.example`, documentación del proyecto (esta carpeta)
 
 ## P0 — semana 1: embudo de leads *(Bloque A, C1)*
@@ -98,8 +115,8 @@ Detalle en [NEGOCIO-Y-CONTENIDO.md](NEGOCIO-Y-CONTENIDO.md) §7 y [DECISIONES.md
 | `npx tsc --noEmit` | limpio | limpio |
 | `npm run lint` | 0 errores · 0 advertencias (sesión 11) | 0 / 0 |
 | `npm run build` | OK (next 16.4.2; rutas estáticas + `/propiedades/[slug]` SSG) | OK |
-| `npm audit --omit=dev` | **0 avisos** (antes: 1 crítica · 2 altas · 1 moderada). `npm audit` completo: 8 (1 moderada, 7 altas), solo en herramientas de desarrollo (cadena de `eslint-config-next`: `fast-glob`/`micromatch`/`braces`, `brace-expansion`, `js-yaml`, `@humanfs/node`); no llegan al sitio | 0 |
+| `npm audit --omit=dev` | **Rota desde 2026-10-31: 1 alta en `zod` 4.6.5** (ver P0; 14 avisos en el `npm audit` completo el 2026-11-05). Antes: **0 avisos** (antes: 1 crítica · 2 altas · 1 moderada). `npm audit` completo: 8 (1 moderada, 7 altas), solo en herramientas de desarrollo (cadena de `eslint-config-next`: `fast-glob`/`micromatch`/`braces`, `brace-expansion`, `js-yaml`, `@humanfs/node`); no llegan al sitio | 0 |
 | `npm test` | 51 pruebas OK | OK |
 | `npm run test:e2e` | 24 pruebas OK (sesión 12) | OK |
 | CI (GitHub Actions) | typecheck + lint + test + build (sesión 12) | verde |
-| SEO / UX / Accesibilidad | 32 · 36 · ~35 | ≥ 75 · ≥ 70 · ≥ 80 |
+| SEO / UX / Accesibilidad | 32 · 36 · ~35 → **62 · 64 · 78** (auditoría completa 2026-11-05; rendimiento 70, seguridad 80, diseño y textos 66, global 70) | ≥ 75 · ≥ 70 · ≥ 80 |

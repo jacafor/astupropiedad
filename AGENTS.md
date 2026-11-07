@@ -8,7 +8,7 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 Sitio web de **AS Tupropiedad**, boutique inmobiliaria de Lima (Perú): compra, venta e inversión, con simuladores hipotecario y de rentabilidad. Idioma del sitio y de la documentación: **español**.
 
-> **Estado real (oct 2026):** el sitio es una fachada visual; los formularios y CTAs de conversión **no funcionan** y varios datos son de relleno. Antes de construir encima, lee [docs/ROADMAP.md](docs/ROADMAP.md) y los informes [AUDITORIA-WEB.md](docs/auditorias/AUDITORIA-WEB.md) y [AUDITORIA-FUNCIONALIDADES.md](docs/auditorias/AUDITORIA-FUNCIONALIDADES.md).
+> **Estado real (nov 2026):** los formularios envían a GHL de verdad, el catálogo vive en Supabase con `/admin` y la base de SEO y accesibilidad está hecha; quedan pendientes del cliente (inventario, equipo, cifras, legales) y los hallazgos de la auditoría de noviembre (nota global 70/100). Antes de construir encima, lee [docs/ROADMAP.md](docs/ROADMAP.md) y la última auditoría, [AUDITORIA-COMPLETA-2026-11.md](docs/auditorias/AUDITORIA-COMPLETA-2026-11.md) (con su plan de arreglos). Las de octubre, [AUDITORIA-WEB.md](docs/auditorias/AUDITORIA-WEB.md) y [AUDITORIA-FUNCIONALIDADES.md](docs/auditorias/AUDITORIA-FUNCIONALIDADES.md), quedan como foto histórica (su estado actual está en el anexo A de la de noviembre).
 
 ## Stack
 
@@ -92,7 +92,7 @@ Mapa completo de rutas, componentes y deuda técnica: [docs/ARQUITECTURA.md](doc
 1. `npm run typecheck && npm run lint && npm test && npm run test:e2e && npm run build`, con el resultado **real** (ver [docs/PRUEBAS.md](docs/PRUEBAS.md)).
 2. Si cambió la interfaz: pruebas en el navegador a 390 px y 1280 px; apaga el servidor; borra temporales propios (`tsconfig.tsbuildinfo`, capturas).
 3. Actualiza en el mismo cambio: la casilla de `docs/ROADMAP.md` (con fecha), `docs/DECISIONES.md` (decisiones nuevas con estado, fecha y responsable; pendientes cerrados), y el `.md` afectado (`ARQUITECTURA`, `DISENO`, `INTEGRACIONES`, `NEGOCIO-Y-CONTENIDO`, esta guía si cambian comandos, estructura o línea base).
-4. Un commit por tarea, en español, sin `--no-verify` (el remoto es `origin`; ver D-12). **Durante el desarrollo (decisión de jforero, 2026-10-05, vigente hasta que él diga que terminó):** al cerrar la sesión haz `push` de **tu rama** (nunca de `main`) y abre el pull request hacia `main` con `gh pr create` (descripción: qué cambia, qué verificaste, qué no). **Después fusiona el PR tú** (`gh pr merge <n> --merge --delete-branch`), solo si: `tsc`, lint (sin empeorar) y build locales pasaron y el preview de Vercel de la rama está en *Ready*. Si algo falla, **no fusiones**: avisa. Nunca empujes directamente a `main`. Ojo: el merge despliega a producción (URL `*.vercel.app`; el dominio no está asignado). **Tras el merge, verifica lo implementado en la URL pública de producción `https://web-as-tupropiedad.vercel.app`** (no basta con que el despliegue figure como *success*; las URLs por despliegue piden login de Vercel): espera a que termine y comprueba con `curl` lo que cambió la sesión, más una prueba funcional si tocaste la interfaz. Termina entregando el enlace del PR, el del preview, el estado del despliegue y el resultado de esa verificación.
+4. Un commit por tarea, en español, sin `--no-verify` (el remoto es `origin`; ver D-12). **Durante el desarrollo (decisión de jforero, 2026-10-05, vigente hasta que él diga que terminó):** al cerrar la sesión haz `push` de **tu rama** (nunca de `main`) y abre el pull request hacia `main` con `gh pr create` (descripción: qué cambia, qué verificaste, qué no). **Después fusiona el PR tú** (`gh pr merge <n> --merge --delete-branch`), solo si: `tsc`, lint (sin empeorar) y build locales pasaron y el preview de Vercel de la rama está en *Ready*. Si algo falla, **no fusiones**: avisa. Nunca empujes directamente a `main`. Ojo: el merge despliega a producción (`https://web.astupropiedad.com`; `*.vercel.app` redirige allí, D-34). **Tras el merge, verifica lo implementado en la URL pública de producción `https://web.astupropiedad.com`** (`web-as-tupropiedad.vercel.app` redirige allí) (no basta con que el despliegue figure como *success*; las URLs por despliegue piden login de Vercel): espera a que termine y comprueba con `curl` lo que cambió la sesión, más una prueba funcional si tocaste la interfaz. Termina entregando el enlace del PR, el del preview, el estado del despliegue y el resultado de esa verificación.
 5. Cierra con: qué verificaste de verdad, qué no pudiste verificar y qué decidiste sin consultar.
 
 ## Diseño — resumen obligatorio (detalle y ejemplos: [docs/DISENO.md](docs/DISENO.md))
@@ -171,3 +171,17 @@ npm run typecheck && npm run lint && npm test && npm run test:e2e && npm run bui
 | Pulido visual / animación (stack Next + Tailwind) | `ux-elevacion-formula100k` |
 | Seguridad de cambios | `security-review` |
 | Nueva página / revisión previa a desplegar / prueba móvil | `/nueva-pagina`, `/revisar-deploy`, `/probar-movil` |
+| Crítica de diseño / textos de interfaz / sistema de diseño | `design:design-critique`, `design:ux-copy`, `design:design-system` |
+| Revisión de código (errores, rendimiento, seguridad de un diff) | `engineering:code-review`, `security-review` |
+| Diseño en Figma o de Figma a código | `figma:figma-generate-design`, `figma:figma-design-to-code` (requiere autorizar Figma) |
+| Referencia visual de un sitio de la competencia | `brightdata-plugin:design-mirror` (inspiración, nunca copia) |
+| Landing de campaña dentro del sitio | `/nueva-pagina` + `ux-elevacion-formula100k` (`/landing`) |
+| Lead magnet / miniapp (p. ej. a partir de los simuladores) | `cazador-lead-magnets-f100k`, `constructor-miniapps-f100k` |
+| Plan de campaña (objetivos, embudo, canales, calendario) | `marketing:campaign-plan` |
+| Contenido orgánico para redes | `small-business:social-content-engine`, `small-business:content-strategy`, `marketing:content-creation`, `marketing:draft-content`, `small-business:marketing-monday` |
+| Voz y estilo de marca | `marketing:brand-review`, `small-business:brand-style` |
+| Material y estructura de anuncios (copies, variantes, públicos, presupuesto, UTMs) | `small-business:ad-manager`, `canva:bulk-create`, `canva:resize-for-social-media`, `anthropic-skills:canvas-design` |
+| Secuencias de seguimiento de leads (encaja con GHL) | `marketing:email-sequence` |
+| Informes de resultados | `anthropic-skills:reportes-meta-ads`, `marketing:performance-report` |
+
+**Límites de marketing:** no hay conector que configure campañas en Meta Ads o Google Ads; se entrega todo listo para cargar y la publicación la hace una persona. `landing-producto-formula100k` y `vsl-expert-f100k` no están instaladas. Toda pieza de marketing cumple las reglas 1 y 4 (sin cifras, precios ni promesas inventadas).

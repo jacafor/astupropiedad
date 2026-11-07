@@ -55,6 +55,7 @@ Variables de entorno: copia `.env.example` a `.env.local` y completa lo que nece
 | [docs/ROADMAP.md](docs/ROADMAP.md) | Plan priorizado con casillas de avance |
 | [docs/DECISIONES.md](docs/DECISIONES.md) | Decisiones tomadas y pendientes |
 | [docs/prompts/](docs/prompts/README.md) | Un prompt por sesión de trabajo (orden y datos que necesita cada uno) |
+| [AUDITORIA-COMPLETA-2026-11.md](docs/auditorias/AUDITORIA-COMPLETA-2026-11.md) | Auditoría de noviembre: diseño, UX, accesibilidad, rendimiento, SEO y seguridad, con plan de arreglos |
 | [AUDITORIA-WEB.md](docs/auditorias/AUDITORIA-WEB.md) | Auditoría de SEO, UX y accesibilidad |
 | [AUDITORIA-FUNCIONALIDADES.md](docs/auditorias/AUDITORIA-FUNCIONALIDADES.md) | Inventario de funcionalidades y cómo completarlas |
 
