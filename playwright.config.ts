@@ -63,6 +63,9 @@ export default defineConfig({
         // la variable de un posible `.env.local` con el proyecto real.
         NEXT_PUBLIC_SUPABASE_URL: process.env.E2E_SUPABASE_URL || "sin-supabase",
         NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: process.env.E2E_SUPABASE_PUBLISHABLE_KEY || "sin-supabase",
+        // Clave secreta (D-36) de PRUEBAS para /admin/usuarios. "sin-clave" no tiene formato de
+        // clave de Supabase: la gestión de usuarios queda apagada y nunca se toma la de `.env.local`.
+        SUPABASE_SECRET_KEY: process.env.E2E_SUPABASE_SECRET_KEY || "sin-clave",
       },
     },
   ],

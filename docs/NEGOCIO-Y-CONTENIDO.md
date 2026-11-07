@@ -93,15 +93,17 @@ Las propiedades viven en Supabase y se editan en **`/admin`** (no se enlaza desd
 
 Destacada = aparece en la home (las 2 más recientes). Sin las variables de Supabase el catálogo muestra su estado vacío honesto (D-20) y, solo en desarrollo, la ficha `EJEMPLO`.
 
-#### Dar acceso a alguien al administrador (lo hace jforero)
+#### Dar acceso a alguien al administrador (desde `/admin/usuarios`, D-36)
 
-1. En el panel de Supabase del proyecto del sitio → **Authentication → Users → Add user → Create new user**, con el correo de la persona y una contraseña (que la persona cambiará; nunca la compartas por el chat de Claude). Desactiva el registro público en **Authentication → Sign In / Providers** ("Allow new users to sign up" apagado).
-2. En **SQL Editor**, autorízala:
-   ```sql
-   insert into public.administradores (user_id, correo)
-   select id, email from auth.users where email = 'correo@de-la-persona';
-   ```
-3. Para quitarle el acceso: `delete from public.administradores where correo = 'correo@de-la-persona';`
+Lo hace un **administrador** (hoy jforero); no hace falta tocar Supabase ni SQL.
+
+1. Entra en **`/admin` → Usuarios**.
+2. En **Dar acceso a una persona**, escribe su correo y elige el rol: **Editor** (carga, edita, publica y archiva propiedades; no ve usuarios) o **Administrador** (además da y quita accesos). Pulsa **Crear acceso**.
+3. Aparece una **contraseña temporal** una sola vez: cópiala y entrégasela por un canal privado (en persona o por chat directo, nunca en un grupo ni en el chat de Claude), junto con la dirección `/admin/ingresar`. Al entrar, el sistema le pide elegir una contraseña propia.
+4. En la lista puedes, para cada persona: cambiar su rol, **suspender** (no puede entrar hasta que la reactives), generar una **contraseña temporal nueva** (si olvidó la suya) o **quitar acceso** (se borra su cuenta; las propiedades que cargó se quedan). Nadie se cambia a sí mismo desde la lista y siempre queda al menos un administrador activo. Cada cambio queda en el **registro de cambios**.
+5. Cada persona cambia su contraseña cuando quiera en **Mi cuenta**.
+
+Requisito técnico: la variable `SUPABASE_SECRET_KEY` en Vercel (ver [INTEGRACIONES.md](INTEGRACIONES.md) §1). Sin ella la lista se ve, pero los botones quedan desactivados. El registro público de Supabase sigue apagado: solo entra quien tenga acceso dado desde aquí.
 
 ## 5. Cumplimiento (Perú) — checklist a validar con asesoría legal
 

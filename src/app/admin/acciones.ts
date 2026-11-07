@@ -4,7 +4,7 @@ import { randomUUID } from "node:crypto";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
-import { requerirAdmin, type SesionAdmin } from "@/lib/admin/sesion";
+import { leerAcceso, requerirAdmin, type SesionAdmin } from "@/lib/admin/sesion";
 import type { DireccionFoto, ResultadoAccion, ResultadoFormulario, ResultadoFoto } from "@/lib/admin/tipos";
 import { esUuid, obtenerParaAdmin } from "@/lib/catalogo/admin";
 import {
@@ -24,8 +24,9 @@ import { BUCKET_FOTOS, leerConfigSupabase } from "@/lib/supabase/config";
 import { clienteConSesion } from "@/lib/supabase/servidor";
 
 /**
- * Acciones de /admin (sesión 16). Cada una vuelve a comprobar el acceso (`requerirAdmin`) y la RLS
- * de Supabase repite el control en la base. Los registros llevan solo códigos de error: nunca
+ * Acciones de /admin (sesión 16). Cada una vuelve a comprobar el acceso (`requerirAdmin`: rol
+ * administrador o editor, D-36) y la RLS de Supabase repite el control en la base. Las de usuarios
+ * están en acciones-usuarios.ts. Los registros llevan solo códigos de error: nunca
  * correos, contraseñas ni datos de propiedades.
  */
 
@@ -57,24 +58,29 @@ export async function ingresar(_previo: ResultadoAccion | null, fd: FormData): P
   if (!datos.success) return { ok: false, mensaje: datos.error.issues[0].message };
 
   const supabase = await clienteConSesion(config);
-  const { error } = await supabase.auth.signInWithPassword({ email: datos.data.correo, password: datos.data.clave });
-  if (error) {
+  const { data, error } = await supabase.auth.signInWithPassword({ email: datos.data.correo, password: datos.data.clave });
+  if (error || !data.user) {
     // Mismo mensaje para correo inexistente y contraseña errónea: no revela qué cuentas existen.
     return {
       ok: false,
       mensaje:
-        error.status === 429
+        error?.status === 429
           ? "Demasiados intentos. Espera unos minutos y vuelve a intentarlo."
-          : "Correo o contraseña incorrectos.",
+          : error?.code === "user_banned"
+            ? MENSAJE_SUSPENDIDO
+            : "Correo o contraseña incorrectos.",
     };
   }
-  const { data: esAdmin } = await supabase.rpc("es_admin");
-  if (esAdmin !== true) {
+  const acceso = await leerAcceso(supabase, data.user.id);
+  if (!acceso) {
     await supabase.auth.signOut();
-    return { ok: false, mensaje: "Esta cuenta no tiene acceso al administrador." };
+    return { ok: false, mensaje: "Esta cuenta no tiene acceso al administrador (o está suspendida). Habla con quien administra el sitio." };
   }
-  redirect("/admin");
+  // Con contraseña temporal, lo primero es elegir una propia.
+  redirect(acceso.debeCambiarClave ? "/admin/cuenta" : "/admin");
 }
+
+const MENSAJE_SUSPENDIDO = "Tu acceso al administrador está suspendido. Habla con quien administra el sitio.";
 
 export async function salir(): Promise<void> {
   const config = leerConfigSupabase();
